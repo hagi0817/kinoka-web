@@ -1,0 +1,33 @@
+<svg class="floor-plan__svg" viewBox="-4 -4 448 382" width="448" height="382" role="img" aria-labelledby="{{label_id}}" focusable="false">
+<rect x="0" y="308" width="308" height="66" class="fp-deck" stroke-width="1" stroke-dasharray="4 3"/>
+<rect x="0" y="0" width="308" height="308" class="fp-room" stroke-width="1.5"/>
+<rect x="22" y="8.8" width="198" height="30.8" class="fp-furn" stroke-width="1"/>
+<rect x="66" y="70.4" width="132" height="30.8" class="fp-furn" stroke-width="1"/>
+<rect x="206.8" y="154" width="79.2" height="48.4" class="fp-furn" stroke-width="1"/>
+<rect x="0" y="176" width="176" height="132" class="fp-void" stroke-width="1" stroke-dasharray="4 3"/>
+<rect x="308" y="0" width="132" height="88" class="fp-room" stroke-width="1.5"/>
+<rect x="308" y="88" width="132" height="66" class="fp-room" stroke-width="1.5"/>
+<rect x="308" y="154" width="132" height="66" class="fp-room" stroke-width="1.5"/>
+<line x1="321.7" y1="154" x2="321.7" y2="220" class="fp-line" stroke-width="1"/>
+<line x1="334.9" y1="154" x2="334.9" y2="220" class="fp-line" stroke-width="1"/>
+<line x1="348.1" y1="154" x2="348.1" y2="220" class="fp-line" stroke-width="1"/>
+<line x1="361.3" y1="154" x2="361.3" y2="220" class="fp-line" stroke-width="1"/>
+<line x1="374.5" y1="154" x2="374.5" y2="220" class="fp-line" stroke-width="1"/>
+<rect x="308" y="220" width="132" height="88" class="fp-room" stroke-width="1.5"/>
+<rect x="26.4" y="306" width="255.2" height="4" class="fp-window"/>
+<rect x="-2" y="193.6" width="4" height="96.8" class="fp-window"/>
+<rect x="61.6" y="-2" width="123.2" height="4" class="fp-window"/>
+<text x="132" y="127.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">キッチン</text>
+<text x="246" y="228.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">ダイニング</text>
+<text x="88" y="234.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">リビング</text>
+<text x="88" y="258.1" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">（吹抜）</text>
+<text x="374.5" y="44.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">浴室</text>
+<text x="374.5" y="121.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">洗面・WC</text>
+<text x="413.5" y="187.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">階段</text>
+<text x="374.5" y="264.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">玄関</text>
+<text x="154.5" y="341.7" text-anchor="middle" dominant-baseline="central" font-size="13" class="fp-label">ウッドデッキ</text>
+<g class="floor-plan__marker"><circle cx="30.8" cy="206.8" r="12" class="fp-marker-bg"/><text x="30.8" y="206.8" text-anchor="middle" dominant-baseline="central" font-size="11" class="fp-marker-num">1</text></g>
+<g class="floor-plan__marker"><circle cx="30.8" cy="74.8" r="12" class="fp-marker-bg"/><text x="30.8" y="74.8" text-anchor="middle" dominant-baseline="central" font-size="11" class="fp-marker-num">2</text></g>
+<g class="floor-plan__marker"><circle cx="277.2" cy="341" r="12" class="fp-marker-bg"/><text x="277.2" y="341" text-anchor="middle" dominant-baseline="central" font-size="11" class="fp-marker-num">3</text></g>
+<g class="floor-plan__marker"><circle cx="424.16" cy="88" r="12" class="fp-marker-bg"/><text x="424.16" y="88" text-anchor="middle" dominant-baseline="central" font-size="11" class="fp-marker-num">4</text></g>
+</svg>

@@ -1,0 +1,44 @@
+@use '../foundation/mixins' as *;
+
+.breadcrumb {
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    min-width: 0;
+    color: var(--color-text-secondary);
+    @include caption;
+    white-space: nowrap;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    flex-shrink: 0;
+
+    & + &::before {
+      content: '/';
+      color: var(--color-border-default);
+    }
+
+    &:last-child {
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    a {
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      @include hover { text-decoration-line: underline; }
+    }
+  }
+
+  // SP: single line, the current page is truncated with an ellipsis
+  &__current {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-text-primary);
+  }
+}
