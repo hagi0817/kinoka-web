@@ -1,0 +1,105 @@
+@use '../foundation/mixins' as *;
+
+// Button: Primary (consultation) / Outline (secondary) — M 44 / L 56
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+  height: 56px;
+  padding: 0 var(--space-32);
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+  @include button-text;
+  white-space: nowrap;
+  transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+  @include tap;
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &--m {
+    height: 44px;
+    padding: 0 var(--space-24);
+  }
+
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+
+  &--primary {
+    background: var(--color-accent-green);
+    color: var(--color-text-inverse);
+    --focus-color: var(--color-border-focus);
+    @include hover { background: var(--color-accent-green-hover); }
+  }
+
+  &--outline {
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+    background: transparent;
+    @include hover { background: var(--color-bg-subtle); }
+  }
+}
+
+// Link Arrow: label + 48px circle; the whole thing is the link
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-16);
+  @include button-text;
+  color: var(--color-text-primary);
+  @include tap;
+
+  &__circle {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border: 1px solid var(--color-text-primary);
+    border-radius: 50%;
+    transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+  }
+
+  @include hover {
+    .link-arrow__circle {
+      background: var(--color-text-primary);
+      color: var(--color-text-inverse);
+    }
+  }
+}
+
+// Tag (category label on cards / news)
+.tag {
+  display: inline-block;
+  padding: var(--space-4) var(--space-8);
+  border: 1px solid var(--color-border-default);
+  border-radius: 2px;
+  color: var(--color-text-secondary);
+  @include tag-text;
+  white-space: nowrap;
+}
+
+// Category chip (link)
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-8) var(--space-16);
+  border: 1px solid var(--color-border-default);
+  border-radius: 20px;
+  color: var(--color-text-primary);
+  @include font-sans;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: border-color var(--duration) var(--ease);
+  @include tap;
+  @include hover { border-color: var(--color-text-primary); }
+
+  @include lg { font-size: 13px; }
+}

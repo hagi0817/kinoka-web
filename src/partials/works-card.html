@@ -1,0 +1,13 @@
+<article class="works-card">
+  <div class="works-card__photo">
+    <img src="/images/{{img}}-480.webp" srcset="/images/{{img}}-480.webp 480w, /images/{{img}}-{{img_l}}.webp {{img_l}}w" sizes="(min-width: 1024px) 28vw, 320px" width="480" height="600" alt="{{alt}}" loading="lazy" decoding="async">
+  </div>
+  <div class="works-card__body">
+    <div class="works-card__meta">
+      <span class="tag">{{tag}}</span>
+      <span class="works-card__area"><!-- @include icons/pin.svg --><span class="visually-hidden">エリア：</span>{{area}}</span>
+    </div>
+    <h3 class="works-card__title"><a class="works-card__link" href="{{href}}">{{title}}</a></h3>
+    <p class="works-card__spec">{{spec}}</p>
+  </div>
+</article>

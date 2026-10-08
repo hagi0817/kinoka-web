@@ -1,0 +1,50 @@
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="site-header {{modifier}}" data-header>
+  <div class="site-header__inner">
+    <a class="site-header__logo site-logo" href="/" aria-label="KINOKA 木乃家 トップページ"><!-- @include logo.html --></a>
+    <nav class="global-nav" aria-label="グローバルナビゲーション">
+      <ul class="global-nav__list" lang="en">
+        <li><a class="global-nav__link" href="/about/">About</a></li>
+        <li><a class="global-nav__link" href="/works/" {{works_current}}>Works</a></li>
+        <li><a class="global-nav__link" href="/concept/">Concept</a></li>
+        <li><a class="global-nav__link" href="/service/">Service</a></li>
+        <li><a class="global-nav__link" href="/news/">News</a></li>
+        <li><a class="global-nav__link" href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-header__cta btn btn--primary btn--m" href="/contact/?type=consultation">家づくりを相談する</a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
+      <!-- @include icons/menu.svg -->
+      <span class="visually-hidden">メニューを開く</span>
+    </button>
+  </div>
+</header>
+
+<dialog class="mobile-menu" id="mobile-menu" aria-label="メニュー" data-menu>
+  <div class="mobile-menu__header">
+    <a class="site-logo" href="/" aria-label="KINOKA 木乃家 トップページ"><!-- @include logo.html --></a>
+    <button class="mobile-menu__close" type="button" data-menu-close autofocus>
+      <!-- @include icons/close.svg -->
+      <span class="visually-hidden">メニューを閉じる</span>
+    </button>
+  </div>
+  <nav class="mobile-menu__nav" aria-label="サイト内メニュー">
+    <ul>
+      <li><a class="mobile-menu__link" href="/about/"><span class="mobile-menu__en" lang="en">About</span><span class="mobile-menu__ja">木乃家について</span><!-- @include icons/arrow.svg --></a></li>
+      <li><a class="mobile-menu__link" href="/works/" {{works_current}}><span class="mobile-menu__en" lang="en">Works</span><span class="mobile-menu__ja">施工事例</span><!-- @include icons/arrow.svg --></a></li>
+      <li><a class="mobile-menu__link" href="/concept/"><span class="mobile-menu__en" lang="en">Concept</span><span class="mobile-menu__ja">家づくりの考え方</span><!-- @include icons/arrow.svg --></a></li>
+      <li><a class="mobile-menu__link" href="/service/"><span class="mobile-menu__en" lang="en">Service</span><span class="mobile-menu__ja">事業内容</span><!-- @include icons/arrow.svg --></a></li>
+      <li><a class="mobile-menu__link" href="/news/"><span class="mobile-menu__en" lang="en">News</span><span class="mobile-menu__ja">お知らせ</span><!-- @include icons/arrow.svg --></a></li>
+      <li><a class="mobile-menu__link" href="/contact/"><span class="mobile-menu__en" lang="en">Contact</span><span class="mobile-menu__ja">お問い合わせ</span><!-- @include icons/arrow.svg --></a></li>
+    </ul>
+  </nav>
+  <div class="mobile-menu__cta">
+    <a class="btn btn--primary btn--block" href="/contact/?type=consultation">家づくりを相談する<!-- @include icons/arrow.svg --></a>
+    <a class="btn btn--outline" href="/contact/?type=document">資料請求</a>
+    <a class="btn btn--outline" href="/contact/?type=visit">見学予約</a>
+  </div>
+  <div class="mobile-menu__sub">
+    <a class="mobile-menu__sub-link" href="tel:0263000000"><!-- @include icons/phone.svg --><span>0263-00-0000</span></a>
+    <a class="mobile-menu__sub-link" href="https://www.instagram.com/" target="_blank" rel="noopener"><!-- @include icons/instagram.svg --><span lang="en">Instagram</span><span class="visually-hidden">（新しいタブで開きます）</span></a>
+  </div>
+</dialog>

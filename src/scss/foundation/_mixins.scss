@@ -1,0 +1,160 @@
+// Breakpoints (Responsive Rules): base 0–767 / md 768–1023 / lg 1024+
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+@mixin md {
+  @media (min-width: $bp-md) { @content; }
+}
+
+@mixin lg {
+  @media (min-width: $bp-lg) { @content; }
+}
+
+@mixin below-lg {
+  @media (max-width: #{$bp-lg - 0.02px}) { @content; }
+}
+
+// Hover only for pointer devices (Interaction States)
+@mixin hover {
+  @media (hover: hover) {
+    &:hover { @content; }
+  }
+}
+
+// SP tap feedback (Interaction States: opacity 0.7 only)
+@mixin tap {
+  @media (hover: none) {
+    &:active { opacity: 0.7; }
+  }
+}
+
+// ---- Text styles (Figma: SP value first, PC from lg) ----
+@mixin font-mincho { font-family: var(--font-mincho); font-weight: 500; }
+@mixin font-sans { font-family: var(--font-sans); }
+@mixin font-en { font-family: var(--font-en); }
+
+@mixin display {
+  @include font-mincho;
+  font-size: 34px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  @include lg { font-size: clamp(40px, 3.889vw, 56px); }
+}
+
+@mixin heading-l {
+  @include font-mincho;
+  font-size: 26px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  @include lg { font-size: clamp(30px, 2.5vw, 36px); }
+}
+
+@mixin heading-m {
+  @include font-mincho;
+  font-size: 19px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  @include lg { font-size: 22px; }
+}
+
+@mixin heading-s {
+  @include font-mincho;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  @include lg { font-size: 18px; }
+}
+
+@mixin body {
+  @include font-sans;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  @include lg { font-size: 16px; line-height: 2; }
+}
+
+@mixin body-s {
+  @include font-sans;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  @include lg { font-size: 14px; line-height: 1.9; }
+}
+
+@mixin caption {
+  @include font-sans;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  @include lg { font-size: 13px; }
+}
+
+@mixin label-en {
+  @include font-en;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  @include lg { font-size: 13px; }
+}
+
+@mixin label-en-s {
+  @include font-en;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+}
+
+@mixin number {
+  @include font-en;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  @include lg { font-size: 15px; }
+}
+
+@mixin button-text {
+  @include font-sans;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+
+@mixin tag-text {
+  @include font-sans;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+@mixin tel {
+  @include font-en;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  @include lg { font-size: 24px; letter-spacing: 0.06em; }
+}
+
+@mixin date {
+  @include font-en;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  @include lg { font-size: 15px; letter-spacing: 0.06em; }
+}
+
+// Underline used by text-link hovers
+@mixin underline {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
