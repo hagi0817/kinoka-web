@@ -1,0 +1,79 @@
+[
+  {
+    "slug": "hikari-to-ki",
+    "title": "光と木がつながる家",
+    "category": "custom",
+    "area": "安曇野市",
+    "type": "2階建て",
+    "family": "4人家族",
+    "floorArea": "32.5",
+    "structure": "木造2階建て",
+    "year": 2026,
+    "image": {
+      "name": "p02",
+      "large": 928,
+      "alt": "吹き抜けから光が落ちる、無垢材のLDK"
+    },
+    "description": "安曇野市に建つ4人家族の木造2階建て（延床32.5坪）。大きな窓と無垢材、吹き抜けのLDKで、家族が自然体で暮らせる住まい。",
+    "url": "/works/hikari-to-ki/"
+  },
+  {
+    "slug": "atsumaru-hiraya",
+    "title": "家族が集まる平屋",
+    "category": "custom",
+    "area": "松本市",
+    "type": "平屋",
+    "family": "3人家族",
+    "floorArea": "28.0",
+    "structure": "木造平屋",
+    "year": null,
+    "image": {
+      "name": "p04",
+      "large": 928,
+      "alt": "山並みを背にした板張りの平屋"
+    },
+    "description": null,
+    "url": null
+  },
+  {
+    "slug": "uketsugu-renovation",
+    "title": "古い家を受け継ぐリノベーション",
+    "category": "renovation",
+    "area": "塩尻市",
+    "type": null,
+    "family": "5人家族",
+    "floorArea": null,
+    "structure": null,
+    "spec": [
+      "5人家族",
+      "築42年",
+      "全面改修"
+    ],
+    "year": null,
+    "image": {
+      "name": "p03",
+      "large": 928,
+      "alt": "太い梁が残る古民家のダイニング"
+    },
+    "description": null,
+    "url": null
+  },
+  {
+    "slug": "machi-bakery",
+    "title": "街にひらく木のベーカリー",
+    "category": "shop",
+    "area": "松本市",
+    "type": "平屋",
+    "family": "店舗",
+    "floorArea": "18.0",
+    "structure": "木造平屋",
+    "year": null,
+    "image": {
+      "name": "p09",
+      "large": 960,
+      "alt": "木のカウンターが続くベーカリーの店内"
+    },
+    "description": null,
+    "url": null
+  }
+]
