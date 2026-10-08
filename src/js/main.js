@@ -1,4 +1,4 @@
-// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator.
+// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator, Works list filter.
 
 const lg = window.matchMedia('(min-width: 1024px)');
 
@@ -108,6 +108,93 @@ function initCarousels() {
   });
 }
 
+// ---- Works list: filter cards by category / area / type (radios), SP bottom sheet ----
+function initWorksFilter() {
+  const form = document.querySelector('[data-works-filter]');
+  const list = document.querySelector('[data-works-list]');
+  if (!form || !list) return;
+
+  const items = Array.from(list.children);
+  const keys = ['category', 'area', 'type'];
+  const empty = document.querySelector('[data-works-empty]');
+  const counts = document.querySelectorAll('[data-works-count]');
+  const clearButtons = document.querySelectorAll('[data-filter-clear]');
+  const inlineClear = document.querySelector('.works-status [data-filter-clear]');
+  const activeLabel = document.querySelector('[data-filter-active]');
+
+  // initial state from the URL (TOP category chips link here); "hiraya" is a type, not a category
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('category') === 'hiraya' && !params.has('type')) {
+    params.delete('category');
+    params.set('type', 'hiraya');
+  }
+  keys.forEach((key) => {
+    const input = form.querySelector(`input[name="${key}"][value="${CSS.escape(params.get(key) ?? '')}"]`);
+    if (input) input.checked = true;
+  });
+
+  const apply = () => {
+    const data = new FormData(form);
+    const selected = keys.filter((key) => data.get(key));
+    let visible = 0;
+    items.forEach((item) => {
+      const match = selected.every((key) => item.dataset[key] === data.get(key));
+      item.hidden = !match;
+      if (match) visible += 1;
+    });
+    counts.forEach((el) => { el.textContent = String(visible); });
+    if (empty) empty.hidden = visible > 0;
+    if (inlineClear) inlineClear.hidden = selected.length === 0;
+    if (activeLabel) activeLabel.textContent = selected.length ? `（${selected.length}）` : '';
+
+    const url = new URL(window.location.href);
+    keys.forEach((key) => url.searchParams.delete(key));
+    selected.forEach((key) => url.searchParams.set(key, data.get(key)));
+    window.history.replaceState(null, '', url);
+  };
+
+  form.addEventListener('change', apply);
+  clearButtons.forEach((button) => button.addEventListener('click', () => {
+    form.reset();
+    apply();
+  }));
+  apply();
+
+  // SP / md: the same form is shown in a bottom sheet (<dialog>)
+  const sheet = document.querySelector('[data-filter-sheet]');
+  const sheetBody = sheet?.querySelector('[data-filter-sheet-body]');
+  const slot = document.querySelector('[data-filter-slot]');
+  const openButton = document.querySelector('[data-filter-open]');
+  if (!sheet || !sheetBody || !slot || !openButton || typeof sheet.showModal !== 'function') return;
+
+  openButton.addEventListener('click', () => {
+    sheetBody.append(form);
+    sheet.showModal();
+    openButton.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('is-scroll-locked');
+  });
+
+  sheet.addEventListener('close', () => {
+    slot.append(form);
+    openButton.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('is-scroll-locked');
+    if (!lg.matches) openButton.focus();
+  });
+
+  const close = () => {
+    if (sheet.open) sheet.close();
+  };
+  sheet.querySelectorAll('[data-filter-sheet-close]').forEach((button) => button.addEventListener('click', close));
+  // a click on the backdrop (the dialog box itself, outside its content) closes the sheet
+  sheet.addEventListener('click', (event) => {
+    if (event.target === sheet) close();
+  });
+  lg.addEventListener('change', (event) => {
+    if (event.matches) close();
+  });
+}
+
 initMenu();
 initScrollStates();
 initCarousels();
+initWorksFilter();

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <!-- @include head.html {"title":"施工事例｜松本・安曇野・塩尻の注文住宅・リノベーション｜KINOKA 木乃家","description":"木乃家（KINOKA）が松本・安曇野・塩尻で手がけた注文住宅・リノベーション・店舗の施工事例一覧です。カテゴリ・エリア・タイプから、暮らしに近い事例を探せます。"} -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "TOP", "item": "/" },
+        { "@type": "ListItem", "position": 2, "name": "施工事例" }
+      ]
+    }
+  </script>
+</head>
+<body class="page-works has-solid-header">
+  <!-- @include header.html {"modifier":"","works_current":"aria-current=\"page\""} -->
+
+  <main id="main">
+    <!-- Page header -->
+    <section class="page-header" aria-labelledby="page-title" data-first-view>
+      <div class="page-header__inner l-container">
+        <nav class="breadcrumb" aria-label="パンくずリスト">
+          <ol class="breadcrumb__list">
+            <li class="breadcrumb__item"><a href="/" lang="en">TOP</a></li>
+            <li class="breadcrumb__item"><span class="breadcrumb__current" aria-current="page">施工事例</span></li>
+          </ol>
+        </nav>
+        <div class="section-head">
+          <div class="section-heading">
+            <p class="section-heading__label" lang="en">WORKS</p>
+            <h1 class="page-header__title" id="page-title">施工事例</h1>
+          </div>
+          <p class="section-head__lead">松本・安曇野・塩尻で手がけた住まいの一部をご紹介します。<br class="u-pc">ご家族ごとの要望に、どう応えたかもあわせてご覧ください。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Works list -->
+    <section class="works-index" aria-labelledby="works-list-title">
+      <div class="l-container">
+        <h2 class="visually-hidden" id="works-list-title">施工事例の一覧</h2>
+
+        <div class="works-filter-slot" data-filter-slot>
+          <form class="works-filter" aria-label="施工事例の絞り込み" data-works-filter>
+            <!-- @works-filter -->
+          </form>
+        </div>
+
+        <div class="works-status">
+          <p class="works-status__count" aria-live="polite"><span class="works-status__number" lang="en" data-works-count>0</span>件の施工事例</p>
+          <button class="works-status__clear u-pc" type="button" hidden data-filter-clear>条件をクリア</button>
+          <button class="btn btn--outline btn--m u-sp" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filter-sheet" data-filter-open><span>絞り込む<span data-filter-active></span></span></button>
+        </div>
+
+        <ul class="works-grid" data-works-list>
+          <!-- @works {"filterable":true} -->
+        </ul>
+
+        <div class="works-empty" hidden data-works-empty>
+          <p class="works-empty__text">条件に合う施工事例はありません。</p>
+          <button class="btn btn--outline btn--m" type="button" data-filter-clear>条件をクリア</button>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="filter-sheet" id="filter-sheet" aria-labelledby="filter-sheet-title" data-filter-sheet>
+      <div class="filter-sheet__header">
+        <h2 class="filter-sheet__title" id="filter-sheet-title">絞り込む</h2>
+        <button class="filter-sheet__close" type="button" data-filter-sheet-close>
+          <!-- @include icons/close.svg -->
+          <span class="visually-hidden">閉じる</span>
+        </button>
+      </div>
+      <div class="filter-sheet__body" data-filter-sheet-body></div>
+      <div class="filter-sheet__footer">
+        <button class="btn btn--outline btn--m" type="button" data-filter-clear>クリア</button>
+        <button class="btn btn--primary btn--m" type="button" data-filter-sheet-close><span><span data-works-count>0</span>件を表示</span></button>
+      </div>
+    </dialog>
+
+    <!-- @include cta.html {"lead_pc":"ご相談の多くは「まだ何も決まっていない」段階からです。<br>こちらから営業のお電話をおかけすることはありませんので、お気軽にどうぞ。","lead_sp":"ご相談の多くは「まだ何も決まっていない」段階からです。こちらから営業のお電話をおかけすることはありません。","consult_pc":"土地探しや予算のことなど、まだ何も決まっていなくても大丈夫です。オンライン相談も承ります。","consult_sp":"まだ何も決まっていなくても大丈夫","consult_action":"相談を予約する","document_action":"資料を請求する","visit_action":"見学を予約する"} -->
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

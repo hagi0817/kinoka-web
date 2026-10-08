@@ -1,0 +1,25 @@
+{
+  "category": {
+    "label": "カテゴリ",
+    "options": {
+      "custom": "注文住宅",
+      "renovation": "リノベーション",
+      "shop": "店舗・事務所"
+    }
+  },
+  "area": {
+    "label": "エリア",
+    "options": {
+      "matsumoto": "松本市",
+      "azumino": "安曇野市",
+      "shiojiri": "塩尻市"
+    }
+  },
+  "type": {
+    "label": "タイプ",
+    "options": {
+      "hiraya": "平屋",
+      "two-story": "2階建て"
+    }
+  }
+}
