@@ -33,7 +33,6 @@
   &--primary {
     background: var(--color-accent-green);
     color: var(--color-text-inverse);
-    --focus-color: var(--color-border-focus);
     @include hover { background: var(--color-accent-green-hover); }
   }
 
