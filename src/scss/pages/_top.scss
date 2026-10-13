@@ -184,29 +184,6 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 6px;
   }
-
-  &__scroll {
-    display: none;
-
-    @include lg {
-      position: absolute;
-      z-index: 1;
-      left: clamp(24px, 3.333vw, 48px);
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-16);
-      @include label-en-s;
-
-      &::after {
-        content: '';
-        width: 1px;
-        height: 64px;
-        background: currentColor;
-      }
-    }
-  }
 }
 
 // MV slider controls: "01 / 04", one line per slide, prev / next
