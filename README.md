@@ -1,6 +1,8 @@
 # KINOKA（木乃家）Web
 
-Figma（`ikrnT6SejNyvcWO2tmXXWv`）を正として実装した静的サイトです。現在は **TOP**、**施工事例一覧**、**施工事例詳細（4件）**、**お問い合わせ**、**木乃家について**、**事業内容**、**家づくりの考え方**、**お知らせ（一覧・記事）** です。
+Figma（`ikrnT6SejNyvcWO2tmXXWv`）を正として実装した静的サイトです。現在は **TOP**、**施工事例一覧**、**施工事例詳細（4件）**、**お問い合わせ**、**木乃家について**、**事業内容**、**家づくりの考え方**、**お知らせ（一覧・記事）**、**プライバシーポリシー** です。
+
+KINOKA（木乃家）は架空の工務店を題材にしたポートフォリオ作品で、掲載している会社情報・事例・スタッフはすべて架空です。
 
 ## 使い方
 
@@ -27,7 +29,9 @@ npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagi
 | `contact/index.html` | お問い合わせ（入力 → 確認 → 完了を同一ページで切替。送信機能は未接続のデモ） |
 | `news/index.html` | お知らせ一覧（カテゴリの絞り込み `?category=`） |
 | `src/templates/news-article.html` | お知らせ記事のテンプレート（`/news/<slug>/` を公開記事ごとに生成） |
+| `privacy/index.html` | プライバシーポリシー（デモとしての実際の動作：フォームは送信・保存しない、Cookie・解析なし、Google Fonts の利用） |
 | `404.html` | ページが見つからないとき（存在しない記事URLなど） |
+| `public/` | そのまま `dist/` に出る静的ファイル（`images/`、`favicon.ico`／`favicon.svg`／`apple-touch-icon.png`、OGP画像 `ogp.jpg`、`robots.txt`） |
 | `src/data/news.json` | お知らせの記事データ（slug・title・date・category・excerpt・thumbnail・body・published） |
 | `src/data/news-categories.json` | お知らせのカテゴリ（キーと表示名） |
 | `scripts/news.js` | 記事データの読み込み・検証と、一覧／TOP／記事ページに渡す値の組み立て |
@@ -68,10 +72,60 @@ Responsive Rules に合わせて SP ファーストで記述しています。
 - 768〜1023px（md）：SP構造のまま左右 40px。Service は2列カード、CTAカードは最大 640px で中央寄せ
 - 1024px〜（lg）：PCレイアウト。1024〜1440px は流体、1440px以上はコンテンツ幅 1200px で中央寄せ
 
-未実装ページ（Privacy）へのリンクは、将来のURL（`/privacy/`）を仮で入れています。
 
 ## お問い合わせフォームについて
 
 バックエンドがないため、`/contact/` は **送信機能に接続していないデモ** です。入力・バリデーション・確認画面までは実際に動き、「送信する（デモ）」では入力内容をどこにも送らずに完了画面を表示します（ページ上にもその旨を表示しています）。公開時は `src/js/contact.js` の `data-contact-send` の処理を、フォーム送信サービスや API への送信に置き換えてください。
 
 CTA からは `?type=consultation`（家づくりの相談）/ `document`（資料請求）/ `visit`（見学予約）で遷移し、種別が初期選択されます。それ以外の値は無視します。
+
+## 公開設定（検索エンジン・OGP・404）
+
+ポートフォリオとして共有・閲覧はできるが、架空の会社として検索結果には出さない、という方針です。
+
+### noindex
+
+- 全ページの `<head>` は `src/partials/head.html` から出力しており、ここで `<meta name="robots" content="noindex">` を一括で付けています（404 ページを含む全21ページ）。ページを足すときも `head.html` を読み込めば自動で付きます
+- noindex は「検索結果に載せない」指示で、アクセス制限ではありません。URL を知っている人は誰でも開けますし、リンクやSNSでの共有もできます。見せる相手を限定したいときは、ホスティング側のパスワード保護などを使ってください
+- `public/robots.txt` はクロールを禁止していません（`Allow: /`）。robots.txt で `Disallow` するとクローラーがページを読めず noindex を認識できないため、noindex の方針と揃えています
+
+### canonical・sitemap
+
+- **canonical は入れていません**。インデックスさせないページに正規URLを示す意味がなく、noindex と canonical の併用は検索エンジンに矛盾した指示になるためです。また公開URLも未確定です
+- **sitemap.xml は作っていません**。sitemap は検索エンジンに「登録してほしいURL」を伝えるもので、noindex の方針と逆になるためです。robots.txt にも `Sitemap:` は書いていません
+
+### OGP・favicon
+
+- 各ページの `og:title`／`og:description` は、そのページの `<title>`／`description` と同じ値です（`head.html` で同じパラメータから出力）。`og:type`=website、`og:site_name`、`og:locale` も全ページ共通で付けています
+- `og:url`・`og:image`・`twitter:card` は絶対URLが必要なため、**公開URLを指定してビルドしたときだけ**出力します。指定しなければ出力しません（仮のドメインは書きません）
+
+  ```bash
+  SITE_URL=https://（公開先のURL） npm run build
+  ```
+
+  `og:image` は `public/ogp.jpg`（1200×630。MVの外観写真 P01 にロゴと「架空の工務店を題材にしたWebサイト制作のポートフォリオ作品」の一文を重ねたもの）です。404 ページには `og:url` を付けません
+- favicon は `public/favicon.ico`（16／32px）、`favicon.svg`、`apple-touch-icon.png`（180px）。濃色の角丸に「K」の線画です
+- noindex でも OGP は読まれます（SNSのカード表示は検索登録とは別の仕組みです）。公開後は各SNSのカードプレビューで見え方を確認してください
+
+### 404
+
+- `404.html` は `dist/404.html` に出力します（noindex 付き）
+- `npm run dev` と `npm run preview` は本番の静的ホストに合わせて、存在しないURLに **404 ページをステータス 404 で** 返します。Vite の初期設定（SPA fallback）だと存在しないURLでも TOP が返るため、`vite.config.js` で `appType: 'mpa'` にし、`kinoka-not-found` プラグインで 404 ページを返しています。末尾スラッシュなし（`/about`）は `/about/` へ 301 で移動します
+- **本番で 404 ページが出るかはホスティング先の設定次第**です。ソース側で用意しているのは `dist/404.html` だけなので、公開先で次を確認してください
+  - Netlify・GitHub Pages・Cloudflare Pages：ルートの `404.html` を自動で使います（追加設定なし）
+  - Vercel：静的出力ならルートの `404.html` を使います
+  - Apache：`.htaccess` に `ErrorDocument 404 /404.html`
+  - nginx：`error_page 404 /404.html;`
+  - SPA 用の「すべてのURLを index.html に返す」設定（rewrite／fallback）は**使わないでください**。存在しないURLが TOP として 200 で返ります
+
+### 公開手順
+
+1. `npm install` → `npm run build`（OGP画像を使うなら `SITE_URL=… npm run build`）
+2. `dist/` の中身をそのまま公開先のルートに置きます（`/works/`、`/news/<slug>/` などは `index.html` 入りのフォルダとして出力済み）。サイトはルート（`/`）に置く前提で、サブディレクトリに置く場合は `vite.config.js` の `base` とサイト内リンクの調整が必要です
+3. 公開前の確認
+   - 全ページの `<head>` に `noindex` があること：`grep -L 'content="noindex"' $(find dist -name '*.html')` が何も出さない
+   - `/robots.txt` が `Disallow` していないこと
+   - 存在しないURL（例 `/foo/`）が 404 ページをステータス 404 で返すこと
+   - `/favicon.ico`、`/ogp.jpg`（`SITE_URL` 指定時）が開けること
+   - お問い合わせフォームがデモのまま（送信しない）で、プライバシーポリシーの説明と合っていること
+   - SNS のカードプレビューで OGP の見え方

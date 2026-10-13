@@ -8,6 +8,25 @@ const root = resolve(__dirname);
 const partialsDir = resolve(root, 'src/partials');
 const dataDir = resolve(root, 'src/data');
 
+// Public URL of the site (e.g. SITE_URL=https://example.com npm run build). og:url, og:image and twitter:card
+// need absolute URLs, so they are only output when it is set; nothing points at a made-up domain.
+const siteUrl = (process.env.SITE_URL ?? '').replace(/\/+$/, '');
+
+// <!-- @site-url-meta --> in head.html: absolute-URL meta for the page at `path` (the 404 page gets no og:url)
+function siteUrlMeta(path) {
+  if (!siteUrl) return '';
+  const pagePath = path.split('?')[0].replace(/index\.html$/, '');
+  const tags = [
+    !/404(\.html)?$/.test(pagePath) && `<meta property="og:url" content="${siteUrl}${pagePath}">`,
+    `<meta property="og:image" content="${siteUrl}/ogp.jpg">`,
+    '<meta property="og:image:width" content="1200">',
+    '<meta property="og:image:height" content="630">',
+    '<meta property="og:image:alt" content="KINOKA 木乃家">',
+    '<meta name="twitter:card" content="summary_large_image">',
+  ];
+  return tags.filter(Boolean).join('\n');
+}
+
 const readJson = (file) => JSON.parse(readFileSync(resolve(dataDir, file), 'utf8'));
 const escapeAttr = (value) => String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 
@@ -91,7 +110,10 @@ function htmlInclude() {
   };
   return {
     name: 'kinoka-html-include',
-    transformIndexHtml: { order: 'pre', handler: (html) => render(html) },
+    transformIndexHtml: {
+      order: 'pre',
+      handler: (html, ctx) => render(html).replace(/<!--\s*@site-url-meta\s*-->/g, () => siteUrlMeta(ctx.originalUrl ?? ctx.path)),
+    },
     handleHotUpdate({ file, server }) {
       if (file.startsWith(partialsDir) || file.startsWith(dataDir) || file.startsWith(resolve(root, 'src/templates'))) server.ws.send({ type: 'full-reload' });
     },
@@ -151,12 +173,60 @@ function newsArticles() {
   };
 }
 
+// Unknown URLs get the 404 page with status 404 in dev and preview, like a static host serving 404.html.
+// appType 'mpa' turns off Vite's SPA fallback (which would answer every unknown URL with the TOP page).
+// These run after Vite's own middlewares, so only requests that matched no page, asset or public file reach them.
+function notFoundPage() {
+  // /about → /about/ when that folder has a page (most static hosts do the same)
+  const redirectToFolder = (req, res, dir) => {
+    const [path, query] = (req.url ?? '').split(/\?(.*)/s);
+    if (path.endsWith('/') || /\.\w+$/.test(path) || !existsSync(resolve(dir, `.${decodeURIComponent(path)}/index.html`))) return false;
+    res.statusCode = 301;
+    res.setHeader('Location', `${path}/${query ? `?${query}` : ''}`);
+    res.end();
+    return true;
+  };
+  const send = (res, html) => {
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.end(html);
+  };
+  return {
+    name: 'kinoka-not-found',
+    configureServer(server) {
+      return () =>
+        server.middlewares.use(async (req, res, next) => {
+          const path = (req.url ?? '').split('?')[0];
+          if (path.endsWith('.html') && existsSync(resolve(root, path.slice(1)))) return next();
+          if (redirectToFolder(req, res, root)) return;
+          try {
+            send(res, await server.transformIndexHtml('/404.html', readFileSync(resolve(root, '404.html'), 'utf8')));
+          } catch (error) {
+            next(error);
+          }
+        });
+    },
+    configurePreviewServer(server) {
+      const outDir = resolve(root, server.config.build.outDir);
+      const isPage = (path) => [path, `${path}/index.html`, `${path}.html`].some((file) => existsSync(resolve(outDir, `.${file}`)) && /\.html$/.test(file));
+      return () =>
+        server.middlewares.use((req, res, next) => {
+          if (redirectToFolder(req, res, outDir)) return;
+          const path = decodeURIComponent((req.url ?? '').split('?')[0]).replace(/\/$/, '');
+          if (isPage(path)) return next();
+          send(res, readFileSync(resolve(outDir, '404.html')));
+        });
+    },
+  };
+}
+
 const newsInputs = Object.fromEntries(
   loadNews(dataDir).posts.map((post) => [`news-${post.slug}`, resolve(newsDir, post.slug, 'index.html')]),
 );
 
 export default defineConfig({
-  plugins: [htmlInclude(), newsArticles()],
+  appType: 'mpa',
+  plugins: [htmlInclude(), newsArticles(), notFoundPage()],
   css: {
     preprocessorOptions: { scss: { api: 'modern-compiler' } },
   },
