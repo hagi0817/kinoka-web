@@ -35,8 +35,16 @@ for n in 02 03 04 05 06 07 08 09; do
   webp "$tmp/p$n.png" "p$n" 480 960
 done
 webp "$tmp/p05.png" p05 1200 # About hero (full width)
+webp "$tmp/p09.png" p09 1264 # Works detail hero (machi-bakery)
 
 for f in "$SRC"/works-hikari/W*.png; do
+  base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
+  grade "$f" "$tmp/$id.png"
+  webp "$tmp/$id.png" "$id" 640 1264
+done
+
+# Works detail photos for the other three works (H = 家族が集まる平屋, R = 古い家を受け継ぐリノベーション, B = 街にひらく木のベーカリー)
+for f in "$SRC"/works-other/*.png; do
   base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
   grade "$f" "$tmp/$id.png"
   webp "$tmp/$id.png" "$id" 640 1264

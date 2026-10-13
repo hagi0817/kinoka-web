@@ -42,8 +42,8 @@
       "large": 928,
       "alt": "山並みを背にした板張りの平屋"
     },
-    "description": null,
-    "url": null
+    "description": "松本市に建つ3人家族の木造平屋（延床28.0坪）。LDKと個室の棟をL字に配置し、縁側でつながる庭を家族で囲む住まい。",
+    "url": "/works/atsumaru-hiraya/"
   },
   {
     "slug": "uketsugu-renovation",
@@ -65,8 +65,8 @@
       "large": 928,
       "alt": "太い梁が残る古民家のダイニング"
     },
-    "description": null,
-    "url": null
+    "description": "塩尻市にある築42年のご実家を、5人家族の住まいとして全面改修。断熱と耐震を見直し、家を支えてきた太い梁は見せる形で残しました。",
+    "url": "/works/uketsugu-renovation/"
   },
   {
     "slug": "machi-bakery",
@@ -83,7 +83,7 @@
       "large": 960,
       "alt": "木のカウンターが続くベーカリーの店内"
     },
-    "description": null,
-    "url": null
+    "description": "松本市の通りに面した木造平屋のベーカリー（延床18.0坪）。通りに向けた大きな窓と、奥まで続く木のカウンター、壁一面の造作棚。",
+    "url": "/works/machi-bakery/"
   }
 ]
