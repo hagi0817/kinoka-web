@@ -56,6 +56,9 @@ export function initContactForm() {
   const visitDate = form.elements.visitDate;
   const baseTitle = document.title;
 
+  // the submit button stays disabled without JS, so the form can never be sent natively (input would end up in the URL)
+  form.querySelector('[data-contact-submit]').disabled = false;
+
   // ---- Type: show the fields each type needs, disable the rest so they are neither validated nor confirmed ----
   const applyType = (type) => {
     form.querySelectorAll('[data-show-for]').forEach((row) => {
