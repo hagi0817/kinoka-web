@@ -91,6 +91,7 @@ export default defineConfig({
         worksHikari: resolve(root, 'works/hikari-to-ki/index.html'),
         contact: resolve(root, 'contact/index.html'),
         about: resolve(root, 'about/index.html'),
+        service: resolve(root, 'service/index.html'),
       },
     },
   },
