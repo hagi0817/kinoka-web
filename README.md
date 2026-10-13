@@ -49,7 +49,7 @@ npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagi
 
 Works Card は `<!-- @works {"slugs":["hikari-to-ki"]} -->` で `src/data/works.json` から生成します（`slugs` を省くと全件、`"filterable":true` で絞り込み用の `data-*` を付与）。一覧の絞り込みチップは `<!-- @works-filter -->` で `taxonomy.json` から生成します。事例を追加するときは `works.json` に1件足すだけで、一覧・TOP・関連事例のカードに使えます。詳細ページを作ったら、`works/<slug>/index.html` を置き、`vite.config.js` のビルド入力に足して、`works.json` の `url` に `/works/<slug>/` を入れます（`url` が `null` のカードは一覧へリンクします）。詳細ページの共通パーツ（Hero・データ表・Story・Gallery・間取り・担当者・CTA・ほかの事例）は `_works-detail.scss` にあり、ページごとの差は配置の modifier（`work-hero--split`、`gallery__item--w3/w6/w12`、`floor-plan--single` など）で出しています。
 
-TOP の MV スライダーは `<!-- @works-hero media -->`（写真）・`<!-- @works-hero captions -->`（事例名・エリア・リンク）・`<!-- @works-hero controls -->`（前後ボタン・ページネーション）で、`works.json` の先頭から最大4件を生成します（`{"slugs":[…]}` で事例と順番を指定可）。写真は事例の `hero`（PC用の横長写真＋SP用の切り抜き）があればそれを、なければカード写真を中央で切り抜いて使います。1件のときは操作UIを出しません。自動再生はしません（処理は `scripts/works-hero.js` と `src/js/main.js` の `initMvSlider()`）。
+TOP の MV スライダーは `<!-- @works-hero media -->`（写真）と `<!-- @works-hero slider -->`（事例名・エリア・リンク、前後ボタン・ページネーション）で、`works.json` の先頭から最大4件を生成します（`{"slugs":[…]}` で事例と順番を指定可）。写真は事例の `hero`（PC用の横長写真＋SP用の切り抜き）があればそれを、なければカード写真を中央で切り抜いて使います。1件のときは操作UIを出さず、カルーセル・スライドとしてのARIA属性も付けません。自動再生はしません（処理は `scripts/works-hero.js` と `src/js/main.js` の `initMvSlider()`）。
 
 ## お知らせ（News）の更新
 

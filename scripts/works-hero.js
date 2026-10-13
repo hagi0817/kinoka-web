@@ -1,6 +1,6 @@
 // TOP MV slider: up to MV_SLIDES_MAX works from src/data/works.json, in data order.
-// The same list feeds three places in index.html, so photos, captions and pagination always line up:
-// <!-- @works-hero media -->, <!-- @works-hero captions -->, <!-- @works-hero controls -->
+// The same list feeds two places in index.html, so photos, captions and pagination always line up:
+// <!-- @works-hero media --> (photos) and <!-- @works-hero slider --> (captions + controls in the carousel region)
 // A work's optional "hero" (wide PC photo + SP crop) is used when it has one; otherwise its card photo is shown.
 import { escapeHtml } from './news.js';
 
@@ -32,16 +32,19 @@ function slideMedia(work, index) {
           <img src="/images/${hero.sp}.webp" width="${hero.spWidth}" height="${hero.spHeight}" alt="${escapeHtml(hero.alt)}"${loading} decoding="async">
         </picture>`;
   }
-  // card photo (4:5 or 3:2) cropped from the center
+  // card photo (4:5 or 3:2) cropped from the center; "full" adds the photo's original-size file when one exists
+  const srcset = [480, image.large, image.full].filter(Boolean).map((w) => `/images/${image.name}-${w}.webp ${w}w`).join(', ');
   return `<picture class="mv__slide mv__slide--card${state}" data-mv-slide${hidden}>
-          <img src="/images/${image.name}-480.webp" srcset="/images/${image.name}-480.webp 480w, /images/${image.name}-${image.large}.webp ${image.large}w" sizes="100vw" width="480" height="600" alt="${escapeHtml(image.alt)}"${loading} decoding="async">
+          <img src="/images/${image.name}-480.webp" srcset="${srcset}" sizes="100vw" width="480" height="600" alt="${escapeHtml(image.alt)}"${loading} decoding="async">
         </picture>`;
 }
 
 function slideCaption(work, index, total, taxonomy, arrow) {
   const area = taxonomy.area.options[work.area];
   const hidden = index === 0 ? '' : ' hidden';
-  return `<div class="mv__slide-caption" role="group" aria-roledescription="スライド" aria-label="${index + 1} / ${total}" data-mv-caption${hidden}>
+  // a single work is just a link, not a slide of a carousel
+  const slide = total > 1 ? ` role="group" aria-roledescription="スライド" aria-label="${index + 1} / ${total}"` : '';
+  return `<div class="mv__slide-caption"${slide} data-mv-caption${hidden}>
             <a class="mv__caption" href="${escapeHtml(work.url ?? '/works/')}">
               <span class="mv__caption-en" lang="en">WORKS ${number(index)}</span>
               <span class="mv__caption-work">${escapeHtml(work.title)}${area ? `<span class="u-pc">｜${escapeHtml(area)}</span>` : ''}</span>
@@ -67,8 +70,19 @@ function controls(works, arrow) {
           <p class="visually-hidden" aria-live="polite" data-mv-status></p>`;
 }
 
+// Caption area: a labelled carousel region for two or more works; a plain block for one
+function slider(works, taxonomy, arrow) {
+  const region = works.length > 1 ? ' role="region" aria-roledescription="カルーセル" aria-label="紹介する施工事例"' : '';
+  const captions = works.map((work, index) => slideCaption(work, index, works.length, taxonomy, arrow)).join('\n            ');
+  return `<div class="mv__works"${region} data-mv-slider>
+          <div class="mv__captions">
+            ${captions}
+          </div>
+          ${controls(works, arrow)}
+        </div>`;
+}
+
 export function renderWorksHero(kind, works, taxonomy, arrow) {
   if (kind === 'media') return works.map((work, index) => slideMedia(work, index)).join('\n        ');
-  if (kind === 'captions') return works.map((work, index) => slideCaption(work, index, works.length, taxonomy, arrow)).join('\n            ');
-  return controls(works, arrow);
+  return slider(works, taxonomy, arrow);
 }

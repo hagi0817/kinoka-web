@@ -121,6 +121,9 @@
 .form-textarea {
   min-height: 180px;
   resize: vertical;
+
+  // street-address is a multi-line value, so the address uses a two-line textarea
+  &--address { min-height: 0; }
 }
 
 // Select: native control with a drawn chevron
