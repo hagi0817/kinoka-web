@@ -41,3 +41,10 @@ for f in "$SRC"/works-hikari/W*.png; do
   grade "$f" "$tmp/$id.png"
   webp "$tmp/$id.png" "$id" 640 1264
 done
+
+# About staff portraits (4:5)
+for f in "$SRC"/about/S*.png; do
+  base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
+  grade "$f" "$tmp/$id.png"
+  webp "$tmp/$id.png" "$id" 640 928
+done
