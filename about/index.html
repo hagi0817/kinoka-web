@@ -41,7 +41,7 @@
       <div class="about-hero__photo">
         <img src="/images/p05-960.webp" srcset="/images/p05-480.webp 480w, /images/p05-960.webp 960w, /images/p05-1200.webp 1200w" sizes="100vw" width="1200" height="896" alt="北アルプスを望む安曇野の田園と集落" fetchpriority="high" decoding="async">
       </div>
-      <div class="about-hero__body l-container">
+      <div class="about-hero__body about-split l-container">
         <!-- @include section-heading.html {"en":"MESSAGE","id":"message-title","title":"この土地の家を、<br>この土地の手で。"} -->
         <div class="about-hero__text">
           <p>木乃家は、松本で大工をしていた創業者が2001年にはじめた小さな工務店です。最初の仕事は、近所の家の縁側の修繕でした。</p>
@@ -72,8 +72,8 @@
           </li>
           <li class="value">
             <p class="value__num" lang="en">03</p>
-            <h3 class="value__title">建てる数を決めている</h3>
-            <p class="value__text">設計から現場、点検までを同じ担当者が見られるよう、新築は年間12棟までとしています。ご依頼が重なったときは、着工の時期をご相談させていただきます。</p>
+            <h3 class="value__title">建てる数を欲張らない</h3>
+            <p class="value__text">設計から現場、点検までを同じ担当者が見られるよう、一度にお引き受けする棟数を限っています。ご依頼が重なったときは、着工の時期をご相談させていただきます。</p>
           </li>
         </ol>
       </div>
@@ -109,28 +109,6 @@
           </li>
         </ol>
 
-        <dl class="about-numbers">
-          <div class="about-numbers__item">
-            <dt>創業</dt>
-            <dd><span class="about-numbers__value" lang="en">25</span><span class="about-numbers__unit">年</span></dd>
-            <dd class="about-numbers__note">2001年、松本市で創業</dd>
-          </div>
-          <div class="about-numbers__item">
-            <dt>施工実績</dt>
-            <dd><span class="about-numbers__prefix">約</span><span class="about-numbers__value" lang="en">320</span><span class="about-numbers__unit">棟</span></dd>
-            <dd class="about-numbers__note">新築・リノベーション・店舗</dd>
-          </div>
-          <div class="about-numbers__item">
-            <dt>協力職人</dt>
-            <dd><span class="about-numbers__value" lang="en">32</span><span class="about-numbers__unit">社</span></dd>
-            <dd class="about-numbers__note">基礎・左官・建具など</dd>
-          </div>
-          <div class="about-numbers__item">
-            <dt>対応エリア</dt>
-            <dd><span class="about-numbers__prefix">車で</span><span class="about-numbers__value" lang="en">40</span><span class="about-numbers__unit">分圏</span></dd>
-            <dd class="about-numbers__note">松本市・安曇野市・塩尻市ほか</dd>
-          </div>
-        </dl>
 
         <h3 class="about-local__subtitle">地域との関わり</h3>
         <ul class="about-local__topics">
@@ -157,7 +135,7 @@
       <div class="l-container">
         <div class="section-head">
           <!-- @include section-heading.html {"en":"STAFF","id":"staff-title","title":"家づくりを担う人たち"} -->
-          <p class="section-head__lead">木乃家のスタッフは14名です。<br class="u-pc">お客様と長くお付き合いすることの多い3名をご紹介します。</p>
+          <p class="section-head__lead">設計・現場・引き渡し後。<br class="u-pc">それぞれの場面でお客様と向き合う3名をご紹介します。</p>
         </div>
         <ul class="about-staff__list">
           <li class="staff-card">
@@ -167,7 +145,7 @@
                 <p class="staff-card__role">設計・ディレクション</p>
                 <h3 class="staff-card__name"><span class="staff-card__name-ja">山田 健太</span><span class="staff-card__name-en" lang="en">KENTA YAMADA</span></h3>
               </div>
-              <p class="staff-card__text">敷地に何度も足を運び、季節ごとの光や風を確かめてから設計を始めます。一級建築士。休日は安曇野で畑仕事をしています。</p>
+              <p class="staff-card__text">敷地に何度も足を運び、季節ごとの光や風を確かめてから設計を始めます。着工後も現場に通い、引き渡し後の点検まで担当します。</p>
             </div>
           </li>
           <li class="staff-card">
@@ -177,7 +155,7 @@
                 <p class="staff-card__role">大工棟梁</p>
                 <h3 class="staff-card__name"><span class="staff-card__name-ja">中村 誠</span><span class="staff-card__name-en" lang="en">MAKOTO NAKAMURA</span></h3>
               </div>
-              <p class="staff-card__text">大工歴30年。刻みから造作まで、木工事を自社の大工でまとめています。現場では若手の大工に技術を伝える役目も担っています。</p>
+              <p class="staff-card__text">刻みから造作まで、木工事を自社の大工でまとめています。現場では、若手の大工に技術を伝える役目も担っています。</p>
             </div>
           </li>
           <li class="staff-card">
@@ -196,21 +174,20 @@
 
     <!-- Company -->
     <section class="about-company l-section" aria-labelledby="company-title">
-      <div class="about-company__inner l-container">
+      <div class="about-split l-container">
         <!-- @include section-heading.html {"en":"COMPANY","id":"company-title","title":"会社概要"} -->
         <div class="about-company__body">
           <dl class="company-table">
             <div class="company-table__row"><dt>会社名</dt><dd>株式会社 木乃家（KINOKA Co., Ltd.）</dd></div>
             <div class="company-table__row"><dt>所在地</dt><dd>〒390-0000 長野県松本市寿北0-0-0</dd></div>
-            <div class="company-table__row"><dt>設立</dt><dd>2001年4月</dd></div>
-            <div class="company-table__row"><dt>代表者</dt><dd>代表取締役 木下 尚人</dd></div>
-            <div class="company-table__row"><dt>従業員数</dt><dd>14名（設計4名・工事監督3名・大工4名・コーディネート／アフター3名）</dd></div>
+            <div class="company-table__row"><dt>創業</dt><dd>2001年（松本市で創業）</dd></div>
             <div class="company-table__row"><dt>事業内容</dt><dd>注文住宅・リノベーション・店舗／事務所の設計施工、アフターサポート</dd></div>
-            <div class="company-table__row"><dt>対応エリア</dt><dd>松本市・安曇野市・塩尻市ほか（本社から車で約40分圏内）</dd></div>
-            <div class="company-table__row"><dt>許可・登録</dt><dd>建設業許可 長野県知事許可（般-00）第00000号<br>一級建築士事務所 長野県知事登録 第0000号</dd></div>
-            <div class="company-table__row"><dt>営業時間</dt><dd>9:00–18:00（水曜定休）<br>TEL <a class="company-table__tel" href="tel:0263000000">0263-00-0000</a></dd></div>
+            <div class="company-table__row"><dt>対応エリア</dt><dd>松本市・安曇野市・塩尻市とその周辺</dd></div>
+            <div class="company-table__row"><dt>許可・登録</dt><dd>建設業許可 長野県知事許可（般-00）第00000号</dd></div>
+            <div class="company-table__row"><dt>電話番号</dt><dd><a class="company-table__tel" href="tel:0263000000">0263-00-0000</a></dd></div>
+            <div class="company-table__row"><dt>営業時間</dt><dd>9:00–18:00（水曜定休）</dd></div>
           </dl>
-          <p class="about-company__note">※ 木乃家（KINOKA）はポートフォリオ制作のための架空の会社です。人物・所在地・数値・許可番号などはすべて架空の設定です。</p>
+          <p class="about-company__note">※ 木乃家（KINOKA）はポートフォリオ制作のための架空の会社です。人物・所在地・電話番号・許可番号などはすべて架空の設定です。</p>
         </div>
       </div>
     </section>

@@ -2,6 +2,21 @@
 
 // Page header is shared with the Works list (pages/_works-index.scss)
 
+// Heading at left, content at right on PC (same build as the TOP Concept / Works detail Story)
+.about-split {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-40);
+
+  .section-heading { flex-shrink: 0; }
+
+  @include lg {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--space-48);
+  }
+}
+
 // ---------- About hero: full-width photo + message ----------
 .about-hero {
   &__photo {
@@ -26,19 +41,9 @@
   }
 
   &__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-40);
     margin-top: var(--space-48);
 
-    .section-heading { flex-shrink: 0; }
-
-    @include lg {
-      flex-direction: row;
-      justify-content: space-between;
-      gap: var(--space-48);
-      margin-top: var(--space-96);
-    }
+    @include lg { margin-top: var(--space-96); }
   }
 
   &__text {
@@ -232,74 +237,6 @@
   }
 }
 
-// Key figures (rules follow the Works detail data list)
-.about-numbers {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: var(--space-48);
-  border-top: 1px solid var(--color-border-default);
-
-  @include lg {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-top: var(--space-64);
-    padding-block: var(--space-32);
-    border-bottom: 1px solid var(--color-border-default);
-  }
-
-  &__item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-    padding: var(--space-24) var(--space-16) var(--space-24) 0;
-    border-bottom: 1px solid var(--color-border-default);
-
-    &:nth-child(even) {
-      padding-left: var(--space-16);
-      border-left: 1px solid var(--color-border-default);
-    }
-
-    dt {
-      color: var(--color-text-secondary);
-      @include caption;
-    }
-
-    dd { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 var(--space-4); }
-
-    @include lg {
-      padding: 0 var(--space-16) 0 var(--space-32);
-      border-bottom: 0;
-      border-left: 1px solid var(--color-border-default);
-
-      &:first-child {
-        padding-left: 0;
-        border-left: 0;
-      }
-
-      &:nth-child(even) { padding-left: var(--space-32); }
-    }
-  }
-
-  &__value {
-    @include font-en;
-    font-weight: 400;
-    font-size: 36px;
-    line-height: 1.2;
-    letter-spacing: 0.02em;
-
-    @include lg { font-size: clamp(40px, 3.333vw, 48px); }
-  }
-
-  &__prefix,
-  &__unit {
-    @include body-s;
-  }
-
-  &__note {
-    color: var(--color-text-secondary);
-    @include caption;
-  }
-}
-
 .local-topic {
   display: flex;
   flex-direction: column;
@@ -429,20 +366,6 @@
 // ---------- Company ----------
 .about-company {
   padding-bottom: var(--section-space);
-
-  &__inner {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-40);
-
-    .section-heading { flex-shrink: 0; }
-
-    @include lg {
-      flex-direction: row;
-      justify-content: space-between;
-      gap: var(--space-48);
-    }
-  }
 
   &__body {
     @include lg {
