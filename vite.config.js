@@ -90,6 +90,7 @@ export default defineConfig({
         works: resolve(root, 'works/index.html'),
         worksHikari: resolve(root, 'works/hikari-to-ki/index.html'),
         contact: resolve(root, 'contact/index.html'),
+        about: resolve(root, 'about/index.html'),
       },
     },
   },

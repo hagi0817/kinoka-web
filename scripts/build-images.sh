@@ -34,6 +34,7 @@ for n in 02 03 04 05 06 07 08 09; do
   grade "$SRC/P$n.png" "$tmp/p$n.png"
   webp "$tmp/p$n.png" "p$n" 480 960
 done
+webp "$tmp/p05.png" p05 1200 # About hero (full width)
 
 for f in "$SRC"/works-hikari/W*.png; do
   base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
