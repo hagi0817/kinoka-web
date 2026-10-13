@@ -9,20 +9,20 @@
   <main id="main">
     <!-- MV -->
     <section class="mv is-dark" aria-labelledby="mv-title" data-mv>
-      <picture class="mv__media">
-        <source media="(min-width: 768px)" srcset="/images/p01-800.webp 800w, /images/p01-1376.webp 1376w" sizes="100vw" width="1376" height="768">
-        <img src="/images/p01-sp-600.webp" width="600" height="768" alt="夕暮れの田園に建つ、板張りの外壁と大きな窓から灯りがこぼれる木造の平屋" fetchpriority="high" decoding="async">
-      </picture>
+      <div class="mv__media">
+        <!-- @works-hero media -->
+      </div>
       <div class="mv__content">
         <div class="mv__copy">
           <h1 class="mv__title" id="mv-title">暮らしをつくる。<br>家をつくる。</h1>
           <p class="mv__lead">松本の暮らしに寄り添う、<br>地域密着の家づくり。</p>
         </div>
-        <a class="mv__caption" href="/works/hikari-to-ki/">
-          <span class="mv__caption-en" lang="en">WORKS 01</span>
-          <span class="mv__caption-work">光と木がつながる家<span class="u-pc">｜安曇野市</span></span>
-          <!-- @include icons/arrow.svg -->
-        </a>
+        <div class="mv__works" role="region" aria-roledescription="カルーセル" aria-label="紹介する施工事例" data-mv-slider>
+          <div class="mv__captions">
+            <!-- @works-hero captions -->
+          </div>
+          <!-- @works-hero controls -->
+        </div>
       </div>
       <div class="mv__scroll" aria-hidden="true"><span lang="en">SCROLL</span></div>
     </section>

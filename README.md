@@ -28,7 +28,7 @@ npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagi
 | `src/data/news.json` | お知らせの記事データ（slug・title・date・category・excerpt・thumbnail・body・published） |
 | `src/data/news-categories.json` | お知らせのカテゴリ（キーと表示名） |
 | `scripts/news.js` | 記事データの読み込み・検証と、一覧／TOP／記事ページに渡す値の組み立て |
-| `src/data/works.json` | 施工事例データ（Works Card と一覧の絞り込みはここから生成） |
+| `src/data/works.json` | 施工事例データ（Works Card、一覧の絞り込み、TOP MV のスライドはここから生成） |
 | `src/data/taxonomy.json` | カテゴリ・エリア・タイプのキーと表示名 |
 | `src/partials/` | 共通パーツ（Header＋SPメニュー / Footer＋SP固定CTA / CTA / Section Heading / Works Card / アイコン / 間取りSVG） |
 | `src/scss/foundation/` | トークン（色・余白・流体値）、テキストスタイルの mixin、ベース |
@@ -41,6 +41,8 @@ npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagi
 `src/partials/` は `vite.config.js` の小さなプラグインで読み込みます（`<!-- @include header.html {"key":"value"} -->`、パーツ内の `{{key}}` を置換）。
 
 Works Card は `<!-- @works {"slugs":["hikari-to-ki"]} -->` で `src/data/works.json` から生成します（`slugs` を省くと全件、`"filterable":true` で絞り込み用の `data-*` を付与）。一覧の絞り込みチップは `<!-- @works-filter -->` で `taxonomy.json` から生成します。事例を追加するときは `works.json` に1件足すだけで、一覧・TOP・関連事例のカードに使えます。
+
+TOP の MV スライダーは `<!-- @works-hero media -->`（写真）・`<!-- @works-hero captions -->`（事例名・エリア・リンク）・`<!-- @works-hero controls -->`（前後ボタン・ページネーション）で、`works.json` の先頭から最大4件を生成します（`{"slugs":[…]}` で事例と順番を指定可）。写真は事例の `hero`（PC用の横長写真＋SP用の切り抜き）があればそれを、なければカード写真を中央で切り抜いて使います。1件のときは操作UIを出しません。自動再生はしません（処理は `scripts/works-hero.js` と `src/js/main.js` の `initMvSlider()`）。
 
 ## お知らせ（News）の更新
 

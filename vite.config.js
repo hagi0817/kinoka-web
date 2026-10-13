@@ -2,6 +2,7 @@ import { resolve } from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import { loadNews, newsTopItems, newsListItems, newsFilterChips, newsArticleParams } from './scripts/news.js';
+import { heroWorks, renderWorksHero } from './scripts/works-hero.js';
 
 const root = resolve(__dirname);
 const partialsDir = resolve(root, 'src/partials');
@@ -42,6 +43,7 @@ function worksFilterGroups(taxonomy) {
 // Works Cards from src/data/works.json (all works when "slugs" is omitted; "filterable" adds data-* for the filter):
 // <!-- @works {"slugs":["a","b"],"override":{"a":{"tag":"…"}},"filterable":true} -->
 // Filter groups from src/data/taxonomy.json: <!-- @works-filter -->
+// TOP MV slides from src/data/works.json (first 4 works, or "slugs"): <!-- @works-hero media|captions|controls {"slugs":[…]} -->
 // News from src/data/news.json: <!-- @news {"limit":3} --> (TOP items), <!-- @news-list -->, <!-- @news-filter -->, <!-- @news-count -->
 const newsPattern = /<!--\s*@news(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
 const newsMarkers = /<!--\s*@news-(list|filter|count)\s*-->/g;
@@ -52,6 +54,7 @@ function htmlInclude() {
   const pattern = /<!--\s*@include\s+([\w./-]+)(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
   const worksPattern = /<!--\s*@works(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
   const filterPattern = /<!--\s*@works-filter\s*-->/g;
+  const heroPattern = /<!--\s*@works-hero\s+(media|captions|controls)(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
   const render = (html, depth = 0) => {
     if (depth > 10) throw new Error('@include nested too deeply');
     const news = () => loadNews(dataDir);
@@ -64,6 +67,10 @@ function htmlInclude() {
       })
       .replace(newsPattern, (_, json) => newsTopItems(news(), newsInclude, (json ? JSON.parse(json) : {}).limit))
       .replace(filterPattern, () => worksFilterGroups(readJson('taxonomy.json')))
+      .replace(heroPattern, (_, kind, json) => {
+        const works = heroWorks(readJson('works.json'), (json ? JSON.parse(json) : {}).slugs);
+        return renderWorksHero(kind, works, readJson('taxonomy.json'), include('icons/arrow.svg', {}).trim());
+      })
       .replace(worksPattern, (_, json) => {
         const { slugs, override = {}, filterable = false } = json ? JSON.parse(json) : {};
         const works = readJson('works.json');

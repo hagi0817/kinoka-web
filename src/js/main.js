@@ -1,4 +1,4 @@
-// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator, Works list filter, News category filter, Contact form.
+// Minimal UI control: SP menu, header state, SP fixed CTA, TOP MV slider, Works carousel indicator, Works list filter, News category filter, Contact form.
 
 import { initContactForm } from './contact.js';
 
@@ -74,6 +74,74 @@ function initScrollStates() {
   }
 
   update();
+}
+
+// ---- TOP MV slider: works photos + caption links; prev / next, pagination, arrow keys, swipe. No autoplay ----
+function initMvSlider() {
+  const mv = document.querySelector('[data-mv]');
+  const slider = mv?.querySelector('[data-mv-slider]');
+  const controls = slider?.querySelector('[data-mv-controls]');
+  if (!controls) return; // a single work renders no controls
+
+  const slides = Array.from(mv.querySelectorAll('[data-mv-slide]'));
+  const captions = Array.from(slider.querySelectorAll('[data-mv-caption]'));
+  const dots = Array.from(controls.querySelectorAll('[data-mv-dot]'));
+  const current = controls.querySelector('[data-mv-current]');
+  const status = slider.querySelector('[data-mv-status]');
+  const total = slides.length;
+  let index = 0;
+
+  const show = (next, { announce = true } = {}) => {
+    index = (next + total) % total;
+    slides.forEach((slide, i) => {
+      const active = i === index;
+      slide.classList.toggle('is-active', active);
+      if (active) slide.removeAttribute('aria-hidden');
+      else slide.setAttribute('aria-hidden', 'true');
+    });
+    captions.forEach((caption, i) => { caption.hidden = i !== index; });
+    dots.forEach((dot, i) => {
+      if (i === index) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+    if (current) current.textContent = String(index + 1).padStart(2, '0');
+    if (announce && status) {
+      const title = captions[index].querySelector('.mv__caption-work')?.firstChild?.textContent ?? '';
+      status.textContent = `${index + 1} / ${total}：${title}`;
+    }
+  };
+
+  controls.querySelector('[data-mv-prev]')?.addEventListener('click', () => show(index - 1));
+  controls.querySelector('[data-mv-next]')?.addEventListener('click', () => show(index + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+
+  // ←/→ anywhere in the slider (caption link, pagination, buttons); a focused page dot follows the active slide
+  slider.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const onDot = dots.includes(document.activeElement);
+    const onCaption = captions.some((caption) => caption.contains(document.activeElement));
+    show(index + (event.key === 'ArrowRight' ? 1 : -1));
+    if (onDot) dots[index].focus();
+    else if (onCaption) captions[index].querySelector('a')?.focus();
+  });
+
+  // swipe (touch / pen): a mostly horizontal move of 40px or more
+  let start = null;
+  mv.addEventListener('pointerdown', (event) => {
+    start = event.pointerType === 'mouse' || !event.isPrimary ? null : { x: event.clientX, y: event.clientY };
+  });
+  mv.addEventListener('pointerup', (event) => {
+    if (!start) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    start = null;
+    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) show(index + (dx < 0 ? 1 : -1));
+  });
+  mv.addEventListener('pointercancel', () => { start = null; });
+
+  controls.hidden = false;
+  show(0, { announce: false });
 }
 
 // ---- Carousel: "01 / 03" indicator + arrow keys ----
@@ -229,6 +297,7 @@ function initNewsFilter() {
 
 initMenu();
 initScrollStates();
+initMvSlider();
 initCarousels();
 initWorksFilter();
 initNewsFilter();
