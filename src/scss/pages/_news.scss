@@ -1,0 +1,504 @@
+@use '../foundation/mixins' as *;
+
+// News list (/news/) and article (/news/<slug>/). Page header, chips, tags and buttons are the shared components;
+// the TOP News rows (.news-item) live in _top.scss.
+
+// ---------- News list ----------
+.news-index {
+  padding-top: var(--space-40);
+  padding-bottom: var(--section-space);
+
+  @include lg { padding-top: var(--space-64); }
+
+  &__count {
+    margin-top: var(--space-24);
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__number {
+    margin-right: var(--space-4);
+    color: var(--color-text-primary);
+    @include number;
+  }
+}
+
+// Category chips: same chips as the Works filter, one row with the label at left from md
+.news-filter {
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    @include md {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-24);
+    }
+  }
+
+  &__legend {
+    float: left; // keeps the legend in the flow of the fieldset (no border-line placement)
+    padding: 0;
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+
+    @include lg { gap: var(--space-8) var(--space-16); }
+  }
+}
+
+.news-list {
+  margin-top: var(--space-16);
+  border-top: 1px solid var(--color-border-default);
+
+  > li { border-bottom: 1px solid var(--color-border-default); }
+}
+
+// News entry: SP = text with a small photo at right, excerpt full width; md/lg = photo at left.
+// <article> with a stretched link on the title, like the Works Card.
+.news-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  grid-template-areas:
+    'meta thumb'
+    'title thumb'
+    'excerpt excerpt';
+  align-content: start;
+  column-gap: var(--space-16);
+  padding-block: var(--space-24);
+
+  &__meta {
+    grid-area: meta;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-16);
+  }
+
+  &__date {
+    color: var(--color-text-secondary);
+    @include date;
+  }
+
+  &__title {
+    grid-area: title;
+    margin-top: var(--space-8);
+    @include font-sans;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+    word-break: auto-phrase; // break Japanese titles between phrases where supported
+  }
+
+  &__link {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &::after {
+        outline: 2px solid var(--focus-color);
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  &__excerpt {
+    grid-area: excerpt;
+    margin-top: var(--space-16);
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__thumb {
+    grid-area: thumb;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    background: var(--color-bg-subtle);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--duration-photo) var(--ease);
+    }
+
+    // posts without an eyecatch keep the same rhythm with a quiet placeholder
+    &--empty {
+      display: grid;
+      place-items: center;
+      color: var(--color-text-secondary);
+      @include label-en-s;
+      font-size: 9px;
+
+      @include md { font-size: 12px; }
+    }
+  }
+
+  > .icon {
+    display: none;
+    grid-area: icon;
+    align-self: center;
+    width: 24px;
+    height: 24px;
+    transition: transform var(--duration) var(--ease);
+  }
+
+  @include md {
+    grid-template-columns: 200px minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      'thumb meta'
+      'thumb title'
+      'thumb excerpt';
+    column-gap: var(--space-32);
+    padding-block: var(--space-32);
+
+    &__title { @include heading-s; }
+
+    &__excerpt {
+      margin-top: var(--space-8);
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  }
+
+  @include lg {
+    // text block centered on the photo
+    grid-template-columns: 280px minmax(0, 1fr) 24px;
+    grid-template-rows: 1fr auto auto auto 1fr;
+    grid-template-areas:
+      'thumb . icon'
+      'thumb meta icon'
+      'thumb title icon'
+      'thumb excerpt icon'
+      'thumb . icon';
+    column-gap: var(--space-48);
+    padding-block: var(--space-40);
+
+    &__title {
+      margin-top: var(--space-16);
+      @include heading-m;
+    }
+
+    &__excerpt { margin-top: var(--space-16); }
+
+    > .icon { display: block; }
+  }
+
+  @include tap;
+
+  @media (hover: hover) {
+    &:hover {
+      .news-entry__thumb img { transform: scale(1.04); }
+      .news-entry__link { text-decoration-line: underline; }
+      > .icon { transform: translateX(4px); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover .news-entry__thumb img { transform: none; }
+  }
+}
+
+// ---------- News article ----------
+// One reading column (720px) centered; the eyecatch is a little wider.
+.news-article {
+  --news-column: 720px;
+
+  &__head {
+    width: 100%;
+    max-width: var(--news-column);
+    margin-inline: auto;
+    padding-top: var(--space-16);
+
+    @include lg { padding-top: 0; }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-16);
+  }
+
+  &__date {
+    color: var(--color-text-secondary);
+    @include date;
+  }
+
+  &__tag {
+    position: relative;
+    text-decoration: none;
+    transition: border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+    @include tap;
+
+    // 44px tap target around the small tag
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -10px -4px;
+    }
+
+    @include hover {
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__title {
+    margin-top: var(--space-16);
+    @include heading-l;
+    word-break: auto-phrase;
+
+    @include lg { margin-top: var(--space-24); }
+  }
+
+  &__main {
+    padding-top: var(--space-40);
+
+    @include lg { padding-top: var(--space-64); }
+  }
+
+  &__eyecatch {
+    max-width: 960px;
+    margin: 0 auto var(--space-40);
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    background: var(--color-bg-subtle);
+
+    @include lg { margin-bottom: var(--space-64); }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-40);
+    max-width: calc(var(--news-column) + var(--page-margin) * 2);
+    padding-top: var(--space-64);
+    padding-bottom: var(--section-space);
+
+    @include lg {
+      gap: var(--space-64);
+      padding-top: var(--space-96);
+    }
+  }
+
+  &__back { min-width: 240px; }
+}
+
+// Article body: the CMS content area (post body HTML). Styles target plain elements so any post body works.
+.news-body {
+  max-width: var(--news-column);
+  margin-inline: auto;
+
+  > * + * { margin-top: var(--space-24); }
+
+  h2 {
+    margin-top: var(--space-64);
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+    @include heading-m;
+
+    @include lg { margin-top: var(--space-80); }
+  }
+
+  h3 {
+    margin-top: var(--space-40);
+    padding-left: var(--space-16);
+    border-left: 2px solid var(--color-accent-wood);
+    @include heading-s;
+  }
+
+  h2 + *,
+  h3 + * { margin-top: var(--space-16); }
+
+  h2 + h3 { margin-top: var(--space-32); }
+
+  > :first-child { margin-top: 0; }
+
+  strong { font-weight: 500; }
+
+  a {
+    color: var(--color-text-accent);
+    @include underline;
+    text-underline-offset: 4px;
+    @include hover { color: var(--color-text-primary); }
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5em;
+
+    li + li { margin-top: var(--space-8); }
+  }
+
+  ul { list-style: disc; }
+  ol { list-style: decimal; }
+
+  li::marker { color: var(--color-accent-wood); }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: var(--space-8);
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  // Data table: label above value on SP, two columns from md (like the company table)
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid var(--color-border-default);
+    @include body-s;
+  }
+
+  tr {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+
+    @include md {
+      display: table-row;
+    }
+  }
+
+  th,
+  td {
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+
+    @include md { padding-block: var(--space-24); }
+  }
+
+  th {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    @include caption;
+
+    @include md {
+      width: 160px;
+      padding-right: var(--space-24);
+      @include body-s;
+    }
+  }
+}
+
+// Previous / next article
+.news-pager {
+  display: grid;
+  width: 100%;
+  border-block: 1px solid var(--color-border-default);
+
+  @include md { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-24) 0;
+    @include tap;
+
+    & + & { border-top: 1px solid var(--color-border-default); }
+
+    @include md {
+      padding: var(--space-24);
+
+      & + & {
+        border-top: 0;
+        border-left: 1px solid var(--color-border-default);
+      }
+
+      &--prev { padding-left: 0; }
+      &--next { padding-right: 0; text-align: right; }
+    }
+
+    // keeps "next" on the right when there is no older post (md+); dropped on SP
+    &--empty {
+      display: none;
+
+      @include md { display: block; }
+    }
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__link--next &__label { justify-content: flex-end; }
+
+  &__link--prev &__label::before,
+  &__link--next &__label::after {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  &__title {
+    @include body-s;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  @media (hover: hover) {
+    &__link:hover &__title { text-decoration-line: underline; }
+  }
+}
+
+// ---------- 404 ----------
+.not-found {
+  padding-top: var(--space-40);
+  padding-bottom: var(--section-space);
+
+  @include lg { padding-top: var(--space-64); }
+
+  &__text { @include body; }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-16);
+    margin-top: var(--space-40);
+  }
+}

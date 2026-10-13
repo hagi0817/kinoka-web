@@ -1,4 +1,4 @@
-// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator, Works list filter, Contact form.
+// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator, Works list filter, News category filter, Contact form.
 
 import { initContactForm } from './contact.js';
 
@@ -196,8 +196,40 @@ function initWorksFilter() {
   });
 }
 
+// ---- News list: show one category (radios); ?category= keeps the choice (article tags link here) ----
+function initNewsFilter() {
+  const form = document.querySelector('[data-news-filter]');
+  const list = document.querySelector('[data-news-list]');
+  if (!form || !list) return;
+
+  const items = Array.from(list.children);
+  const count = document.querySelector('[data-news-count]');
+  const initial = new URLSearchParams(window.location.search).get('category') ?? '';
+  const input = form.querySelector(`input[name="category"][value="${CSS.escape(initial)}"]`);
+  if (input) input.checked = true;
+
+  const apply = () => {
+    const category = new FormData(form).get('category');
+    let visible = 0;
+    items.forEach((item) => {
+      item.hidden = Boolean(category) && item.dataset.category !== category;
+      if (!item.hidden) visible += 1;
+    });
+    if (count) count.textContent = String(visible);
+
+    const url = new URL(window.location.href);
+    if (category) url.searchParams.set('category', category);
+    else url.searchParams.delete('category');
+    window.history.replaceState(null, '', url);
+  };
+
+  form.addEventListener('change', apply);
+  apply();
+}
+
 initMenu();
 initScrollStates();
 initCarousels();
 initWorksFilter();
+initNewsFilter();
 initContactForm();

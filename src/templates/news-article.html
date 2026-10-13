@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <!-- @include head.html {"title":"{{post_title}}｜お知らせ｜KINOKA 木乃家","description":"{{post_excerpt}}"} -->
+  <script type="application/ld+json">
+{{post_jsonld}}
+  </script>
+</head>
+<body class="page-news-article has-solid-header">
+  <!-- @include header.html {"modifier":"","news_current":"aria-current=\"page\""} -->
+
+  <main id="main">
+    <article class="news-article" aria-labelledby="page-title">
+      <!-- Page header -->
+      <header class="page-header" data-first-view>
+        <div class="page-header__inner l-container">
+          <nav class="breadcrumb" aria-label="パンくずリスト">
+            <ol class="breadcrumb__list">
+              <li class="breadcrumb__item"><a href="/" lang="en">TOP</a></li>
+              <li class="breadcrumb__item"><a href="/news/">お知らせ</a></li>
+              <li class="breadcrumb__item"><span class="breadcrumb__current" aria-current="page">{{post_title}}</span></li>
+            </ol>
+          </nav>
+          <div class="news-article__head">
+            <div class="news-article__meta">
+              <time class="news-article__date" datetime="{{post_datetime}}">{{post_date}}</time>
+              <a class="tag news-article__tag" href="/news/?category={{post_category_slug}}"><span class="visually-hidden">カテゴリ：</span>{{post_category}}</a>
+            </div>
+            <h1 class="news-article__title" id="page-title">{{post_title}}</h1>
+          </div>
+        </div>
+      </header>
+
+      <div class="news-article__main l-container">
+        {{post_eyecatch}}
+        <div class="news-body">
+{{post_body}}
+        </div>
+      </div>
+
+      <footer class="news-article__footer l-container">
+        <nav class="news-pager" aria-label="前後の記事">
+          {{post_pager}}
+        </nav>
+        <a class="btn btn--outline news-article__back" href="/news/">お知らせ一覧へ戻る</a>
+      </footer>
+    </article>
+
+    <!-- @include cta.html {"lead_pc":"ご相談の多くは「まだ何も決まっていない」段階からです。<br>こちらから営業のお電話をおかけすることはありませんので、お気軽にどうぞ。","lead_sp":"ご相談の多くは「まだ何も決まっていない」段階からです。こちらから営業のお電話をおかけすることはありません。","consult_pc":"土地探しや予算のことなど、まだ何も決まっていなくても大丈夫です。オンライン相談も承ります。","consult_sp":"まだ何も決まっていなくても大丈夫","consult_action":"相談を予約する","document_action":"資料を請求する","visit_action":"見学を予約する"} -->
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

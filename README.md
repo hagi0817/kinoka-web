@@ -1,12 +1,12 @@
 # KINOKA（木乃家）Web
 
-Figma（`ikrnT6SejNyvcWO2tmXXWv`）を正として実装した静的サイトです。現在は **TOP**、**施工事例一覧**、**施工事例詳細「光と木がつながる家」**、**お問い合わせ**、**木乃家について**、**事業内容**、**家づくりの考え方** の7ページです。
+Figma（`ikrnT6SejNyvcWO2tmXXWv`）を正として実装した静的サイトです。現在は **TOP**、**施工事例一覧**、**施工事例詳細「光と木がつながる家」**、**お問い合わせ**、**木乃家について**、**事業内容**、**家づくりの考え方**、**お知らせ（一覧・記事）** です。
 
 ## 使い方
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173/ 、/works/ 、/works/hikari-to-ki/ 、/contact/ 、/about/ 、/service/ 、/concept/
+npm run dev      # http://localhost:5173/ 、/works/ 、/works/hikari-to-ki/ 、/contact/ 、/about/ 、/service/ 、/concept/ 、/news/ 、/news/<slug>/
 npm run build    # dist/ に出力
 npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagick が必要）
 ```
@@ -22,6 +22,12 @@ npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagi
 | `service/index.html` | 事業内容（導入と目次、注文住宅 `#custom`／リノベーション `#renovation`／店舗・事務所 `#shop`、アフターサポート `#support`、相談から完成までの流れ `#flow`、よくあるご質問） |
 | `concept/index.html` | 家づくりの考え方（導入と目次、土地 `#local`／素材 `#material`／暮らし `#life` の3章、考え方を形にした事例） |
 | `contact/index.html` | お問い合わせ（入力 → 確認 → 完了を同一ページで切替。送信機能は未接続のデモ） |
+| `news/index.html` | お知らせ一覧（カテゴリの絞り込み `?category=`） |
+| `src/templates/news-article.html` | お知らせ記事のテンプレート（`/news/<slug>/` を公開記事ごとに生成） |
+| `404.html` | ページが見つからないとき（存在しない記事URLなど） |
+| `src/data/news.json` | お知らせの記事データ（slug・title・date・category・excerpt・thumbnail・body・published） |
+| `src/data/news-categories.json` | お知らせのカテゴリ（キーと表示名） |
+| `scripts/news.js` | 記事データの読み込み・検証と、一覧／TOP／記事ページに渡す値の組み立て |
 | `src/data/works.json` | 施工事例データ（Works Card と一覧の絞り込みはここから生成） |
 | `src/data/taxonomy.json` | カテゴリ・エリア・タイプのキーと表示名 |
 | `src/partials/` | 共通パーツ（Header＋SPメニュー / Footer＋SP固定CTA / CTA / Section Heading / Works Card / アイコン / 間取りSVG） |
@@ -36,6 +42,19 @@ npm run images   # 原寸PNG → public/images の WebP を再生成（ImageMagi
 
 Works Card は `<!-- @works {"slugs":["hikari-to-ki"]} -->` で `src/data/works.json` から生成します（`slugs` を省くと全件、`"filterable":true` で絞り込み用の `data-*` を付与）。一覧の絞り込みチップは `<!-- @works-filter -->` で `taxonomy.json` から生成します。事例を追加するときは `works.json` に1件足すだけで、一覧・TOP・関連事例のカードに使えます。
 
+## お知らせ（News）の更新
+
+記事は `src/data/news.json` に1件足すだけで、一覧・TOPの最新3件・記事ページ（`/news/<slug>/`）・前後の記事リンクに反映されます。
+
+- `slug`：URLになる英小文字・数字・ハイフン。重複や不正な値はビルドエラーにしています
+- `date`：`YYYY-MM-DD`。新しい順に並びます
+- `category`：`news-categories.json` のキー
+- `thumbnail`：`{"name","large","alt"}`（3:2 の WebP。`npm run images` の News ブロックで書き出し）。なければ `null`
+- `body`：本文の HTML（段落・見出し `h2`/`h3`・リスト・表・リンク）を配列で。CMS の本文と同じ扱いで、そのまま出力します
+- `published`：`false` の記事は一覧・TOP・記事ページのどれにも出ません
+
+TOP は `<!-- @news {"limit":3} -->`、一覧は `<!-- @news-list -->` / `<!-- @news-filter -->` / `<!-- @news-count -->` で生成します。記事ページはファイルを持たず、`vite.config.js` がテンプレートから生成します（dev・preview では存在しない記事URLに 404 ページを返します）。
+
 ## ブレークポイント
 
 Responsive Rules に合わせて SP ファーストで記述しています。
@@ -44,7 +63,7 @@ Responsive Rules に合わせて SP ファーストで記述しています。
 - 768〜1023px（md）：SP構造のまま左右 40px。Service は2列カード、CTAカードは最大 640px で中央寄せ
 - 1024px〜（lg）：PCレイアウト。1024〜1440px は流体、1440px以上はコンテンツ幅 1200px で中央寄せ
 
-未実装ページ（News / Privacy など）へのリンクは、将来のURL（`/concept/` など）を仮で入れています。
+未実装ページ（Privacy）へのリンクは、将来のURL（`/privacy/`）を仮で入れています。
 
 ## お問い合わせフォームについて
 

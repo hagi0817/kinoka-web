@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { defineConfig } from 'vite';
+import { loadNews, newsTopItems, newsListItems, newsFilterChips, newsArticleParams } from './scripts/news.js';
 
 const root = resolve(__dirname);
 const partialsDir = resolve(root, 'src/partials');
@@ -41,15 +42,27 @@ function worksFilterGroups(taxonomy) {
 // Works Cards from src/data/works.json (all works when "slugs" is omitted; "filterable" adds data-* for the filter):
 // <!-- @works {"slugs":["a","b"],"override":{"a":{"tag":"…"}},"filterable":true} -->
 // Filter groups from src/data/taxonomy.json: <!-- @works-filter -->
+// News from src/data/news.json: <!-- @news {"limit":3} --> (TOP items), <!-- @news-list -->, <!-- @news-filter -->, <!-- @news-count -->
+const newsPattern = /<!--\s*@news(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
+const newsMarkers = /<!--\s*@news-(list|filter|count)\s*-->/g;
+const include = (file, params) =>
+  readFileSync(resolve(partialsDir, file), 'utf8').replace(/\{\{\s*(\w+)\s*\}\}/g, (_m, key) => params[key] ?? '');
+
 function htmlInclude() {
   const pattern = /<!--\s*@include\s+([\w./-]+)(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
   const worksPattern = /<!--\s*@works(?:\s+(\{[\s\S]*?\}))?\s*-->/g;
   const filterPattern = /<!--\s*@works-filter\s*-->/g;
-  const include = (file, params) =>
-    readFileSync(resolve(partialsDir, file), 'utf8').replace(/\{\{\s*(\w+)\s*\}\}/g, (_m, key) => params[key] ?? '');
   const render = (html, depth = 0) => {
     if (depth > 10) throw new Error('@include nested too deeply');
+    const news = () => loadNews(dataDir);
+    const newsInclude = (file, params) => render(include(file, params), depth + 1);
     return html
+      .replace(newsMarkers, (_, kind) => {
+        if (kind === 'list') return newsListItems(news(), newsInclude);
+        if (kind === 'filter') return newsFilterChips(news());
+        return String(news().posts.length);
+      })
+      .replace(newsPattern, (_, json) => newsTopItems(news(), newsInclude, (json ? JSON.parse(json) : {}).limit))
       .replace(filterPattern, () => worksFilterGroups(readJson('taxonomy.json')))
       .replace(worksPattern, (_, json) => {
         const { slugs, override = {}, filterable = false } = json ? JSON.parse(json) : {};
@@ -73,13 +86,70 @@ function htmlInclude() {
     name: 'kinoka-html-include',
     transformIndexHtml: { order: 'pre', handler: (html) => render(html) },
     handleHotUpdate({ file, server }) {
-      if (file.startsWith(partialsDir) || file.startsWith(dataDir)) server.ws.send({ type: 'full-reload' });
+      if (file.startsWith(partialsDir) || file.startsWith(dataDir) || file.startsWith(resolve(root, 'src/templates'))) server.ws.send({ type: 'full-reload' });
     },
   };
 }
 
+// News article pages: /news/<slug>/ for each published post, all from src/templates/news-article.html.
+// They are virtual HTML entries (no file per post); {{post_*}} values come from scripts/news.js.
+// Unknown /news/<slug>/ URLs get the 404 page (404.html) in dev and preview; static hosts serve 404.html themselves.
+const newsDir = resolve(root, 'news');
+const articleSlug = (id) => id.match(/^(.*)\/news\/([^/]+)\/index\.html$/)?.[1] === root ? id.split('/').at(-2) : null;
+const newsPathSlug = (url) => url.split('?')[0].match(/^\/news\/([^/]+)\/?(?:index\.html)?$/)?.[1] ?? null;
+
+function renderArticle(slug) {
+  const news = loadNews(dataDir);
+  const post = news.posts.find((p) => p.slug === slug);
+  if (!post) return null;
+  const params = newsArticleParams(post, news);
+  return readFileSync(resolve(root, 'src/templates/news-article.html'), 'utf8').replace(/\{\{\s*(post_\w+)\s*\}\}/g, (_m, key) => params[key] ?? '');
+}
+
+function newsArticles() {
+  return {
+    name: 'kinoka-news-articles',
+    resolveId(id) {
+      return articleSlug(id) ? id : null;
+    },
+    load(id) {
+      const slug = articleSlug(id);
+      return slug ? renderArticle(slug) : null;
+    },
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        const slug = newsPathSlug(req.url ?? '');
+        if (!slug) return next();
+        try {
+          const article = renderArticle(slug);
+          const html = await server.transformIndexHtml(req.url, article ?? readFileSync(resolve(root, '404.html'), 'utf8'));
+          res.statusCode = article ? 200 : 404;
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.end(html);
+        } catch (error) {
+          next(error);
+        }
+      });
+    },
+    configurePreviewServer(server) {
+      const outDir = resolve(root, server.config.build.outDir);
+      server.middlewares.use((req, res, next) => {
+        const slug = newsPathSlug(req.url ?? '');
+        if (!slug || existsSync(resolve(outDir, 'news', slug, 'index.html'))) return next();
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.end(readFileSync(resolve(outDir, '404.html')));
+      });
+    },
+  };
+}
+
+const newsInputs = Object.fromEntries(
+  loadNews(dataDir).posts.map((post) => [`news-${post.slug}`, resolve(newsDir, post.slug, 'index.html')]),
+);
+
 export default defineConfig({
-  plugins: [htmlInclude()],
+  plugins: [htmlInclude(), newsArticles()],
   css: {
     preprocessorOptions: { scss: { api: 'modern-compiler' } },
   },
@@ -93,6 +163,9 @@ export default defineConfig({
         about: resolve(root, 'about/index.html'),
         service: resolve(root, 'service/index.html'),
         concept: resolve(root, 'concept/index.html'),
+        news: resolve(root, 'news/index.html'),
+        ...newsInputs,
+        notFound: resolve(root, '404.html'),
       },
     },
   },

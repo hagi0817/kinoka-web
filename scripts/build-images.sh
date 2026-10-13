@@ -55,3 +55,16 @@ for f in "$SRC"/service/*.png; do
   grade "$f" "$tmp/$id.png"
   webp "$tmp/$id.png" "$id" 640 1264
 done
+
+# News eyecatches (3:2): generated N01/N02, plus 3:2 crops of existing photos ("news-" prefix)
+news() { # src name [gravity]
+  grade "$1" "$tmp/n.png"
+  convert "$tmp/n.png" -gravity "${3:-center}" -crop "$(identify -format '%w' "$tmp/n.png")x$(identify -format '%[fx:round(w*2/3)]' "$tmp/n.png")+0+0" +repage "$tmp/n-crop.png"
+  webp "$tmp/n-crop.png" "news-$2" 480 960
+}
+news "$SRC/news/N01_openhouse.png" n01
+news "$SRC/news/N02_winter.png" n02
+news "$SRC/P03.png" p03
+news "$SRC/P06.png" p06
+news "$SRC/P08.png" p08
+news "$SRC/works-hikari/W07_deck.png" w07
