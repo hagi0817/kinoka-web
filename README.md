@@ -103,7 +103,8 @@ CTA からは `?type=consultation`（家づくりの相談）/ `document`（資�
   SITE_URL=https://（公開先のURL） npm run build
   ```
 
-  `og:image` は `public/ogp.jpg`（1200×630。MVの外観写真 P01 にロゴと「架空の工務店を題材にしたWebサイト制作のポートフォリオ作品」の一文を重ねたもの）です。404 ページには `og:url` を付けません
+  `og:image` は `public/ogp.jpg`（1200×630。MVの外観写真 P01 の中央に、ロゴと「架空の工務店を題材にしたWebサイト制作のポートフォリオ作品」をまとめたもの。中央 630×630 に文字を収めているので、正方形に切り抜かれても欠けません）です。404 ページには `og:url` を付けません
+- OGP画像は `scripts/ogp/ogp.html` をテンプレートに `npm run ogp` で書き出します（ImageMagick と Playwright〈Chromium〉が必要。Playwright をグローバルに入れている場合は `NODE_PATH=$(npm root -g) npm run ogp`）
 - favicon は `public/favicon.ico`（16／32px）、`favicon.svg`、`apple-touch-icon.png`（180px）。濃色の角丸に「K」の線画です
 - noindex でも OGP は読まれます（SNSのカード表示は検索登録とは別の仕組みです）。公開後は各SNSのカードプレビューで見え方を確認してください
 
