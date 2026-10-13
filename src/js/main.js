@@ -1,8 +1,33 @@
-// Minimal UI control: SP menu, header state, SP fixed CTA, TOP MV slider, Works carousel indicator, Works list filter, News category filter, Contact form.
+// Minimal UI control: page top on arrival, SP menu, header state, SP fixed CTA, TOP MV slider, Works carousel indicator, Works list filter, News category filter, Contact form.
 
 import { initContactForm } from './contact.js';
 
 const lg = window.matchMedia('(min-width: 1024px)');
+
+// ---- Page top on arrival: a link to another page opens at its top ----
+// Browsers already do this, but some embedding viewers (e.g. the preview copy of this site) keep the previous
+// scroll position across pages. Only plain link navigations are reset: back/forward and reload keep their
+// restored position, a #fragment still jumps to its section, and the reset stops once the visitor scrolls.
+function initPageTop() {
+  const [entry] = performance.getEntriesByType('navigation');
+  if ((entry && entry.type !== 'navigate') || window.location.hash) return;
+  const events = ['wheel', 'touchstart', 'keydown', 'pointerdown'];
+  let active = true;
+  const stop = () => {
+    active = false;
+    events.forEach((type) => window.removeEventListener(type, stop, { capture: true }));
+  };
+  events.forEach((type) => window.addEventListener(type, stop, { capture: true, passive: true }));
+  const toTop = () => {
+    if (active && (window.scrollY !== 0 || document.documentElement.scrollTop !== 0)) window.scrollTo(0, 0);
+  };
+  toTop();
+  window.addEventListener('load', () => {
+    toTop();
+    requestAnimationFrame(toTop);
+    window.setTimeout(() => { toTop(); stop(); }, 500);
+  }, { once: true });
+}
 
 // ---- SP menu (<dialog>): open/close, scroll lock, Esc, focus return ----
 function initMenu() {
@@ -295,6 +320,7 @@ function initNewsFilter() {
   apply();
 }
 
+initPageTop();
 initMenu();
 initScrollStates();
 initMvSlider();
