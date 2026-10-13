@@ -1,6 +1,6 @@
 @use '../foundation/mixins' as *;
 
-// Privacy policy (/privacy/): page header is the shared component; the body is plain text in one reading column.
+// Privacy policy (/privacy/): page header is the shared component; the body is plain text in one centered reading column.
 
 // Title block centered under the (left-aligned) breadcrumb, with a line on both sides of the label like the CTA
 .privacy-heading {
@@ -23,6 +23,7 @@
 
 .privacy-body {
   max-width: 720px;
+  margin-inline: auto;
   @include body;
 
   > * + * { margin-top: var(--space-24); }
