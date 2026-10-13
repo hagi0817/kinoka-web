@@ -1,0 +1,51 @@
+@use '../foundation/mixins' as *;
+
+// Privacy policy (/privacy/): page header is the shared component; the body is plain text in one reading column.
+.privacy {
+  padding-top: var(--space-40);
+  padding-bottom: var(--section-space);
+
+  @include lg { padding-top: var(--space-64); }
+}
+
+.privacy-body {
+  max-width: 720px;
+  @include body;
+
+  > * + * { margin-top: var(--space-24); }
+
+  h2 {
+    margin-top: var(--space-64);
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+    @include heading-m;
+
+    @include lg { margin-top: var(--space-80); }
+  }
+
+  h2 + * { margin-top: var(--space-16); }
+
+  > :first-child { margin-top: 0; }
+
+  a {
+    color: var(--color-text-accent);
+    @include underline;
+    text-underline-offset: 4px;
+    @include hover { color: var(--color-text-primary); }
+  }
+
+  ul {
+    padding-left: 1.5em;
+    list-style: disc;
+
+    li + li { margin-top: var(--space-8); }
+  }
+
+  li::marker { color: var(--color-accent-wood); }
+
+  &__date {
+    margin-top: var(--space-64);
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+}

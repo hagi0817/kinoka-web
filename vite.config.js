@@ -174,6 +174,7 @@ export default defineConfig({
         service: resolve(root, 'service/index.html'),
         concept: resolve(root, 'concept/index.html'),
         news: resolve(root, 'news/index.html'),
+        privacy: resolve(root, 'privacy/index.html'),
         ...newsInputs,
         notFound: resolve(root, '404.html'),
       },
