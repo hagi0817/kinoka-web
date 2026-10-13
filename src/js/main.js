@@ -117,9 +117,12 @@ function initMvSlider() {
   let index = 0;
 
   const show = (next, { announce = true } = {}) => {
+    const previous = index;
     index = (next + total) % total;
     slides.forEach((slide, i) => {
       const active = i === index;
+      // the slide being replaced stays under the new one while it fades in; any older one is hidden at once
+      slide.classList.toggle('is-leaving', !active && i === previous);
       slide.classList.toggle('is-active', active);
       if (active) slide.removeAttribute('aria-hidden');
       else slide.setAttribute('aria-hidden', 'true');

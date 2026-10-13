@@ -13,8 +13,9 @@
 
   @include lg { height: clamp(600px, 100svh, 960px); }
 
-  // Slides: one photo per work, stacked. The new slide fades in on top; the old one stays underneath
-  // until the fade ends, so the dark background never shows through (reduced motion: the base rule removes the fade)
+  // Slides: one photo per work, stacked. The new slide fades in on top of the one it replaces (.is-leaving),
+  // so the dark background never shows through. Only that one slide stays underneath: when slides change quickly,
+  // older slides are hidden at once instead of showing through in DOM order (reduced motion: the base rule removes the fade)
   &__media {
     position: absolute;
     inset: 0;
@@ -24,11 +25,18 @@
   &__slide {
     position: absolute;
     inset: 0;
+    z-index: 0;
     opacity: 0;
-    transition: opacity 0s linear 0.6s;
+
+    // shown in full at once, even if it was still fading in (transition: none cancels that running fade)
+    &.is-leaving {
+      z-index: 1;
+      opacity: 1;
+      transition: none;
+    }
 
     &.is-active {
-      z-index: 1;
+      z-index: 2;
       opacity: 1;
       transition: opacity 0.6s var(--ease);
     }

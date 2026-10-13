@@ -107,6 +107,9 @@ button {
   @include lg { display: none !important; }
 }
 
+// keeps a phrase on one line (e.g. 水曜定休 in the footer)
+.u-nowrap { white-space: nowrap; }
+
 .icon {
   flex-shrink: 0;
   width: 16px;
