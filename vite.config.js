@@ -89,6 +89,7 @@ export default defineConfig({
         top: resolve(root, 'index.html'),
         works: resolve(root, 'works/index.html'),
         worksHikari: resolve(root, 'works/hikari-to-ki/index.html'),
+        contact: resolve(root, 'contact/index.html'),
       },
     },
   },

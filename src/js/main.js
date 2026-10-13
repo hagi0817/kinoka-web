@@ -1,4 +1,6 @@
-// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator, Works list filter.
+// Minimal UI control: SP menu, header state, SP fixed CTA, Works carousel indicator, Works list filter, Contact form.
+
+import { initContactForm } from './contact.js';
 
 const lg = window.matchMedia('(min-width: 1024px)');
 
@@ -198,3 +200,4 @@ initMenu();
 initScrollStates();
 initCarousels();
 initWorksFilter();
+initContactForm();

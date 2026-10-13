@@ -1,0 +1,283 @@
+@use '../foundation/mixins' as *;
+
+// Form row: label above the field on SP, label column + field on PC (like the Works filter rows)
+.form-row {
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-24) 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-default);
+
+  &[hidden] { display: none; }
+
+  // legend/label wrapper; floated so a <legend> sits inside the padding instead of on the top edge
+  &__label {
+    float: left;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    width: 100%;
+    padding: 0;
+  }
+
+  &__label-text {
+    @include font-sans;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+  }
+
+  &__body {
+    clear: both;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    min-width: 0;
+    padding-top: var(--space-16);
+  }
+
+  // PC: label column + field. Float (not grid) so a <legend> works the same as a <div>
+  @include lg {
+    display: flow-root;
+    padding: var(--space-32) 0;
+
+    &__label {
+      width: 240px;
+      min-height: 52px; // centered on a single-line input
+    }
+
+    &__body {
+      clear: none;
+      margin-left: 280px;
+      padding-top: 0;
+    }
+  }
+}
+
+// Required / optional badge
+.form-badge {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 2px var(--space-8);
+  border: 1px solid var(--color-accent-green);
+  border-radius: 2px;
+  @include font-sans;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+
+  &--required {
+    background: var(--color-accent-green);
+    color: var(--color-text-inverse);
+  }
+
+  &--optional {
+    border-color: var(--color-border-input);
+    color: var(--color-text-secondary);
+  }
+}
+
+// Text input / select / textarea: 16px text so iOS does not zoom on focus
+.form-input {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px var(--space-16);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-button);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  @include font-sans;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  transition: border-color var(--duration) var(--ease);
+  appearance: none;
+
+  &::placeholder { color: var(--color-text-secondary); opacity: 0.8; }
+
+  @include hover { border-color: var(--color-text-primary); }
+
+  &:focus-visible {
+    border-color: var(--color-border-focus);
+    outline: 2px solid var(--focus-color);
+    outline-offset: 0;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--color-text-error);
+    box-shadow: inset 0 0 0 1px var(--color-text-error);
+  }
+
+  &--short {
+    @include md { max-width: 320px; }
+  }
+}
+
+.form-textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+// Select: native control with a drawn chevron
+.form-select {
+  position: relative;
+  width: 100%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid var(--color-text-primary);
+    border-bottom: 1px solid var(--color-text-primary);
+    transform: translateY(-75%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  .form-input {
+    padding-right: var(--space-48);
+    cursor: pointer;
+  }
+}
+
+// Two controls on one line from md (date + time)
+.form-inline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+
+  @include md {
+    flex-direction: row;
+
+    > * { flex: 1; max-width: 320px; }
+  }
+}
+
+.form-hint {
+  color: var(--color-text-secondary);
+  @include caption;
+}
+
+.form-error {
+  display: flex;
+  gap: var(--space-8);
+  color: var(--color-text-error);
+  @include font-sans;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+
+  &::before {
+    content: '!';
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: var(--color-text-error);
+    color: var(--color-bg-surface);
+    @include font-en;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  &[hidden] { display: none; }
+}
+
+// Radio / checkbox with label: native controls tinted with the accent color, 44px tap height
+.form-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4) var(--space-32);
+
+  @include md {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.form-option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 44px;
+  cursor: pointer;
+  @include font-sans;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+
+  input {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--color-accent-green);
+    cursor: pointer;
+  }
+
+  &--check > span {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+
+  &:has(input[aria-invalid='true']) input {
+    outline: 2px solid var(--color-text-error);
+    outline-offset: 1px;
+  }
+}
+
+// Inline text link in body copy
+.text-link {
+  color: var(--color-text-accent);
+  @include underline;
+  text-underline-offset: 4px;
+  @include hover { text-decoration-thickness: 2px; }
+}
+
+// Error summary at the top of the form after a failed submit
+.error-summary {
+  margin-bottom: var(--space-32);
+  padding: var(--space-24);
+  border: 1px solid var(--color-text-error);
+  border-left-width: 4px;
+  border-radius: var(--radius-button);
+  background: var(--color-bg-surface);
+
+  &[hidden] { display: none; }
+
+  &__title {
+    color: var(--color-text-error);
+    @include font-sans;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+
+    a {
+      color: var(--color-text-error);
+      @include body-s;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+  }
+}
