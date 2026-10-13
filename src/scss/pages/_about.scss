@@ -365,6 +365,8 @@
 
 // ---------- Company ----------
 .about-company {
+  padding-bottom: var(--section-space);
+
   &__body {
     @include lg {
       flex: 0 1 792px;
@@ -376,24 +378,6 @@
     margin-top: var(--space-24);
     color: var(--color-text-secondary);
     @include caption;
-  }
-}
-
-// ---------- AI in production (last section before the CTA): same split layout and table as the company profile ----------
-.about-ai {
-  padding-bottom: var(--section-space);
-
-  &__body {
-    @include lg {
-      flex: 0 1 792px;
-      min-width: 0;
-    }
-  }
-
-  &__lead {
-    margin-bottom: var(--space-24);
-    color: var(--color-text-secondary);
-    @include body-s;
   }
 }
 
