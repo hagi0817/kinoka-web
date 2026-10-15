@@ -1,0 +1,323 @@
+@use '../foundation/mixins' as *;
+
+// Page header is shared with the Works list (pages/_works-index.scss)
+
+// The SP fixed CTA links back to this page, so it is not shown here
+.page-contact .fixed-cta { display: none; }
+
+// ---------- Contact: one column, 880px wide on PC ----------
+.contact.l-container {
+  max-width: calc(880px + var(--page-margin) * 2);
+  padding-top: var(--space-40);
+  padding-bottom: var(--section-space);
+
+  @include lg { padding-top: var(--space-64); }
+}
+
+// Steps: 01 入力 / 02 確認 / 03 完了
+.contact-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--color-border-default);
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    padding: var(--space-16) 0;
+    color: var(--color-text-secondary);
+    @include body-s;
+    white-space: nowrap;
+
+    &[aria-current='step'] {
+      box-shadow: inset 0 -2px 0 var(--color-accent-green);
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+  }
+
+  &__number {
+    @include label-en-s;
+    color: var(--color-text-accent);
+  }
+}
+
+// Demo notice (portfolio site, nothing is sent)
+.contact-notice {
+  margin-top: var(--space-32);
+  padding: var(--space-16) var(--space-24);
+  border-radius: var(--radius-button);
+  background: var(--color-bg-subtle);
+
+  &__title {
+    @include font-sans;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &--inline { margin-top: var(--space-32); }
+}
+
+.contact-noscript {
+  margin-top: var(--space-24);
+  color: var(--color-text-error);
+  @include body-s;
+}
+
+.contact-step {
+  margin-top: var(--space-40);
+
+  @include lg { margin-top: var(--space-48); }
+
+  &[hidden] { display: none; }
+
+  &__title {
+    @include heading-l;
+  }
+
+  &__lead {
+    margin-top: var(--space-16);
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// h2 that only receives focus on step changes
+[data-contact-step-title]:focus { outline: none; }
+
+.contact-form {
+  border-top: 1px solid var(--color-border-default);
+
+  &__note {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-8);
+    padding-top: var(--space-24);
+    color: var(--color-text-secondary);
+    @include caption;
+
+    @include lg { padding-top: var(--space-32); }
+  }
+}
+
+// ---------- Inquiry type: three choice cards (icons from the CTA cards) ----------
+.type-choices {
+  display: grid;
+  gap: var(--space-8);
+
+  @include md {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-16);
+  }
+}
+
+.type-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  min-height: 64px;
+  padding: var(--space-16);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-button);
+  background: var(--color-bg-surface);
+  cursor: pointer;
+  transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+  @include tap;
+  @include hover { border-color: var(--color-text-primary); }
+
+  @include md {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-16);
+    padding: var(--space-24) var(--space-16);
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+    color: var(--color-accent-green);
+
+    @include md { width: 32px; height: 32px; }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  &__title {
+    @include heading-s;
+    line-height: 1.4;
+  }
+
+  &__en {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+
+  // selected: accent green fill (same as the Primary CTA card)
+  &:has(input:checked) {
+    border-color: var(--color-accent-green);
+    background: var(--color-accent-green);
+    color: var(--color-text-inverse);
+
+    .icon,
+    .type-choice__en { color: var(--color-text-inverse); }
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+
+  &:has(input[aria-invalid='true']) { border-color: var(--color-text-error); }
+}
+
+.type-guide {
+  margin-top: var(--space-8);
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+
+    &[hidden] { display: none; }
+  }
+}
+
+// ---------- Privacy agreement ----------
+.contact-agree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-32) 0 0;
+
+  &__text {
+    padding: var(--space-16) var(--space-24);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-button);
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  @include lg { align-items: center; }
+}
+
+// ---------- Buttons ----------
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  margin-top: var(--space-40);
+
+  .btn { width: 100%; }
+
+  @include md {
+    flex-direction: row;
+    justify-content: center;
+
+    .btn { width: auto; min-width: 280px; }
+  }
+
+  // confirm: the main action comes first on SP (thumb reach), on the right from md
+  &--confirm {
+    flex-direction: column-reverse;
+
+    @include md { flex-direction: row; }
+  }
+}
+
+// ---------- Confirm ----------
+.confirm-list {
+  margin-top: var(--space-32);
+  border-top: 1px solid var(--color-border-default);
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-16) 0;
+    border-bottom: 1px solid var(--color-border-default);
+
+    @include lg {
+      flex-direction: row;
+      gap: var(--space-40);
+      padding: var(--space-24) 0;
+    }
+  }
+
+  dt {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+    @include body-s;
+
+    @include lg { width: 240px; }
+  }
+
+  dd {
+    min-width: 0;
+    @include body;
+    white-space: pre-wrap; // keep line breaks of the message
+  }
+}
+
+// ---------- Complete ----------
+.contact-complete {
+  padding: var(--space-48) 0;
+  border-block: 1px solid var(--color-border-default);
+  text-align: center;
+
+  @include lg { padding: var(--space-80) 0; }
+
+  &__text {
+    margin-top: var(--space-24);
+    color: var(--color-text-secondary);
+    @include body-s;
+    text-align: left;
+
+    @include md { text-align: center; }
+  }
+}
+
+// ---------- Phone ----------
+.contact-tel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-64);
+  padding: var(--space-32) var(--space-24);
+  border-radius: var(--radius-button);
+  background: var(--color-bg-subtle);
+  text-align: center;
+
+  &__label {
+    @include heading-s;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    @include tel;
+    @include tap;
+    @include hover { @include underline; }
+
+    .icon { width: 20px; height: 20px; }
+  }
+
+  &__hours {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+}

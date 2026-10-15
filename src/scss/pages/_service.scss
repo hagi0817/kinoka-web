@@ -1,0 +1,524 @@
+@use '../foundation/mixins' as *;
+
+// Page header is shared with the Works list (pages/_works-index.scss),
+// the intro and FAQ use the About split (.about-split in pages/_about.scss)
+
+// ---------- Intro + in-page index ----------
+.service-intro {
+  padding-top: var(--space-64);
+
+  @include lg { padding-top: var(--space-96); }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+
+    @include lg {
+      flex: 0 1 588px;
+      min-width: 0;
+      gap: var(--space-48);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-text-secondary);
+  }
+}
+
+// Rows separated by rules (as the TOP STYLE strengths), arrow pointing down; also the chapter index on Concept
+.service-index {
+  &__list {
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  &__link {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 16px;
+    align-items: center;
+    gap: var(--space-4) var(--space-16);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+    @include tap;
+
+    @include md {
+      grid-template-columns: auto auto minmax(0, 1fr) 16px;
+      padding-block: var(--space-24);
+    }
+
+    .icon {
+      grid-column: -2;
+      grid-row: 1 / span 2;
+      width: 16px;
+      height: 16px;
+      transform: rotate(90deg);
+      transition: transform var(--duration) var(--ease);
+
+      @include md { grid-row: 1; }
+    }
+
+    @include hover {
+      .service-index__title { text-decoration-line: underline; }
+      .icon { transform: rotate(90deg) translateX(4px); }
+    }
+  }
+
+  &__num {
+    grid-row: 1 / span 2;
+    color: var(--color-text-accent);
+    @include number;
+
+    @include md { grid-row: auto; }
+  }
+
+  &__title {
+    @include heading-m;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+
+  &__en {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+}
+
+// ---------- Service detail (custom / renovation / shop) ----------
+// SP: head → photos → text → info. PC: photos on one side, head + text on the other; --reverse swaps the sides.
+.service-detail {
+  --service-bg: var(--color-bg-base);
+  padding-top: var(--section-space);
+  background: var(--service-bg);
+
+  &--subtle {
+    --service-bg: var(--color-bg-subtle);
+    margin-top: var(--section-space);
+    padding-bottom: var(--section-space);
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-32);
+
+    @include lg {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--space-24);
+      row-gap: 0;
+    }
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+
+    @include lg {
+      grid-column: 8 / -1;
+      grid-row: 1;
+      align-self: end;
+      padding-left: var(--space-24);
+    }
+  }
+
+  &__catch {
+    @include heading-m;
+  }
+
+  // Main photo (3:2) with a smaller portrait (4:5) overlapping its lower corner
+  &__media {
+    position: relative;
+    padding-bottom: 25%;
+
+    @include lg {
+      grid-column: 1 / 8;
+      grid-row: 1 / span 2;
+      align-self: center;
+    }
+  }
+
+  &__photo {
+    width: 84%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    &--sub {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 36%;
+      aspect-ratio: 4 / 5;
+      border: 6px solid var(--service-bg);
+
+      @include lg { border-width: 8px; }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-text-secondary);
+
+    @include lg {
+      grid-column: 8 / -1;
+      grid-row: 2;
+      align-self: start;
+      padding-left: var(--space-24);
+      padding-top: var(--space-32);
+    }
+  }
+
+  &--reverse {
+    .service-detail__photo { margin-left: auto; }
+    .service-detail__photo--sub { right: auto; left: 0; }
+
+    @include lg {
+      .service-detail__media { grid-column: 6 / -1; }
+
+      .service-detail__head,
+      .service-detail__body {
+        grid-column: 1 / 6;
+        padding-left: 0;
+        padding-right: var(--space-24);
+      }
+    }
+  }
+}
+
+// Who it suits / what to ask / how we work, then links (white card)
+.service-info {
+  display: grid;
+  gap: var(--space-32);
+  margin-top: var(--space-16);
+  padding: var(--space-32) var(--space-24);
+  background: var(--color-bg-surface);
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-40) var(--space-32);
+    padding: var(--space-40);
+  }
+
+  @include lg {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: var(--space-64);
+    padding: var(--space-48);
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+
+    // "how we work" spans both columns on md
+    &:nth-child(3) {
+      @include md { grid-column: 1 / -1; }
+      @include lg { grid-column: auto; }
+    }
+  }
+
+  &__title {
+    color: var(--color-text-accent);
+    @include heading-s;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    @include body-s;
+
+    li {
+      position: relative;
+      padding-left: var(--space-24);
+
+      // short wood rule as the bullet (as the Section Heading label)
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.9em;
+        width: 12px;
+        height: 1px;
+        background: var(--color-accent-wood);
+      }
+    }
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-24);
+    padding-top: var(--space-32);
+    border-top: 1px solid var(--color-border-default);
+
+    @include md {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-24) var(--space-40);
+    }
+  }
+
+  // link labels break only at <wbr> (never inside a word) on narrow screens
+  .link-arrow {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  &__btn {
+    width: 100%;
+
+    @include md {
+      width: auto;
+      margin-left: auto;
+    }
+  }
+}
+
+// ---------- After support ----------
+.service-support {
+  margin-top: var(--section-space);
+  padding-block: var(--space-80);
+  background: var(--color-bg-subtle);
+
+  @include md { padding-block: var(--space-96); }
+  @include lg { padding-block: clamp(96px, 8.333vw, 120px); }
+
+  &__body {
+    display: grid;
+    gap: var(--space-40);
+    margin-top: var(--space-40);
+
+    @include lg {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-48) var(--space-24);
+      margin-top: var(--space-64);
+    }
+  }
+
+  &__points {
+    display: grid;
+    gap: var(--space-24);
+
+    @include md { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  &__point {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  &__point-title {
+    @include heading-s;
+  }
+
+  &__point-text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__link {
+    @include lg { grid-column: 2; justify-self: end; }
+  }
+}
+
+// Inspection timeline: dots on a wood rule
+.inspection {
+  padding: var(--space-32) var(--space-24);
+  background: var(--color-bg-surface);
+
+  @include md { padding: var(--space-40); }
+
+  @include lg { grid-row: span 2; }
+
+  &__title {
+    @include heading-s;
+  }
+
+  &__list {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: var(--space-24);
+
+    @include lg { margin-top: var(--space-40); }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: var(--color-accent-wood);
+    }
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-16);
+    @include body-s;
+    white-space: nowrap;
+
+    &::before {
+      content: '';
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--color-accent-green);
+    }
+  }
+}
+
+// ---------- Flow ----------
+.flow-steps {
+  display: grid;
+  gap: var(--space-32);
+  margin-top: var(--space-40);
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-40) var(--space-24);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-48) var(--space-24);
+    margin-top: var(--space-64);
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-top: var(--space-24);
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    margin-bottom: var(--space-8);
+    color: var(--color-text-accent);
+  }
+
+  &__num {
+    @include number;
+  }
+
+  &__en {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+.service-flow {
+  &__note {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    margin-top: var(--space-48);
+    padding: var(--space-32) var(--space-24);
+    background: var(--color-bg-subtle);
+
+    @include md { padding: var(--space-40); }
+
+    @include lg {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: var(--space-48);
+      margin-top: var(--space-64);
+      padding: var(--space-48);
+    }
+  }
+
+  &__note-title {
+    @include heading-s;
+  }
+
+  &__note-text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- FAQ ----------
+.service-faq {
+  padding-bottom: var(--section-space);
+}
+
+.faq {
+  border-top: 1px solid var(--color-border-default);
+
+  @include lg {
+    flex: 0 1 792px;
+    min-width: 0;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-24);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  &__q {
+    display: flex;
+    text-wrap: pretty;
+    gap: var(--space-16);
+    @include heading-s;
+  }
+
+  &__mark {
+    flex-shrink: 0;
+    width: var(--space-16);
+    color: var(--color-text-accent);
+    @include font-en;
+    font-weight: 500;
+  }
+
+  &__a {
+    padding-left: var(--space-32);
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__link {
+    color: var(--color-text-primary);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    @include hover { text-decoration-line: none; }
+  }
+}

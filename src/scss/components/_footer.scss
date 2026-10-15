@@ -37,17 +37,12 @@
     @include body-s;
   }
 
-  &__sns {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-16);
-    @include font-en;
-    font-size: 14px;
-    line-height: 1;
-    letter-spacing: 0.04em;
+  // portfolio notice: the company, people and contact details are fictional
+  &__note {
     color: var(--color-text-inverse-secondary);
-
-    .icon { width: 24px; height: 24px; color: var(--color-text-inverse); }
+    @include caption;
+    word-break: keep-all; // break only at the <wbr> phrase boundaries
+    overflow-wrap: anywhere;
   }
 
   &__nav {

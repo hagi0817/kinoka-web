@@ -102,3 +102,20 @@
 
   @include lg { font-size: 13px; }
 }
+
+// Category chip as a choice (radio in a filter): selected = filled, like the Link Arrow hover
+.chip--choice {
+  cursor: pointer;
+  transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+
+  &:has(input:checked) {
+    border-color: var(--color-text-primary);
+    background: var(--color-text-primary);
+    color: var(--color-text-inverse);
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+  }
+}

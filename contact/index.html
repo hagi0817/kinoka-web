@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <!-- @include head.html {"title":"お問い合わせ（家づくりの相談・資料請求・見学予約）｜KINOKA 木乃家","description":"木乃家（KINOKA）への家づくりのご相談、施工事例集・ガイドブックの資料請求、完成見学会・OB様宅見学のご予約はこちらから。松本・安曇野・塩尻の注文住宅・リノベーション。"} -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "TOP", "item": "/" },
+        { "@type": "ListItem", "position": 2, "name": "お問い合わせ" }
+      ]
+    }
+  </script>
+</head>
+<body class="page-contact has-solid-header">
+  <!-- @include header.html {"modifier":"","contact_current":"aria-current=\"page\""} -->
+
+  <main id="main">
+    <!-- Page header -->
+    <section class="page-header" aria-labelledby="page-title" data-first-view>
+      <div class="page-header__inner l-container">
+        <nav class="breadcrumb" aria-label="パンくずリスト">
+          <ol class="breadcrumb__list">
+            <li class="breadcrumb__item"><a href="/" lang="en">TOP</a></li>
+            <li class="breadcrumb__item"><span class="breadcrumb__current" aria-current="page">お問い合わせ</span></li>
+          </ol>
+        </nav>
+        <div class="section-head">
+          <div class="section-heading">
+            <p class="section-heading__label" lang="en">CONTACT</p>
+            <h1 class="page-header__title" id="page-title">お問い合わせ</h1>
+          </div>
+          <p class="section-head__lead">家づくりのご相談、資料請求、見学のご予約を承ります。<br class="u-pc">こちらから営業のお電話をおかけすることはありませんので、お気軽にどうぞ。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact l-container" aria-label="お問い合わせフォーム">
+      <ol class="contact-steps" data-contact-steps>
+        <li class="contact-steps__item" aria-current="step"><span class="contact-steps__number" lang="en">01</span>入力</li>
+        <li class="contact-steps__item"><span class="contact-steps__number" lang="en">02</span>確認</li>
+        <li class="contact-steps__item"><span class="contact-steps__number" lang="en">03</span>完了</li>
+      </ol>
+
+      <!-- This is a portfolio demo: nothing is sent or stored -->
+      <div class="contact-notice">
+        <p class="contact-notice__title">ポートフォリオ用のデモページです</p>
+        <p class="contact-notice__text">KINOKA は架空の住宅会社です。入力から確認画面までお試しいただけますが、送信機能は接続していないため、入力内容はどこにも送信・保存されません。</p>
+      </div>
+
+      <noscript>
+        <p class="contact-noscript">このフォームは JavaScript を有効にしてご利用ください。お電話（0263-00-0000）でも承ります。</p>
+      </noscript>
+
+      <!-- Step 1: input -->
+      <div class="contact-step" data-contact-step="input">
+        <h2 class="visually-hidden" tabindex="-1" data-contact-step-title>入力画面</h2>
+
+        <div class="error-summary" tabindex="-1" hidden data-error-summary>
+          <p class="error-summary__title">入力内容をご確認ください（<span data-error-count>0</span>件）</p>
+          <ul class="error-summary__list" data-error-list></ul>
+        </div>
+
+        <form class="contact-form" novalidate data-contact-form>
+          <p class="contact-form__note"><span class="form-badge form-badge--required">必須</span>の項目は必ずご入力ください。</p>
+
+          <!-- Inquiry type -->
+          <fieldset class="form-row" data-field="type" aria-describedby="type-error">
+            <legend class="form-row__label">
+              <span class="form-row__label-text">お問い合わせ種別</span><span class="form-badge form-badge--required">必須</span>
+            </legend>
+            <div class="form-row__body">
+              <div class="type-choices">
+                <label class="type-choice">
+                  <input class="visually-hidden" type="radio" id="type-consultation" name="type" value="consultation" required>
+                  <!-- @include icons/chat.svg -->
+                  <span class="type-choice__text"><span class="type-choice__title">家づくりの相談</span><span class="type-choice__en" lang="en">CONSULTATION</span></span>
+                </label>
+                <label class="type-choice">
+                  <input class="visually-hidden" type="radio" id="type-document" name="type" value="document" required>
+                  <!-- @include icons/book.svg -->
+                  <span class="type-choice__text"><span class="type-choice__title">資料請求</span><span class="type-choice__en" lang="en">DOCUMENT</span></span>
+                </label>
+                <label class="type-choice">
+                  <input class="visually-hidden" type="radio" id="type-visit" name="type" value="visit" required>
+                  <!-- @include icons/house.svg -->
+                  <span class="type-choice__text"><span class="type-choice__title">見学予約</span><span class="type-choice__en" lang="en">VISIT</span></span>
+                </label>
+              </div>
+              <p class="form-error" id="type-error" hidden></p>
+              <!-- Guide text per type (the empty one shows when nothing is chosen) -->
+              <div class="type-guide" aria-live="polite">
+                <p class="type-guide__text" data-type-guide="">ご希望の内容をお選びください。種別に合わせて、必要な入力項目が表示されます。</p>
+                <p class="type-guide__text" data-type-guide="consultation" hidden>土地探しや予算のことなど、まだ何も決まっていなくても大丈夫です。ご来店のほか、オンラインでのご相談も承ります。2営業日以内に担当者からメールでご連絡します。</p>
+                <p class="type-guide__text" data-type-guide="document" hidden>施工事例集と家づくりガイドブックを、ご住所宛てに無料で郵送します。お届けまで1週間ほどお時間をいただきます。</p>
+                <p class="type-guide__text" data-type-guide="visit" hidden>完成見学会やOB様のお住まいで、木の家の心地よさを体感いただけます。ご希望日をもとに、担当者から日程と場所をご連絡します。</p>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Name -->
+          <div class="form-row" data-field="name">
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="name">お名前</label><span class="form-badge form-badge--required">必須</span>
+            </div>
+            <div class="form-row__body">
+              <input class="form-input" id="name" name="name" type="text" autocomplete="name" required maxlength="50" placeholder="例）木乃 花子" aria-describedby="name-error" data-label="お名前">
+              <p class="form-error" id="name-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Kana -->
+          <div class="form-row" data-field="kana">
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="kana">フリガナ</label><span class="form-badge form-badge--required">必須</span>
+            </div>
+            <div class="form-row__body">
+              <input class="form-input" id="kana" name="kana" type="text" required maxlength="50" placeholder="例）キノ ハナコ" aria-describedby="kana-hint kana-error" data-label="フリガナ" data-kana>
+              <p class="form-hint" id="kana-hint">全角カタカナでご入力ください。</p>
+              <p class="form-error" id="kana-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-row" data-field="email">
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="email">メールアドレス</label><span class="form-badge form-badge--required">必須</span>
+            </div>
+            <div class="form-row__body">
+              <input class="form-input" id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="例）hanako@example.com" aria-describedby="email-error" data-label="メールアドレス">
+              <p class="form-error" id="email-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Tel: optional, required for visits (for changes on the day) -->
+          <div class="form-row" data-field="tel">
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="tel">電話番号</label><span class="form-badge form-badge--optional" data-tel-badge>任意</span>
+            </div>
+            <div class="form-row__body">
+              <input class="form-input form-input--short" id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" maxlength="13" placeholder="例）0263-00-0000" aria-describedby="tel-hint tel-error" data-label="電話番号">
+              <p class="form-hint" id="tel-hint" data-tel-hint>ご連絡はメールでいたします。お電話をご希望の場合のみご入力ください。</p>
+              <p class="form-error" id="tel-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Document: postal address -->
+          <div class="form-row" data-field="postal" data-show-for="document" hidden>
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="postal">郵便番号</label><span class="form-badge form-badge--required">必須</span>
+            </div>
+            <div class="form-row__body">
+              <input class="form-input form-input--short" id="postal" name="postal" type="text" autocomplete="postal-code" inputmode="numeric" required maxlength="8" placeholder="例）390-0000" aria-describedby="postal-error" data-label="郵便番号" disabled>
+              <p class="form-error" id="postal-error" hidden></p>
+            </div>
+          </div>
+
+          <div class="form-row" data-field="address" data-show-for="document" hidden>
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="address">ご住所</label><span class="form-badge form-badge--required">必須</span>
+            </div>
+            <div class="form-row__body">
+              <textarea class="form-input form-textarea form-textarea--address" id="address" name="address" rows="2" autocomplete="street-address" required maxlength="120" placeholder="例）長野県松本市寿北0-0-0 キノカハイツ101" aria-describedby="address-hint address-error" data-label="ご住所" disabled></textarea>
+              <p class="form-hint" id="address-hint">資料の送付先です。建物名・部屋番号までご入力ください。</p>
+              <p class="form-error" id="address-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Consultation: area and style -->
+          <div class="form-row" data-field="area" data-show-for="consultation" hidden>
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="area">建築予定地のエリア</label><span class="form-badge form-badge--optional">任意</span>
+            </div>
+            <div class="form-row__body">
+              <div class="form-select form-input--short">
+                <select class="form-input" id="area" name="area" data-label="建築予定地のエリア" disabled>
+                  <option value="">選択してください</option>
+                  <option value="松本市">松本市</option>
+                  <option value="安曇野市">安曇野市</option>
+                  <option value="塩尻市">塩尻市</option>
+                  <option value="その他の地域">その他の地域</option>
+                  <option value="未定（土地探しから）">未定（土地探しから）</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <fieldset class="form-row" data-field="method" data-show-for="consultation" hidden>
+            <legend class="form-row__label">
+              <span class="form-row__label-text">ご相談の方法</span><span class="form-badge form-badge--optional">任意</span>
+            </legend>
+            <div class="form-row__body">
+              <div class="form-options">
+                <label class="form-option"><input type="radio" id="method-store" name="method" value="ご来店" disabled><span>ご来店（松本市のショールーム）</span></label>
+                <label class="form-option"><input type="radio" name="method" value="オンライン" disabled><span>オンライン</span></label>
+                <label class="form-option"><input type="radio" name="method" value="どちらでもよい" disabled><span>どちらでもよい</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Visit: preferred date and time -->
+          <div class="form-row" data-field="visitDate" data-show-for="visit" hidden>
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="visit-date">見学のご希望日</label><span class="form-badge form-badge--required">必須</span>
+            </div>
+            <div class="form-row__body">
+              <div class="form-inline">
+                <input class="form-input form-input--short" id="visit-date" name="visitDate" type="date" required aria-describedby="visit-date-hint visit-date-error" data-label="見学のご希望日" disabled>
+                <div class="form-select">
+                  <select class="form-input" id="visit-time" name="visitTime" aria-label="ご希望の時間帯" data-label="ご希望の時間帯" disabled>
+                    <option value="">時間帯の指定なし</option>
+                    <option value="午前（10:00〜12:00）">午前（10:00〜12:00）</option>
+                    <option value="午後（13:00〜17:00）">午後（13:00〜17:00）</option>
+                  </select>
+                </div>
+              </div>
+              <p class="form-hint" id="visit-date-hint">明日以降の日付をお選びください（水曜定休）。見学会の開催日は担当者からご案内します。</p>
+              <p class="form-error" id="visit-date-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="form-row" data-field="message">
+            <div class="form-row__label">
+              <label class="form-row__label-text" for="message" data-message-label>ご相談内容・備考</label><span class="form-badge form-badge--optional">任意</span>
+            </div>
+            <div class="form-row__body">
+              <textarea class="form-input form-textarea" id="message" name="message" rows="6" maxlength="1000" aria-describedby="message-hint message-error" data-label="ご相談内容・備考"></textarea>
+              <p class="form-hint" id="message-hint" data-message-hint>ご予算や時期、気になっていることなど、自由にお書きください（1,000文字以内）。</p>
+              <p class="form-error" id="message-error" hidden></p>
+            </div>
+          </div>
+
+          <!-- Privacy -->
+          <div class="contact-agree" data-field="privacy">
+            <p class="contact-agree__text">このフォームはポートフォリオ作品のデモのため、入力内容は送信・保存されません。実在の個人情報は入力せず、取り扱いの詳細は<a class="text-link" href="/privacy/">プライバシーポリシー</a>をご確認ください。</p>
+            <label class="form-option form-option--check">
+              <input type="checkbox" id="privacy" name="privacy" value="同意する" required aria-describedby="privacy-error" data-label="個人情報の取り扱いへの同意">
+              <span>個人情報の取り扱いに同意する<span class="form-badge form-badge--required">必須</span></span>
+            </label>
+            <p class="form-error" id="privacy-error" hidden></p>
+          </div>
+
+          <div class="contact-actions">
+            <button class="btn btn--primary btn--block contact-actions__main" type="submit" disabled data-contact-submit>入力内容を確認する<!-- @include icons/arrow.svg --></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: confirm -->
+      <div class="contact-step" hidden data-contact-step="confirm">
+        <h2 class="contact-step__title" tabindex="-1" data-contact-step-title>入力内容の確認</h2>
+        <p class="contact-step__lead">以下の内容でよろしければ、「送信する（デモ）」を押してください。</p>
+        <dl class="confirm-list" data-confirm-list></dl>
+        <div class="contact-notice contact-notice--inline">
+          <p class="contact-notice__text">デモのため、「送信する（デモ）」を押しても入力内容は送信されません。完了画面の表示までをご確認いただけます。</p>
+        </div>
+        <div class="contact-actions contact-actions--confirm">
+          <button class="btn btn--outline contact-actions__back" type="button" data-contact-back>入力画面に戻る</button>
+          <button class="btn btn--primary contact-actions__main" type="button" data-contact-send>送信する（デモ）<!-- @include icons/arrow.svg --></button>
+        </div>
+      </div>
+
+      <!-- Step 3: complete (demo) -->
+      <div class="contact-step contact-complete" hidden data-contact-step="complete">
+        <h2 class="contact-step__title" tabindex="-1" data-contact-step-title>デモの操作が完了しました</h2>
+        <p class="contact-complete__text">ここまでがお問い合わせフォームの流れです。<br class="u-pc">このページは送信機能に接続していないため、入力内容は送信・保存されていません。</p>
+        <p class="contact-complete__text">実際のサイトでは、この画面で受付完了をお知らせし、ご入力のメールアドレスへの自動返信と、担当者からのご連絡についてご案内します。</p>
+        <div class="contact-actions contact-actions--complete">
+          <a class="btn btn--outline" href="/works/">施工事例を見る</a>
+          <a class="btn btn--primary" href="/">トップページへ戻る<!-- @include icons/arrow.svg --></a>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="contact-tel">
+        <p class="contact-tel__label">お電話でのお問い合わせ</p>
+        <a class="contact-tel__link" href="tel:0263000000"><!-- @include icons/phone.svg --><span lang="en">0263-00-0000</span></a>
+        <p class="contact-tel__hours">受付 9:00–18:00（水曜定休）</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- @include footer.html -->
+</body>
+</html>

@@ -1,0 +1,216 @@
+@use '../foundation/mixins' as *;
+
+// ---------- Page header (breadcrumb + EN label + h1 + lead) ----------
+.page-header {
+  padding-top: var(--space-24);
+
+  @include lg { padding-top: var(--space-48); }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+
+    @include lg { gap: var(--space-48); }
+  }
+
+  &__title {
+    @include display;
+  }
+}
+
+// ---------- Works list ----------
+.works-index {
+  padding-top: var(--space-40);
+  padding-bottom: var(--section-space);
+
+  @include lg { padding-top: var(--space-64); }
+}
+
+// The filter form sits inline on PC; on SP/md it is moved into the bottom sheet
+.works-filter-slot {
+  @include below-lg { display: none; }
+}
+
+.works-filter {
+  &__group {
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-24) 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  // floated so the legend sits inside the group's padding instead of on its top edge
+  &__legend {
+    float: left;
+    width: 100%;
+    padding: 0;
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__chips {
+    clear: both;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    padding-top: var(--space-16);
+  }
+
+  // PC: one row per group, label column on the left (like the data table)
+  @include lg {
+    border-top: 1px solid var(--color-border-default);
+
+    &__group {
+      position: relative;
+      padding: var(--space-16) 0 var(--space-16) 120px;
+    }
+
+    &__legend {
+      position: absolute;
+      top: calc(var(--space-16) + 7px); // centered on the first chip row
+      left: 0;
+      width: auto;
+    }
+
+    &__chips {
+      gap: var(--space-8) var(--space-16);
+      padding-top: 0;
+    }
+  }
+}
+
+.works-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  min-height: 44px;
+
+  @include lg { margin-top: var(--space-24); }
+
+  &__count {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__number {
+    margin-right: var(--space-4);
+    color: var(--color-text-primary);
+    @include number;
+  }
+
+  &__clear {
+    padding: var(--space-8) 0;
+    color: var(--color-text-secondary);
+    @include caption;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color var(--duration) var(--ease);
+    @include hover { color: var(--color-text-primary); }
+  }
+}
+
+// Works Cards: SP 1 column / md 2 / lg 3
+.works-grid {
+  display: grid;
+  gap: var(--space-48);
+  margin-top: var(--space-24);
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-48) var(--space-24);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-64) var(--space-24);
+    margin-top: var(--space-32);
+  }
+}
+
+.works-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-24);
+  margin-top: var(--space-24);
+  padding: var(--space-64) var(--space-24);
+  border-block: 1px solid var(--color-border-default);
+  text-align: center;
+
+  &[hidden] { display: none; }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- SP filter: bottom sheet (<dialog>) ----------
+.filter-sheet {
+  position: fixed;
+  inset: auto 0 0;
+  width: 100%;
+  max-width: none;
+  max-height: 85svh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-button) var(--radius-button) 0 0;
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  overscroll-behavior: contain;
+
+  &[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &::backdrop { background: rgb(43 41 38 / 0.5); }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    height: 64px;
+    padding: 0 var(--space-8) 0 var(--space-24);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  &__title {
+    @include heading-s;
+  }
+
+  &__close {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    @include tap;
+
+    .icon { width: 24px; height: 24px; }
+  }
+
+  &__body {
+    flex: 1;
+    min-height: 0;
+    padding: 0 var(--page-margin);
+    overflow-y: auto;
+
+    .works-filter__group:last-child { border-bottom: 0; }
+  }
+
+  &__footer {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-8);
+    flex-shrink: 0;
+    padding: var(--space-16) var(--page-margin);
+    padding-bottom: calc(var(--space-16) + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--color-border-default);
+  }
+}

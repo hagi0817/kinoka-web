@@ -1,0 +1,416 @@
+@use '../foundation/mixins' as *;
+
+// Page header is shared with the Works list (pages/_works-index.scss)
+
+// Heading at left, content at right on PC (same build as the TOP Concept / Works detail Story); also used by the Service intro and FAQ
+.about-split {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-40);
+
+  .section-heading { flex-shrink: 0; }
+
+  @include lg {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--space-48);
+  }
+}
+
+// ---------- About hero: full-width photo + message ----------
+.about-hero {
+  &__photo {
+    margin-top: var(--space-32);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 60%;
+    }
+
+    @include md { aspect-ratio: 16 / 9; }
+
+    @include lg {
+      margin-top: var(--space-64);
+      aspect-ratio: 12 / 5;
+    }
+  }
+
+  &__body {
+    margin-top: var(--space-48);
+
+    @include lg { margin-top: var(--space-96); }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-text-secondary);
+
+    @include lg {
+      flex: 0 1 588px;
+      min-width: 0;
+      padding-top: var(--space-48);
+    }
+  }
+
+  &__sign {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: var(--space-16);
+    margin-top: var(--space-8);
+    color: var(--color-text-primary);
+  }
+
+  &__sign-role {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__sign-name {
+    @include heading-m;
+  }
+}
+
+// ---------- Values ----------
+.about-values {
+  &__list {
+    display: grid;
+    gap: var(--space-40);
+    margin-top: var(--space-40);
+
+    @include lg {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-24);
+      margin-top: var(--space-64);
+    }
+  }
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding-top: var(--space-24);
+  border-top: 1px solid var(--color-border-default);
+
+  @include lg { padding-top: var(--space-32); }
+
+  &__num {
+    color: var(--color-text-accent);
+    @include number;
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- Local & team ----------
+.about-local {
+  margin-top: var(--section-space);
+  padding-block: var(--space-80);
+  background: var(--color-bg-subtle);
+
+  @include md { padding-block: var(--space-96); }
+  @include lg { padding-block: clamp(96px, 8.333vw, 120px); }
+
+  // small heading with a wood rule (same as the Works detail Story label)
+  &__subtitle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    margin-top: var(--space-48);
+    color: var(--color-text-accent);
+    @include heading-s;
+
+    &::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--color-accent-wood);
+    }
+
+    @include lg { margin-top: var(--space-80); }
+  }
+
+  &__topics {
+    display: grid;
+    gap: var(--space-40);
+    margin-top: var(--space-24);
+
+    @include md { gap: var(--space-32); }
+
+    @include lg {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-24);
+      margin-top: var(--space-32);
+    }
+  }
+}
+
+// Design → Build → After: cards joined by a wood rule
+.team-flow {
+  display: grid;
+  gap: var(--space-24);
+  margin-top: var(--space-24);
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: var(--space-32);
+  }
+
+  &__step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-24) var(--space-24) var(--space-32);
+    background: var(--color-bg-surface);
+
+    @include lg { padding: var(--space-40); }
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: var(--space-40);
+      top: 100%;
+      width: 1px;
+      height: var(--space-24);
+      background: var(--color-accent-wood);
+
+      @include lg {
+        left: 100%;
+        top: 56px;
+        width: var(--space-24);
+        height: 1px;
+      }
+    }
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    margin-bottom: var(--space-8);
+    color: var(--color-text-accent);
+  }
+
+  &__num {
+    @include number;
+  }
+
+  &__en {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__who {
+    @include font-sans;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+
+    @include lg { font-size: 14px; }
+  }
+
+  &__text {
+    margin-top: var(--space-8);
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+.local-topic {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+
+  @include md {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-32);
+  }
+
+  @include lg {
+    grid-template-columns: clamp(160px, 16.67vw, 240px) minmax(0, 1fr);
+    gap: var(--space-32);
+  }
+
+  &__photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-bg-base);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    @include md { aspect-ratio: 4 / 5; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- Staff ----------
+.about-staff {
+  &__list {
+    display: grid;
+    gap: var(--space-40);
+    margin-top: var(--space-40);
+
+    @include md {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-24);
+    }
+
+    @include lg { margin-top: var(--space-64); }
+  }
+}
+
+// SP: photo + identity side by side (as the Works detail staff), md+: card
+.staff-card {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: var(--space-24) var(--space-16);
+
+  @include md {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  &__photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__body {
+    display: contents;
+
+    @include md {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+  }
+
+  &__identity {
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+
+    @include md { align-self: auto; }
+  }
+
+  &__role {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    font-weight: inherit;
+  }
+
+  &__name-ja {
+    @include heading-m;
+  }
+
+  &__name-en {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+
+  &__text {
+    grid-column: 1 / -1;
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- Company ----------
+.about-company {
+  padding-bottom: var(--section-space);
+
+  &__body {
+    @include lg {
+      flex: 0 1 792px;
+      min-width: 0;
+    }
+  }
+
+  &__note {
+    margin-top: var(--space-24);
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+}
+
+.company-table {
+  border-top: 1px solid var(--color-border-default);
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-block: var(--space-16);
+    border-bottom: 1px solid var(--color-border-default);
+
+    dt {
+      color: var(--color-text-secondary);
+      @include caption;
+    }
+
+    dd { @include body-s; }
+
+    @include md {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: var(--space-24);
+      padding-block: var(--space-24);
+
+      dt { @include body-s; }
+    }
+  }
+
+  &__tel {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    @include hover { text-decoration-line: underline; }
+  }
+}

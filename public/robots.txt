@@ -1,0 +1,4 @@
+# KINOKA is a portfolio site. Pages carry <meta name="robots" content="noindex">,
+# so crawling stays allowed here: a Disallow would hide that tag from search engines.
+User-agent: *
+Allow: /

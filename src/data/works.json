@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "hikari-to-ki",
+    "title": "光と木がつながる家",
+    "category": "custom",
+    "area": "azumino",
+    "type": "two-story",
+    "family": "4人家族",
+    "floorArea": "32.5",
+    "structure": "木造2階建て",
+    "year": 2026,
+    "image": {
+      "name": "p02",
+      "large": 928,
+      "alt": "吹き抜けから光が落ちる、無垢材のLDK"
+    },
+    "hero": {
+      "name": "p01",
+      "widths": [800, 1376],
+      "width": 1376,
+      "height": 768,
+      "sp": "p01-sp-600",
+      "spWidth": 600,
+      "spHeight": 768,
+      "alt": "夕暮れの田園に建つ「光と木がつながる家」の外観。板張りの外壁と大きな窓から室内の灯りがこぼれる"
+    },
+    "description": "安曇野市に建つ4人家族の木造2階建て（延床32.5坪）。大きな窓と無垢材、吹き抜けのLDKで、家族が自然体で暮らせる住まい。",
+    "url": "/works/hikari-to-ki/"
+  },
+  {
+    "slug": "atsumaru-hiraya",
+    "title": "家族が集まる平屋",
+    "category": "custom",
+    "area": "matsumoto",
+    "type": "hiraya",
+    "family": "3人家族",
+    "floorArea": "28.0",
+    "structure": "木造平屋",
+    "year": null,
+    "image": {
+      "name": "p04",
+      "large": 928,
+      "alt": "山並みを背にした板張りの平屋"
+    },
+    "description": "松本市に建つ3人家族の木造平屋（延床28.0坪）。LDKと個室の棟をL字に配置し、縁側でつながる庭を家族で囲む住まい。",
+    "url": "/works/atsumaru-hiraya/"
+  },
+  {
+    "slug": "uketsugu-renovation",
+    "title": "古い家を受け継ぐリノベーション",
+    "category": "renovation",
+    "area": "shiojiri",
+    "type": null,
+    "family": "5人家族",
+    "floorArea": null,
+    "structure": null,
+    "spec": [
+      "5人家族",
+      "築42年",
+      "全面改修"
+    ],
+    "year": null,
+    "image": {
+      "name": "p03",
+      "large": 928,
+      "alt": "太い梁が残る古民家のダイニング"
+    },
+    "description": "塩尻市にある築42年のご実家を、5人家族の住まいとして全面改修。断熱と耐震を見直し、家を支えてきた太い梁は見せる形で残しました。",
+    "url": "/works/uketsugu-renovation/"
+  },
+  {
+    "slug": "machi-bakery",
+    "title": "街にひらく木のベーカリー",
+    "category": "shop",
+    "area": "matsumoto",
+    "type": "hiraya",
+    "family": "店舗",
+    "floorArea": "18.0",
+    "structure": "木造平屋",
+    "year": null,
+    "image": {
+      "name": "p09",
+      "large": 960,
+      "full": 1264,
+      "alt": "木のカウンターが続くベーカリーの店内"
+    },
+    "description": "松本市の通りに面した木造平屋のベーカリー（延床18.0坪）。通りに向けた大きな窓と、奥まで続く木のカウンター、壁一面の造作棚。",
+    "url": "/works/machi-bakery/"
+  }
+]

@@ -34,9 +34,45 @@ for n in 02 03 04 05 06 07 08 09; do
   grade "$SRC/P$n.png" "$tmp/p$n.png"
   webp "$tmp/p$n.png" "p$n" 480 960
 done
+webp "$tmp/p05.png" p05 1200 # About hero (full width)
+webp "$tmp/p09.png" p09 1264 # Works detail hero (machi-bakery)
 
 for f in "$SRC"/works-hikari/W*.png; do
   base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
   grade "$f" "$tmp/$id.png"
   webp "$tmp/$id.png" "$id" 640 1264
 done
+
+# Works detail photos for the other three works (H = 家族が集まる平屋, R = 古い家を受け継ぐリノベーション, B = 街にひらく木のベーカリー)
+for f in "$SRC"/works-other/*.png; do
+  base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
+  grade "$f" "$tmp/$id.png"
+  webp "$tmp/$id.png" "$id" 640 1264
+done
+
+# About staff portraits (4:5)
+for f in "$SRC"/about/S*.png; do
+  base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
+  grade "$f" "$tmp/$id.png"
+  webp "$tmp/$id.png" "$id" 640 928
+done
+
+# Service: renovation (3:2) and office (4:5)
+for f in "$SRC"/service/*.png; do
+  base="$(basename "$f" .png)"; id="$(echo "${base%%_*}" | tr 'A-Z' 'a-z')"
+  grade "$f" "$tmp/$id.png"
+  webp "$tmp/$id.png" "$id" 640 1264
+done
+
+# News eyecatches (3:2): generated N01/N02, plus 3:2 crops of existing photos ("news-" prefix)
+news() { # src name [gravity]
+  grade "$1" "$tmp/n.png"
+  convert "$tmp/n.png" -gravity "${3:-center}" -crop "$(identify -format '%w' "$tmp/n.png")x$(identify -format '%[fx:round(w*2/3)]' "$tmp/n.png")+0+0" +repage "$tmp/n-crop.png"
+  webp "$tmp/n-crop.png" "news-$2" 480 960
+}
+news "$SRC/news/N01_openhouse.png" n01
+news "$SRC/news/N02_winter.png" n02
+news "$SRC/P03.png" p03
+news "$SRC/P06.png" p06
+news "$SRC/P08.png" p08
+news "$SRC/works-hikari/W07_deck.png" w07

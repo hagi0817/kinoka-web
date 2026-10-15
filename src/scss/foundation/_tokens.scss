@@ -17,6 +17,9 @@
   --color-border-inverse: #4a4641;
   --color-border-focus: #4a6352;
   --color-border-focus-inverse: #f6f4ef;
+  // Form (Contact): input outline 3:1+ on white/base, error text 4.5:1+ on base/surface/subtle
+  --color-border-input: #8a8378;
+  --color-text-error: #a63d2f;
 
   // Font
   --font-mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;

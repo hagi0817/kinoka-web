@@ -8,7 +8,39 @@
   color: var(--color-text-inverse);
   background: var(--color-bg-inverse);
 
+  // horizontal swipes change the slide (main.js); vertical scroll and pinch zoom stay with the browser
+  touch-action: pan-y pinch-zoom;
+
   @include lg { height: clamp(600px, 100svh, 960px); }
+
+  // Slides: one photo per work, stacked. The new slide fades in on top of the one it replaces (.is-leaving),
+  // so the dark background never shows through. Only that one slide stays underneath: when slides change quickly,
+  // older slides are hidden at once instead of showing through in DOM order (reduced motion: the base rule removes the fade)
+  &__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  &__slide {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0;
+
+    // shown in full at once, even if it was still fading in (transition: none cancels that running fade)
+    &.is-leaving {
+      z-index: 1;
+      opacity: 1;
+      transition: none;
+    }
+
+    &.is-active {
+      z-index: 2;
+      opacity: 1;
+      transition: opacity 0.6s var(--ease);
+    }
+  }
 
   &__media img {
     position: absolute;
@@ -19,6 +51,13 @@
     object-position: 66% 50%;
 
     @include lg { object-position: 62% 50%; }
+  }
+
+  // card photos (no wide hero photo in the data) are cropped from the center
+  &__slide--card img {
+    object-position: 50% 50%;
+
+    @include lg { object-position: 50% 50%; }
   }
 
   // Overlay for legibility (values from Responsive Rules)
@@ -78,6 +117,38 @@
     @include body;
   }
 
+  &__works {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-16);
+
+    // PC: captions and controls are placed against .mv (mv__content is static there)
+    @include lg { display: block; }
+  }
+
+  // all captions share one grid cell, so the tallest one sets the height and nothing moves between slides
+  &__captions {
+    display: grid;
+
+    > * { grid-area: 1 / 1; }
+
+    @include lg {
+      justify-items: end;
+      position: absolute;
+      z-index: 1;
+      right: var(--page-margin);
+      bottom: 112px;
+    }
+  }
+
+  // inactive captions keep their space; visibility also removes them from the tab order and the accessibility tree
+  &__slide-caption {
+    display: flex;
+
+    &[hidden] { visibility: hidden; }
+  }
+
   &__caption {
     display: inline-flex;
     align-items: center;
@@ -94,10 +165,6 @@
     }
 
     @include lg {
-      position: absolute;
-      z-index: 1;
-      right: var(--page-margin);
-      bottom: 112px;
       gap: var(--space-16);
       padding-top: 0;
       font-size: 13px;
@@ -115,6 +182,7 @@
 
   &__caption-en {
     @include label-en;
+    white-space: nowrap;
     font-size: 12px;
 
     @include lg { font-size: 13px; }
@@ -124,29 +192,94 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 6px;
   }
+}
 
-  &__scroll {
+// MV slider controls: "01 / 04", one line per slide, prev / next
+.mv-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+
+  &[hidden] { display: none; }
+
+  @include lg {
+    position: absolute;
+    z-index: 1;
+    right: var(--page-margin);
+    bottom: 48px;
+    gap: var(--space-24);
+  }
+
+  &__count {
     display: none;
+    @include font-en;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
 
-    @include lg {
-      position: absolute;
-      z-index: 1;
-      left: clamp(24px, 3.333vw, 48px);
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-16);
-      @include label-en-s;
+    @include md { display: block; }
+    @include lg { font-size: 13px; }
+  }
 
-      &::after {
-        content: '';
-        width: 1px;
-        height: 64px;
-        background: currentColor;
-      }
+  &__dots {
+    display: flex;
+  }
+
+  &__dot {
+    display: grid;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    padding-inline: var(--space-4);
+
+    &::before {
+      content: '';
+      height: 1px;
+      background: currentColor;
+      opacity: 0.45;
+      transition: opacity var(--duration) var(--ease), height var(--duration) var(--ease);
+    }
+
+    &[aria-current='true']::before {
+      height: 2px;
+      opacity: 1;
+    }
+
+    @include hover {
+      &::before { opacity: 1; }
     }
   }
+
+  &__arrows {
+    display: flex;
+    gap: var(--space-8);
+  }
+
+  &__arrow {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+    @include tap;
+
+    .icon { width: 16px; height: 16px; }
+
+    @include lg {
+      width: 48px;
+      height: 48px;
+    }
+
+    @include hover {
+      background: var(--color-text-inverse);
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__arrow--prev .icon { transform: scaleX(-1); }
 }
 
 // ---------- Concept ----------

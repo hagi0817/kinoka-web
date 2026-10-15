@@ -9,22 +9,16 @@
   <main id="main">
     <!-- MV -->
     <section class="mv is-dark" aria-labelledby="mv-title" data-mv>
-      <picture class="mv__media">
-        <source media="(min-width: 768px)" srcset="/images/p01-800.webp 800w, /images/p01-1376.webp 1376w" sizes="100vw" width="1376" height="768">
-        <img src="/images/p01-sp-600.webp" width="600" height="768" alt="夕暮れの田園に建つ、板張りの外壁と大きな窓から灯りがこぼれる木造の平屋" fetchpriority="high" decoding="async">
-      </picture>
+      <div class="mv__media">
+        <!-- @works-hero media -->
+      </div>
       <div class="mv__content">
         <div class="mv__copy">
           <h1 class="mv__title" id="mv-title">暮らしをつくる。<br>家をつくる。</h1>
           <p class="mv__lead">松本の暮らしに寄り添う、<br>地域密着の家づくり。</p>
         </div>
-        <a class="mv__caption" href="/works/hikari-to-ki/">
-          <span class="mv__caption-en" lang="en">WORKS 01</span>
-          <span class="mv__caption-work">光と木がつながる家<span class="u-pc">｜安曇野市</span></span>
-          <!-- @include icons/arrow.svg -->
-        </a>
+        <!-- @works-hero slider -->
       </div>
-      <div class="mv__scroll" aria-hidden="true"><span lang="en">SCROLL</span></div>
     </section>
 
     <!-- Concept -->
@@ -43,7 +37,7 @@
             <div class="pillar__photo"><img src="/images/p05-480.webp" srcset="/images/p05-480.webp 480w, /images/p05-960.webp 960w" sizes="(min-width: 1024px) 28vw, (min-width: 768px) 560px, 100vw" width="480" height="360" alt="北アルプスを望む安曇野の田園と集落" loading="lazy" decoding="async"></div>
             <div class="pillar__body">
               <h3 class="pillar__head"><span class="pillar__num" lang="en">01</span><span class="pillar__title">地域</span><span class="pillar__en" lang="en">LOCAL</span></h3>
-              <p class="pillar__text">松本の冬の寒さ、夏の日差し、風の通り道。この土地で25年家を建ててきた経験を、一棟一棟の設計に活かします。</p>
+              <p class="pillar__text">松本の冬の寒さ、夏の日差し、風の通り道。2001年の創業からこの土地で家を建ててきた経験を、一棟一棟の設計に活かします。</p>
             </div>
           </li>
           <li class="pillar">
@@ -72,9 +66,7 @@
       </div>
       <div class="works__list-wrap l-container">
         <ul class="works-carousel works__list" tabindex="0" aria-label="施工事例（横にスクロールできます）" data-carousel>
-          <li><!-- @include works-card.html {"img":"p02","img_l":"928","alt":"吹き抜けから光が落ちる、無垢材のLDK","tag":"注文住宅","area":"安曇野市","href":"/works/hikari-to-ki/","title":"光と木がつながる家","spec":"4人家族｜延床 32.5坪｜木造2階建て"} --></li>
-          <li><!-- @include works-card.html {"img":"p04","img_l":"928","alt":"山並みを背にした板張りの平屋","tag":"注文住宅","area":"松本市","href":"/works/","title":"家族が集まる平屋","spec":"3人家族｜延床 28.0坪｜木造平屋"} --></li>
-          <li><!-- @include works-card.html {"img":"p03","img_l":"928","alt":"太い梁が残る古民家のダイニング","tag":"リノベーション","area":"塩尻市","href":"/works/","title":"古い家を受け継ぐリノベーション","spec":"5人家族｜築42年｜全面改修"} --></li>
+          <!-- @works {"slugs":["hikari-to-ki","atsumaru-hiraya","uketsugu-renovation"]} -->
         </ul>
       </div>
       <div class="l-container">
@@ -111,7 +103,7 @@
             <span class="strengths__num" lang="en">01</span>
             <div class="strengths__body">
               <h3 class="strengths__title">信州の冬に備える住宅性能</h3>
-              <p class="strengths__text">全棟で断熱等級6（HEAT20 G2相当）を標準仕様に。</p>
+              <p class="strengths__text">新築の注文住宅は、断熱等級6を標準仕様に。</p>
             </div>
           </li>
           <li class="strengths__item">
@@ -138,7 +130,7 @@
       <div class="l-container">
         <div class="section-head">
           <!-- @include section-heading.html {"en":"SERVICE","id":"service-title","title":"事業内容"} -->
-          <p class="section-head__lead">新築からリノベーション、店舗まで。<br class="u-pc">木乃家が手がける4つの事業です。</p>
+          <p class="section-head__lead">新築からリノベーション、店舗・事務所まで。<br class="u-pc">木乃家が手がける3つの事業と、建てたあとのサポートです。</p>
         </div>
         <ol class="service__list">
           <li>
@@ -167,8 +159,8 @@
             <a class="service-card" href="/service/#shop">
               <span class="service-card__photo"><img src="/images/p09-480.webp" width="480" height="322" alt="" loading="lazy" decoding="async"></span>
               <span class="service-card__body">
-                <span class="service-card__head"><span class="service-card__num" lang="en">03</span><span class="service-card__title">店舗設計</span></span>
-                <span class="service-card__text">地域に根ざすお店の、居心地のよい空間をつくります。</span>
+                <span class="service-card__head"><span class="service-card__num" lang="en">03</span><span class="service-card__title">店舗・事務所</span></span>
+                <span class="service-card__text">地域に根ざすお店や事務所の、居心地のよい空間をつくります。</span>
                 <span class="service-card__more">詳しく見る<!-- @include icons/arrow.svg --></span>
               </span>
               <!-- @include icons/arrow.svg -->
@@ -179,7 +171,7 @@
               <span class="service-card__photo"><img src="/images/p07-480.webp" width="480" height="643" alt="" loading="lazy" decoding="async"></span>
               <span class="service-card__body">
                 <span class="service-card__head"><span class="service-card__num" lang="en">04</span><span class="service-card__title">アフターサポート</span></span>
-                <span class="service-card__text">引き渡し後も定期点検と迅速な修繕で暮らしを支えます。</span>
+                <span class="service-card__text">引き渡し後も、定期点検と修繕のご相談で暮らしを支えます。</span>
                 <span class="service-card__more">詳しく見る<!-- @include icons/arrow.svg --></span>
               </span>
               <!-- @include icons/arrow.svg -->
@@ -198,27 +190,7 @@
       <div class="news__inner l-container">
         <!-- @include section-heading.html {"class":"news__heading","en":"NEWS","id":"news-title","title":"お知らせ"} -->
         <ul class="news__list">
-          <li>
-            <a class="news-item" href="/news/">
-              <span class="news-item__meta"><time class="news-item__date" datetime="2026-10-01">2026.10.01</time><span class="news-item__tag"><span class="tag">イベント</span></span></span>
-              <span class="news-item__title">【安曇野市】完成見学会「家族が集まる平屋」10/18・19開催</span>
-              <!-- @include icons/arrow.svg -->
-            </a>
-          </li>
-          <li>
-            <a class="news-item" href="/news/">
-              <span class="news-item__meta"><time class="news-item__date" datetime="2026-09-12">2026.09.12</time><span class="news-item__tag"><span class="tag">施工事例</span></span></span>
-              <span class="news-item__title">「古い家を受け継ぐリノベーション」を公開しました</span>
-              <!-- @include icons/arrow.svg -->
-            </a>
-          </li>
-          <li>
-            <a class="news-item" href="/news/">
-              <span class="news-item__meta"><time class="news-item__date" datetime="2026-08-30">2026.08.30</time><span class="news-item__tag"><span class="tag">お知らせ</span></span></span>
-              <span class="news-item__title">秋の家づくり相談会（予約制）の受付を開始しました</span>
-              <!-- @include icons/arrow.svg -->
-            </a>
-          </li>
+          <!-- @news {"limit":3} -->
         </ul>
         <a class="link-arrow news__more" href="/news/">お知らせ一覧<span class="link-arrow__circle"><!-- @include icons/arrow.svg --></span></a>
       </div>

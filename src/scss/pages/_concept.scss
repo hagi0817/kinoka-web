@@ -1,0 +1,339 @@
+@use '../foundation/mixins' as *;
+
+// Page header is shared with the Works list (pages/_works-index.scss),
+// the chapter index reuses the Service in-page index (.service-index in pages/_service.scss)
+
+// ---------- Concept hero: photo + centered statement ----------
+.concept-hero {
+  padding-top: var(--space-32);
+
+  @include lg { padding-top: var(--space-64); }
+
+  &__photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    @include lg { aspect-ratio: 2 / 1; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    max-width: 720px;
+    margin: var(--space-48) auto 0;
+
+    @include lg {
+      align-items: center;
+      gap: var(--space-48);
+      margin-top: var(--space-96);
+    }
+  }
+
+  &__title {
+    @include heading-l;
+
+    @include lg { text-align: center; }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-text-secondary);
+  }
+
+  &__index {
+    align-self: stretch;
+  }
+}
+
+// ---------- Chapters (local / material / life) ----------
+// PC: heading + lead stay in view (sticky) while the photos and points scroll beside them
+.concept-chapter {
+  padding-top: var(--section-space);
+
+  &--subtle {
+    margin-top: var(--section-space);
+    padding-bottom: var(--section-space);
+    background: var(--color-bg-subtle);
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+
+    @include lg {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--space-24);
+    }
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+
+    @include lg {
+      grid-column: 1 / 5;
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-48));
+      align-self: start;
+      gap: var(--space-32);
+    }
+  }
+
+  &__lead {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+
+    @include lg {
+      grid-column: 6 / -1;
+      gap: var(--space-48);
+    }
+  }
+
+  &__photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__text {
+    @include body;
+  }
+}
+
+// Design ideas: title / text rows separated by rules
+.concept-points {
+  border-top: 1px solid var(--color-border-default);
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: var(--space-24);
+    border-bottom: 1px solid var(--color-border-default);
+
+    @include md {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: var(--space-24);
+    }
+
+    @include lg { grid-template-columns: clamp(176px, 15vw, 220px) minmax(0, 1fr); }
+  }
+
+  // break after "、" rather than leaving one character on the second line
+  &__title {
+    @include heading-s;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// Detail photos with captions (2 or 3 across, 4:5)
+.concept-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-16);
+
+  @include lg { gap: var(--space-24); }
+
+  &--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: var(--color-bg-subtle);
+  }
+
+  figcaption {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+}
+
+// Side note with a photo (renovation link in the material chapter)
+.concept-aside {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-surface);
+
+  @include md {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  &__photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    @include md { aspect-ratio: auto; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-16);
+    padding: var(--space-24);
+
+    @include md { padding: var(--space-32); }
+
+    .link-arrow {
+      margin-top: var(--space-8);
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__title {
+    @include heading-s;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- Works: one house, three ideas ----------
+.concept-works {
+  margin-top: var(--section-space);
+  padding-block: var(--section-space);
+  background: var(--color-bg-subtle);
+
+  &__feature {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    margin-top: var(--space-40);
+
+    @include md {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: var(--space-40);
+      align-items: start;
+    }
+
+    @include lg {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-64);
+      margin-top: var(--space-64);
+    }
+  }
+
+  &__photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-bg-base);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-16);
+  }
+
+  &__area {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--color-text-secondary);
+    @include caption;
+
+    .icon { width: 14px; height: 14px; }
+  }
+
+  &__name {
+    @include heading-m;
+  }
+
+  &__lead {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__list {
+    margin-top: var(--space-8);
+    border-top: 1px solid var(--color-border-default);
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: var(--space-16);
+    padding-block: var(--space-24);
+    border-bottom: 1px solid var(--color-border-default);
+
+    @include lg { grid-template-columns: 112px minmax(0, 1fr); }
+  }
+
+  // EN label above the Japanese theme name
+  &__theme {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    color: var(--color-text-accent);
+    @include heading-s;
+
+    span {
+      color: var(--color-text-secondary);
+      @include label-en-s;
+    }
+  }
+
+  &__title {
+    @include heading-s;
+  }
+
+  &__text {
+    margin-top: var(--space-8);
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24) var(--space-40);
+    margin-top: var(--space-16);
+  }
+}
