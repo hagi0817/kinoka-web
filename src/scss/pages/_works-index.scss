@@ -196,8 +196,11 @@
   }
 
   &__body {
-    flex: 1;
+    // basis auto, not 0: Safari (WebKit) resolves a 0 basis to a 0-height body in this auto-height sheet,
+    // hiding every chip; min-height 0 still lets the body shrink and scroll when the sheet hits 85svh
+    flex: 1 1 auto;
     min-height: 0;
+    position: relative; // keeps the visually hidden radios inside this scroller, so the sheet itself never scrolls
     padding: 0 var(--page-margin);
     overflow-y: auto;
 
