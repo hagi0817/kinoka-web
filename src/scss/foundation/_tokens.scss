@@ -1,0 +1,67 @@
+:root {
+  // Color
+  --color-bg-base: #f6f4ef;
+  --color-bg-subtle: #ece8e0;
+  --color-bg-inverse: #2b2926;
+  --color-bg-surface: #fff;
+  --color-text-primary: #2b2926;
+  --color-text-secondary: #6b665e;
+  --color-text-accent: #7a5f44;
+  --color-text-inverse: #f6f4ef;
+  --color-text-inverse-secondary: #b9b3a8;
+  --color-text-accent-inverse: #b39a7e;
+  --color-accent-green: #4a6352;
+  --color-accent-green-hover: #3b5043;
+  --color-accent-wood: #9c7e5e;
+  --color-border-default: #d9d3c8;
+  --color-border-inverse: #4a4641;
+  --color-border-focus: #4a6352;
+  --color-border-focus-inverse: #f6f4ef;
+
+  // Font
+  --font-mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  --font-sans: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  --font-en: 'Jost', 'Noto Sans JP', sans-serif;
+
+  // Radius
+  --radius-button: 4px;
+
+  // Spacing
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-120: 120px;
+  --space-160: 160px;
+
+  // Fluid layout tokens (Responsive Rules)
+  --page-margin: 24px;
+  --section-space: 96px;
+  --header-height: 64px;
+  --content-max: 1200px;
+
+  // Motion
+  --ease: ease;
+  --duration: 0.2s;
+  --duration-photo: 0.4s;
+
+  // Focus ring color; dark sections override this
+  --focus-color: var(--color-border-focus);
+
+  @media (min-width: 768px) {
+    --page-margin: 40px;
+    --section-space: 120px;
+  }
+
+  @media (min-width: 1024px) {
+    --page-margin: clamp(40px, 8.333vw, 120px);
+    --section-space: clamp(120px, 11.11vw, 160px);
+    --header-height: 88px;
+  }
+}

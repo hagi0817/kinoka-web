@@ -1,0 +1,129 @@
+@use '../foundation/mixins' as *;
+
+// Logo: KINOKA | 木乃家
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  white-space: nowrap;
+
+  &__en {
+    @include font-en;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    margin-right: -0.28em; // optical: trailing tracking
+  }
+
+  &__divider {
+    width: 1px;
+    height: 14px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  &__ja {
+    @include font-mincho;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.16em;
+  }
+
+  @include lg {
+    gap: var(--space-16);
+
+    &__en { font-size: 22px; }
+    &__divider { height: 18px; }
+    &__ja { font-size: 14px; }
+  }
+}
+
+// Header: Solid (bg-base + border) by default; --overlay is transparent over the MV until scrolled
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  height: var(--header-height);
+  background: var(--color-bg-base);
+  border-bottom: 1px solid var(--color-border-default);
+  color: var(--color-text-primary);
+  transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 var(--space-8) 0 var(--space-24);
+
+    @include lg {
+      padding: 0 clamp(24px, 3.333vw, 48px);
+    }
+  }
+
+  &__logo {
+    margin-right: auto;
+  }
+
+  &__cta {
+    display: none;
+
+    @include lg {
+      display: inline-flex;
+      margin-left: clamp(24px, 3.333vw, 48px);
+    }
+  }
+
+  &--overlay:not(.is-solid) {
+    background: transparent;
+    border-bottom-color: transparent;
+    color: var(--color-text-inverse);
+    --focus-color: var(--color-border-focus-inverse);
+  }
+}
+
+.global-nav {
+  display: none;
+
+  @include lg { display: block; }
+
+  &__list {
+    display: flex;
+    gap: clamp(20px, 2.778vw, 40px);
+  }
+
+  &__link {
+    @include font-en;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    text-decoration-color: transparent;
+    transition: text-decoration-color var(--duration) var(--ease);
+
+    @include hover { text-decoration-color: currentColor; }
+
+    &[aria-current] { text-decoration-color: currentColor; }
+  }
+}
+
+.menu-button {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  @include tap;
+
+  .icon { width: 24px; height: 24px; }
+
+  @include lg { display: none; }
+}
+
+// Pages whose header is Solid from the start reserve its height
+.has-solid-header {
+  padding-top: var(--header-height);
+}

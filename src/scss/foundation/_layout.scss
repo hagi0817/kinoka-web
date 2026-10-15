@@ -1,0 +1,13 @@
+@use 'mixins' as *;
+
+// Content: 1200 centered at 1440+, fluid margins below
+.l-container {
+  width: 100%;
+  max-width: calc(var(--content-max) + var(--page-margin) * 2);
+  margin-inline: auto;
+  padding-inline: var(--page-margin);
+}
+
+.l-section {
+  padding-top: var(--section-space);
+}

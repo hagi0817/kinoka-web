@@ -1,0 +1,235 @@
+@use '../foundation/mixins' as *;
+
+// CTA section (dark): label, h2, lead, 3 CTA cards, phone
+.cta {
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  padding-block: var(--space-80);
+
+  @include md { padding-block: var(--space-96); }
+  @include lg { padding-block: var(--section-space); }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-40);
+
+    @include lg { gap: var(--space-64); }
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-24);
+    text-align: center;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    color: var(--color-text-accent-inverse);
+    @include label-en;
+
+    &::before,
+    &::after {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--color-accent-wood);
+    }
+  }
+
+  &__title {
+    @include heading-l;
+  }
+
+  &__lead {
+    color: var(--color-text-inverse-secondary);
+    @include body-s;
+    text-align: left;
+
+    @include md { text-align: center; }
+  }
+
+  &__cards {
+    display: grid;
+    gap: var(--space-16);
+    width: 100%;
+
+    @include md { max-width: 640px; }
+
+    @include lg {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-24);
+      max-width: none;
+    }
+  }
+
+  &__tel {
+    width: 100%;
+
+    @include md { max-width: 640px; }
+
+    @include lg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-16);
+      max-width: none;
+    }
+  }
+
+  &__tel-label,
+  &__tel-hours {
+    color: var(--color-text-inverse-secondary);
+    @include caption;
+  }
+
+  &__tel-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-16);
+    padding: var(--space-16) var(--space-24);
+    border: 1px solid var(--color-border-inverse);
+    border-radius: 4px;
+    @include tap;
+
+    .icon { width: 24px; height: 24px; }
+
+    @include lg {
+      padding: 0;
+      border: 0;
+
+      .icon { width: 20px; height: 20px; }
+
+      @include hover {
+        .cta__tel-number { text-decoration-line: underline; }
+      }
+    }
+  }
+
+  &__tel-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__tel-number {
+    @include tel;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+
+  &__tel-note {
+    color: var(--color-text-inverse-secondary);
+    @include caption;
+  }
+}
+
+// CTA Card: Primary (green, consultation only) / Default (bordered)
+.cta-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  height: 100%;
+  padding: var(--space-24);
+  border: 1px solid var(--color-border-inverse);
+  border-radius: 4px;
+  color: var(--color-text-inverse);
+  transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease);
+  @include tap;
+
+  &--primary {
+    background: var(--color-accent-green);
+    border-color: var(--color-accent-green);
+  }
+
+  &__top {
+    display: contents;
+  }
+
+  .icon--cta {
+    width: 28px;
+    height: 28px;
+  }
+
+  &__en {
+    display: none;
+    @include label-en-s;
+    color: var(--color-text-inverse);
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__text {
+    color: var(--color-text-inverse-secondary);
+    @include caption;
+  }
+
+  &--primary &__text {
+    color: var(--color-text-inverse);
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    @include font-sans;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+
+    .icon { transition: transform var(--duration) var(--ease); }
+  }
+
+  @include lg {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-24);
+    padding: var(--space-40);
+
+    &__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .icon--cta { width: 32px; height: 32px; }
+
+    &__en { display: block; }
+
+    &__body { flex: 0 0 auto; gap: var(--space-24); }
+
+    &__text { @include body-s; }
+
+    &__action { margin-top: auto; }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--color-text-inverse-secondary);
+
+      .cta-card__action .icon { transform: translateX(4px); }
+    }
+
+    &--primary:hover {
+      background: var(--color-accent-green-hover);
+      border-color: var(--color-accent-green-hover);
+    }
+  }
+}

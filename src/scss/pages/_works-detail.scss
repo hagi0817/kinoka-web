@@ -1,0 +1,686 @@
+@use '../foundation/mixins' as *;
+
+// ---------- Hero ----------
+.work-hero {
+  padding-top: var(--space-24);
+
+  @include lg { padding-top: var(--space-48); }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+
+    @include lg { gap: var(--space-48); }
+  }
+
+  &__title-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+
+    @include lg {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  &__title-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  &__title {
+    @include display;
+  }
+
+  &__sub {
+    color: var(--color-text-secondary);
+    @include caption;
+    font-size: 13px;
+
+    @include lg {
+      @include heading-s;
+      flex-shrink: 0;
+    }
+  }
+
+  &__photo {
+    margin-top: var(--space-32);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 100%;
+    }
+
+    @include lg {
+      margin-top: var(--space-64);
+      aspect-ratio: 16 / 9;
+
+      img { object-position: 50% 50%; }
+    }
+  }
+}
+
+.work-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16) var(--space-24);
+
+  @include lg { gap: var(--space-16) var(--space-32); }
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+
+    @include lg { gap: var(--space-16); }
+  }
+
+  &__label {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+
+  &__area {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    @include caption;
+
+    .icon { width: 14px; height: 14px; }
+  }
+}
+
+// ---------- Data ----------
+.work-data {
+  padding-top: var(--space-40);
+
+  @include lg { padding-top: var(--space-80); }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--color-border-default);
+
+    @include lg {
+      grid-template-columns: repeat(6, minmax(max-content, 1fr));
+      padding-block: var(--space-32);
+      border-bottom: 1px solid var(--color-border-default);
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-16) var(--space-16) var(--space-16) 0;
+    border-bottom: 1px solid var(--color-border-default);
+
+    dt {
+      color: var(--color-text-secondary);
+      @include caption;
+    }
+
+    dd {
+      @include heading-s;
+    }
+
+    @include lg {
+      padding: 0 var(--space-16) 0 var(--space-32);
+      border-bottom: 0;
+      border-left: 1px solid var(--color-border-default);
+
+      &:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+  }
+}
+
+// ---------- Story ----------
+.story {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+
+    .section-heading { flex-shrink: 0; }
+
+    @include lg {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: var(--space-48);
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+
+    @include lg {
+      flex: 0 1 588px;
+      min-width: 0;
+      padding-top: var(--space-48);
+      gap: var(--space-48);
+    }
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    color: var(--color-text-accent);
+    @include heading-s;
+
+    &::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--color-accent-wood);
+    }
+  }
+}
+
+// ---------- Design Points ----------
+.points {
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    margin-top: var(--space-48);
+
+    @include lg {
+      gap: var(--space-160);
+      margin-top: var(--space-96);
+    }
+  }
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+
+  &__photo {
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+
+    @include lg { gap: var(--space-24); }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    color: var(--color-text-accent);
+    @include label-en;
+
+    &::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--color-accent-wood);
+    }
+  }
+
+  &__num {
+    margin-left: calc(var(--space-8) * -1);
+    @include number;
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__desc {
+    color: var(--color-text-secondary);
+    @include body;
+  }
+
+  // SP: 01 full bleed / 02 inset left, bleeds right / 03 inset right
+  &--01 {
+    .point__photo { aspect-ratio: 3 / 2; }
+    .point__text { padding-inline: var(--page-margin); }
+  }
+
+  &--02 {
+    .point__photo {
+      order: -1;
+      margin-left: calc(var(--page-margin) * 2);
+      aspect-ratio: 4 / 3;
+    }
+
+    .point__text { padding-inline: var(--page-margin); }
+  }
+
+  &--03 {
+    padding-left: var(--page-margin);
+
+    .point__photo {
+      width: calc(100% - 88px + var(--page-margin));
+      max-width: 486px;
+      aspect-ratio: 4 / 5;
+    }
+
+    .point__text { padding-right: var(--page-margin); }
+  }
+
+  @include md {
+    &--01 .point__photo { margin-inline: var(--page-margin); }
+  }
+
+  @include lg {
+    &--01 {
+      width: 100%;
+      max-width: calc(var(--content-max) + var(--page-margin) * 2);
+      margin-inline: auto;
+      padding-inline: var(--page-margin);
+      gap: var(--space-48);
+
+      .point__photo {
+        margin-inline: 0;
+        aspect-ratio: 1200 / 640;
+      }
+
+      .point__text {
+        align-self: flex-end;
+        width: min(588px, 100%);
+        padding-inline: 0;
+      }
+    }
+
+    &--02 {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-48);
+      padding-left: max(var(--page-margin), calc((100% - var(--content-max)) / 2));
+
+      .point__photo {
+        order: 0;
+        flex: 0 0 55%;
+        margin-left: 0;
+      }
+
+      .point__text {
+        flex: 0 1 440px;
+        padding-inline: 0;
+      }
+    }
+
+    &--03 {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-48);
+      width: 100%;
+      max-width: calc(var(--content-max) + var(--page-margin) * 2);
+      margin-inline: auto;
+      padding-inline: var(--page-margin);
+
+      .point__photo {
+        flex: 0 1 486px;
+        width: auto;
+      }
+
+      .point__text {
+        flex: 0 1 588px;
+        padding: 0 0 var(--space-48);
+      }
+    }
+  }
+}
+
+// ---------- Gallery ----------
+.gallery {
+  padding-block: var(--section-space);
+
+  &__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-24);
+  }
+
+  &__count {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+    white-space: nowrap;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-24) var(--space-8);
+    margin-top: var(--space-40);
+
+    @include lg {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--space-48) var(--space-24);
+      margin-top: var(--space-64);
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    order: var(--sp-order);
+
+    img {
+      width: 100%;
+      height: 209px;
+      object-fit: cover;
+      background: var(--color-bg-subtle);
+
+      @include md { height: 320px; }
+    }
+
+    figcaption {
+      color: var(--color-text-secondary);
+      @include caption;
+    }
+
+    &--sp-full { grid-column: 1 / -1; }
+
+    &--bottom img { object-position: 50% 100%; }
+
+    @include lg {
+      order: 0;
+      gap: 12px;
+
+      img { height: 480px; }
+
+      &--w8 { grid-column: span 8; }
+      &--w4 { grid-column: span 4; }
+    }
+  }
+}
+
+// ---------- Floor Plan ----------
+.floor-plan {
+  padding-block: var(--space-80);
+  background: var(--color-bg-subtle);
+
+  @include md { padding-block: var(--space-96); }
+  @include lg { padding-block: clamp(96px, 8.333vw, 120px); }
+
+  &__cards {
+    display: grid;
+    gap: var(--space-16);
+    margin-top: var(--space-40);
+
+    @include lg {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-24);
+      margin-top: var(--space-64);
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding: var(--space-24) var(--space-24) var(--space-32);
+    background: var(--color-bg-surface);
+
+    @include lg {
+      gap: var(--space-40);
+      padding: var(--space-40);
+    }
+  }
+
+  &__card-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-16);
+  }
+
+  &__floor {
+    @include font-en;
+    font-size: 22px;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+
+    @include lg { font-size: 24px; }
+  }
+
+  &__area {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__drawing {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__drawing-pc { display: none; width: 100%; max-width: 448px; }
+  &__drawing-sp { width: 100%; max-width: 298px; }
+
+  @include md {
+    &__drawing-pc { display: block; }
+    &__drawing-sp { display: none; }
+  }
+
+  &__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-top: var(--space-24);
+    border-top: 1px solid var(--color-border-default);
+
+    @include lg {
+      gap: var(--space-24);
+      padding-top: var(--space-32);
+    }
+  }
+
+  &__note {
+    margin-top: var(--space-40);
+    color: var(--color-text-secondary);
+    @include caption;
+
+    @include lg { margin-top: var(--space-64); }
+  }
+}
+
+// SVG parts (colors from tokens)
+.fp-room { fill: var(--color-bg-surface); stroke: var(--color-text-primary); }
+.fp-furn { fill: var(--color-bg-subtle); stroke: var(--color-text-secondary); }
+.fp-void { fill: none; stroke: var(--color-text-secondary); }
+.fp-deck { fill: rgb(156 126 94 / 0.16); stroke: var(--color-accent-wood); }
+.fp-line { stroke: var(--color-text-secondary); }
+.fp-window { fill: var(--color-accent-wood); }
+.fp-label { fill: var(--color-text-primary); font-family: var(--font-sans); letter-spacing: 0.04em; }
+.fp-marker-bg { fill: var(--color-accent-green); }
+.fp-marker-num { fill: var(--color-text-inverse); font-family: var(--font-en); font-weight: 500; }
+
+.plan-legend {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  @include lg { gap: var(--space-16); }
+
+  &__marker {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-accent-green);
+    color: var(--color-text-inverse);
+    @include font-en;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__title {
+    @include heading-s;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- Staff ----------
+.staff {
+  padding-bottom: var(--section-space);
+
+  &__profile {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: var(--space-24) var(--space-16);
+    margin-top: var(--space-40);
+
+    @include lg {
+      display: flex;
+      align-items: center;
+      gap: var(--space-64);
+      margin-top: var(--space-64);
+    }
+  }
+
+  &__photo {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    @include lg { flex: 0 0 320px; }
+  }
+
+  // SP: identity sits beside the photo, the rest spans the full width
+  &__body {
+    display: contents;
+
+    @include lg {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-24);
+    }
+  }
+
+  &__identity {
+    align-self: end;
+
+    @include lg { align-self: auto; }
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  &__quote,
+  &__text,
+  &__link {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  &__role {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  &__name {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+
+    @include lg {
+      flex-direction: row;
+      align-items: baseline;
+      gap: var(--space-16);
+    }
+  }
+
+  &__name-ja {
+    @include heading-m;
+  }
+
+  &__name-en {
+    color: var(--color-text-secondary);
+    @include label-en-s;
+  }
+
+  &__quote {
+    @include heading-s;
+  }
+
+  &__text {
+    color: var(--color-text-secondary);
+    @include body-s;
+  }
+}
+
+// ---------- Related works ----------
+.related {
+  padding-bottom: var(--section-space);
+
+  &__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-24);
+  }
+
+  &__list-wrap {
+    margin-top: var(--space-40);
+
+    @include below-lg {
+      max-width: none;
+      padding-inline: 0;
+    }
+
+    @include lg { margin-top: var(--space-64); }
+  }
+
+  &__foot {
+    margin-top: var(--space-40);
+  }
+}

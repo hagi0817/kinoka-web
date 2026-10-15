@@ -1,0 +1,153 @@
+@use '../foundation/mixins' as *;
+
+// Works Card: photo 4:5 + meta + title + spec. <article> with a stretched <a>.
+.works-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+
+  &__photo {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: var(--color-bg-subtle);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--duration-photo) var(--ease);
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+
+    @include lg { gap: var(--space-16); }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-8) var(--space-16);
+  }
+
+  &__area {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--color-text-secondary);
+    @include caption;
+
+    .icon { width: 14px; height: 14px; }
+  }
+
+  &__title {
+    @include heading-m;
+  }
+
+  &__link {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      &::after {
+        outline: 2px solid var(--focus-color);
+        outline-offset: 4px;
+      }
+    }
+  }
+
+  &__spec {
+    color: var(--color-text-secondary);
+    @include caption;
+  }
+
+  @include tap;
+
+  @media (hover: hover) {
+    &:hover {
+      .works-card__photo img { transform: scale(1.04); }
+      .works-card__link { text-decoration-line: underline; }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover .works-card__photo img { transform: none; }
+  }
+}
+
+// SP / md carousel of Works cards (scroll-snap); lg = 3 columns
+.works-carousel {
+  display: flex;
+  gap: var(--space-16);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--page-margin);
+  padding-inline: var(--page-margin);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar { display: none; }
+
+  > li {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+
+    @include md { flex-basis: 320px; }
+  }
+
+  @include lg {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-24);
+    overflow: visible;
+    padding-inline: 0;
+  }
+}
+
+.carousel-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+
+  &__count {
+    @include font-en;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+  }
+
+  &__track {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background: var(--color-border-default);
+  }
+
+  &__bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 1px;
+    background: var(--color-text-primary);
+    transition: transform var(--duration) var(--ease);
+  }
+
+  @include lg { display: none; }
+}

@@ -1,0 +1,98 @@
+@use '../foundation/mixins' as *;
+
+// SP Menu (open): full-screen <dialog> on bg-base
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0 0 var(--space-48);
+  border: 0;
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &::backdrop { background: transparent; }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 var(--space-8) 0 var(--space-24);
+  }
+
+  &__close {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    @include tap;
+
+    .icon { width: 24px; height: 24px; }
+  }
+
+  &__nav {
+    padding: var(--space-16) var(--space-24) 0;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    padding: var(--space-16) 0;
+    border-bottom: 1px solid var(--color-border-default);
+    @include tap;
+
+    .icon { margin-left: auto; }
+  }
+
+  &__en {
+    @include font-en;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  &__ja {
+    color: var(--color-text-secondary);
+    @include caption;
+    font-size: 12px;
+  }
+
+  &__cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    padding: var(--space-32) var(--space-24) 0;
+
+    .btn--primary { grid-column: 1 / -1; }
+    .btn--outline { padding-inline: var(--space-16); }
+  }
+
+  &__sub {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24);
+    padding: var(--space-32) var(--space-24) 0;
+  }
+
+  &__sub-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    @include font-en;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    @include tap;
+
+    .icon { width: 18px; height: 18px; }
+  }
+
+  @include lg { display: none; }
+}
