@@ -29,18 +29,37 @@ function initPageTop() {
   }, { once: true });
 }
 
+// ---- Focus moved by script right after a tap / click (a dialog opening, focus returning on close) ----
+// iOS Safari does not focus a tapped button, so it treats this script focus like keyboard focus and draws the
+// :focus-visible ring (a square green outline). The mark hides that ring until the next key press or blur;
+// keyboard use (Enter / Space / Esc, where click.detail is 0) is never marked and keeps the ring.
+function markPointerFocus(element) {
+  if (!element) return;
+  element.setAttribute('data-pointer-focus', '');
+  const clear = () => {
+    element.removeAttribute('data-pointer-focus');
+    element.removeEventListener('blur', clear);
+    document.removeEventListener('keydown', clear, true);
+  };
+  element.addEventListener('blur', clear);
+  document.addEventListener('keydown', clear, true);
+}
+
 // ---- SP menu (<dialog>): open/close, scroll lock, Esc, focus return ----
 function initMenu() {
   const menu = document.querySelector('[data-menu]');
   const openButton = document.querySelector('[data-menu-open]');
   if (!menu || !openButton || typeof menu.showModal !== 'function') return;
 
-  const close = () => {
+  let closedByPointer = false;
+  const close = (event) => {
+    closedByPointer = event?.detail > 0;
     if (menu.open) menu.close();
   };
 
-  openButton.addEventListener('click', () => {
+  openButton.addEventListener('click', (event) => {
     menu.showModal();
+    if (event.detail > 0) markPointerFocus(document.activeElement);
     openButton.setAttribute('aria-expanded', 'true');
     document.body.classList.add('is-scroll-locked');
   });
@@ -48,6 +67,8 @@ function initMenu() {
   menu.addEventListener('close', () => {
     openButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('is-scroll-locked');
+    if (closedByPointer) markPointerFocus(openButton);
+    closedByPointer = false;
     openButton.focus();
   });
 
@@ -154,19 +175,35 @@ function initMvSlider() {
     else if (onCaption) captions[index].querySelector('a')?.focus();
   });
 
-  // swipe (touch / pen): a mostly horizontal move of 40px or more
+  // swipe (touch / pen): a mostly horizontal move of 40px or more. Pointer events only (no touch events), one
+  // pointer at a time, so one swipe moves one slide. touch-action: pan-y (CSS) leaves vertical scroll to the browser,
+  // which then sends pointercancel. A tap moves less than 40px and stays a link tap.
   let start = null;
+  let swiped = false;
   mv.addEventListener('pointerdown', (event) => {
-    start = event.pointerType === 'mouse' || !event.isPrimary ? null : { x: event.clientX, y: event.clientY };
+    swiped = false;
+    start = event.pointerType === 'mouse' || !event.isPrimary
+      ? null
+      : { id: event.pointerId, x: event.clientX, y: event.clientY };
   });
   mv.addEventListener('pointerup', (event) => {
-    if (!start) return;
+    if (!start || event.pointerId !== start.id) return;
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
     start = null;
-    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) show(index + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      swiped = true;
+      show(index + (dx < 0 ? 1 : -1));
+    }
   });
   mv.addEventListener('pointercancel', () => { start = null; });
+  // a swipe that ends on the caption link must not also open it (keyboard clicks have detail 0 and pass)
+  mv.addEventListener('click', (event) => {
+    if (!swiped || event.detail === 0) return;
+    swiped = false;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
 
   controls.hidden = false;
   show(0, { announce: false });
@@ -265,27 +302,34 @@ function initWorksFilter() {
   const openButton = document.querySelector('[data-filter-open]');
   if (!sheet || !sheetBody || !slot || !openButton || typeof sheet.showModal !== 'function') return;
 
-  openButton.addEventListener('click', () => {
+  openButton.addEventListener('click', (event) => {
     sheetBody.append(form);
     sheet.showModal();
+    if (event.detail > 0) markPointerFocus(document.activeElement);
     openButton.setAttribute('aria-expanded', 'true');
     document.body.classList.add('is-scroll-locked');
   });
 
+  let closedByPointer = false;
   sheet.addEventListener('close', () => {
     slot.append(form);
     openButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('is-scroll-locked');
-    if (!lg.matches) openButton.focus();
+    if (!lg.matches) {
+      if (closedByPointer) markPointerFocus(openButton);
+      openButton.focus();
+    }
+    closedByPointer = false;
   });
 
-  const close = () => {
+  const close = (event) => {
+    closedByPointer = event?.detail > 0;
     if (sheet.open) sheet.close();
   };
   sheet.querySelectorAll('[data-filter-sheet-close]').forEach((button) => button.addEventListener('click', close));
   // a click on the backdrop (the dialog box itself, outside its content) closes the sheet
   sheet.addEventListener('click', (event) => {
-    if (event.target === sheet) close();
+    if (event.target === sheet) close(event);
   });
   lg.addEventListener('change', (event) => {
     if (event.matches) close();

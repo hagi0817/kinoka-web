@@ -65,6 +65,11 @@ button {
   outline-offset: 2px;
 }
 
+// Script focus right after a tap / click (main.js markPointerFocus): no ring until a key is pressed
+[data-pointer-focus]:focus-visible {
+  outline: none;
+}
+
 // Dark backgrounds / photos use the inverse focus color
 .is-dark {
   --focus-color: var(--color-border-focus-inverse);
