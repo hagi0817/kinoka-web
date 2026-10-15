@@ -35,7 +35,7 @@ $bp-lg: 1024px;
 
 @mixin display {
   @include font-mincho;
-  font-size: 34px;
+  font-size: clamp(28px, 8.72vw, 34px); // 34px from 390px up; shrinks only below so 320px keeps words whole
   line-height: 1.5;
   letter-spacing: 0.04em;
   @include lg { font-size: clamp(40px, 3.889vw, 56px); }
@@ -43,7 +43,7 @@ $bp-lg: 1024px;
 
 @mixin heading-l {
   @include font-mincho;
-  font-size: 26px;
+  font-size: clamp(21px, 6.67vw, 26px); // 26px from 390px up
   line-height: 1.6;
   letter-spacing: 0.04em;
   @include lg { font-size: clamp(30px, 2.5vw, 36px); }

@@ -282,7 +282,7 @@
     padding-left: var(--page-margin);
 
     .point__photo {
-      width: calc(100% - 88px + var(--page-margin));
+      width: calc(100% - 88px);
       max-width: 486px;
       aspect-ratio: 4 / 5;
     }
@@ -318,12 +318,13 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-48);
+      gap: clamp(48px, 6.11vw, 88px);
       padding-left: max(var(--page-margin), calc((100% - var(--content-max)) / 2));
 
+      // photo takes the rest and bleeds right: 792px at 1440 (Figma)
       .point__photo {
         order: 0;
-        flex: 0 0 55%;
+        flex: 1 1 0;
         margin-left: 0;
       }
 
@@ -414,7 +415,9 @@
       order: 0;
       gap: 12px;
 
-      img { height: 480px; }
+      img { height: clamp(336px, 33.33vw, 480px); }
+
+      &--bottom img { object-position: 68% 100%; } // Figma: gable and large window in the frame
 
       &--w8 { grid-column: span 8; }
       &--w4 { grid-column: span 4; }

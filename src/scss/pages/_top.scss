@@ -335,6 +335,7 @@
   }
 
   &__body {
+    color: var(--color-text-secondary);
     @include body;
   }
 
@@ -511,6 +512,14 @@
 
     // keep katakana titles in one piece; the number wraps above instead
     &__title { white-space: nowrap; }
+
+    // 1024–1279: four narrow cards, so every number sits above its title
+    @media (min-width: $bp-lg) and (max-width: 1279.98px) {
+      &__head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
 
     &__text { @include body-s; }
 
