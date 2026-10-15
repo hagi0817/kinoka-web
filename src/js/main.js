@@ -175,28 +175,47 @@ function initMvSlider() {
     else if (onCaption) captions[index].querySelector('a')?.focus();
   });
 
-  // swipe (touch / pen): a mostly horizontal move of 40px or more. Pointer events only (no touch events), one
-  // pointer at a time, so one swipe moves one slide. touch-action: pan-y (CSS) leaves vertical scroll to the browser,
-  // which then sends pointercancel. A tap moves less than 40px and stays a link tap.
+  // swipe (touch): a horizontal move of 40px or more. Touch events, not pointer events: iOS Safari sends pointercancel
+  // as soon as the slight vertical drift of a horizontal swipe starts its own scroll (WebKit bug 203335), so a
+  // pointer-based swipe rarely completed there. The first 10px decide the direction: a horizontal move cancels the
+  // scroll for this gesture only (touchmove.preventDefault), a vertical one is left to the browser. One finger only
+  // (two are a pinch zoom) and one input path, so one swipe moves one slide. Mouse drags do nothing, as before.
   let start = null;
+  let horizontal = null; // null until the direction is decided
   let swiped = false;
-  mv.addEventListener('pointerdown', (event) => {
+  mv.addEventListener('touchstart', (event) => {
     swiped = false;
-    start = event.pointerType === 'mouse' || !event.isPrimary
-      ? null
-      : { id: event.pointerId, x: event.clientX, y: event.clientY };
-  });
-  mv.addEventListener('pointerup', (event) => {
-    if (!start || event.pointerId !== start.id) return;
-    const dx = event.clientX - start.x;
-    const dy = event.clientY - start.y;
+    horizontal = null;
+    const touch = event.touches.length === 1 ? event.touches[0] : null;
+    start = touch ? { x: touch.clientX, y: touch.clientY } : null;
+  }, { passive: true });
+  mv.addEventListener('touchmove', (event) => {
+    if (!start) return;
+    if (event.touches.length !== 1) {
+      start = null;
+      return;
+    }
+    const dx = event.touches[0].clientX - start.x;
+    const dy = event.touches[0].clientY - start.y;
+    if (horizontal === null && Math.abs(dx) + Math.abs(dy) >= 10) horizontal = Math.abs(dx) > Math.abs(dy);
+    if (horizontal === false) start = null;
+    else if (horizontal && event.cancelable) event.preventDefault();
+  }, { passive: false });
+  mv.addEventListener('touchend', (event) => {
+    if (!start || !horizontal) {
+      start = null;
+      return;
+    }
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
     start = null;
-    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy)) {
       swiped = true;
       show(index + (dx < 0 ? 1 : -1));
     }
   });
-  mv.addEventListener('pointercancel', () => { start = null; });
+  mv.addEventListener('touchcancel', () => { start = null; });
   // a swipe that ends on the caption link must not also open it (keyboard clicks have detail 0 and pass)
   mv.addEventListener('click', (event) => {
     if (!swiped || event.detail === 0) return;
