@@ -22,6 +22,14 @@ npm run ogp      # OGP画像 public/ogp.jpg を再生成（ImageMagick と Playw
 - 根拠は `package-lock.json` に固定されている依存の `engines` です。`sass` 1.105.1 が `>=20.19.0`、`vite` 5.4.21 が `^18.0.0 || >=20.0.0` を求めているため、20.19 が下限になります（Node 18 では sass の条件を満たしません）
 - `package.json` の `engines` や `.nvmrc` は置いていないので、バージョンは手元で `node -v` を確認してください
 
+### `npm run dev`（開発サーバー）
+
+`vite` の開発サーバーを `http://localhost:5173/` で起動します。ソース（HTML・SCSS・JS、`src/partials/`・`src/data/`・`src/templates/`）を保存すると、ブラウザが自動で再読み込みします。
+
+- 終了はターミナルで `Ctrl + C`
+- `--host` は付けません。同じPCのブラウザからだけ開きます（「npm audit と開発用サーバー」を参照）。スマートフォンで確認するときは、dev ではなく `npm run preview:lan` を使います
+- dev はソースをその場で変換して配信するため、公開する `dist/` とは別物です。公開前の最終確認は `npm run build` → `npm run preview` で行います
+
 ### `npm run preview`
 
 `vite preview` で、ビルド済みの `dist/` をローカルで配信します。公開するファイルそのものを、静的ホストに近い動きで確認するためのコマンドです。
@@ -44,6 +52,32 @@ NODE_PATH=$(npm root -g) npm run ogp         # Playwright をグローバルに�
 - 必要なもの：ImageMagick の `convert`（`npm run images` と同じ色調補正をかけます）、Playwright と Chromium、Google Fonts を読み込むためのネットワーク接続
 - Playwright はこのプロジェクトの依存に入れていません。ローカルかグローバルにインストールしたものを使います
 - 写真フォルダを省略すると、制作環境の共有フォルダ（`/mnt/project-files/kinoka/photos/original`）を読みます。ほかの環境では、`P01.png` のあるフォルダを引数で渡してください（`npm run images` も同じ）
+
+## ビルド成果物（`dist/`）
+
+`npm run build` で `dist/` に公開用の静的ファイルを書き出します。サーバー側の処理は不要で、`dist/` の中身をそのまま公開先のルート（`/`）に置けば動きます。
+
+```
+dist/
+├── index.html               TOP
+├── 404.html                 存在しないURL用（ホスト側で 404 に割り当てる。「404」を参照）
+├── about/index.html         /about/（concept・contact・privacy・service も同じ形）
+├── works/index.html         /works/
+├── works/<slug>/index.html  施工事例詳細（4件）
+├── news/index.html          /news/
+├── news/<slug>/index.html   お知らせ記事（published: true の記事ごと）
+├── assets/                  CSS・JS（ファイル名にハッシュ付き。例 main-XXXXXXXX.css）
+├── images/                  public/images の WebP（そのままコピー）
+├── favicon.ico・favicon.svg・apple-touch-icon.png
+├── ogp.jpg                  OGP画像（1200×630）
+└── robots.txt
+```
+
+- HTML は全21ページです（`find dist -name '*.html' | wc -l`）。大きさは全体で約5MB、ほとんどが `images/` の写真です
+- `public/` の中身は加工されずに `dist/` の直下へコピーされます。`assets/` のファイル名は内容から作るハッシュ付きなので、中身が変わると名前も変わります（長期キャッシュにしても古いCSS・JSが残りません）
+- `dist/` はビルドのたびに作り直され、`.gitignore` でリポジトリには含めていません。手で編集せず、ソースを直して `npm run build` し直します
+- `SITE_URL` を指定するかどうかで HTML の `<head>` が変わります（「公開URL（`SITE_URL`）の指定」を参照）。公開用は、公開URLを指定してビルドした `dist/` を使います
+- 中身の確認は `npm run preview`（同じPC）か `npm run preview:lan`（同じWi-Fiの iPhone）で行います
 
 ## 構成
 
@@ -73,7 +107,7 @@ NODE_PATH=$(npm root -g) npm run ogp         # Playwright をグローバルに�
 | `src/scss/foundation/` | トークン（色・余白・流体値）、テキストスタイルの mixin、ベース |
 | `src/scss/components/` | 共通コンポーネント |
 | `src/scss/pages/` | ページ固有のスタイル |
-| `src/js/main.js` | SPメニュー開閉、ヘッダーの透過→Solid、SP固定CTAの表示切替、カルーセルのインジケーター／矢印キー、Works一覧の絞り込み |
+| `src/js/main.js` | SPメニュー開閉、ヘッダーの透過→Solid、SP固定CTAの表示切替、TOP MV スライダー（前後ボタン・ドット・矢印キー・タッチのスワイプ）、カルーセルのインジケーター／矢印キー、Works一覧の絞り込み |
 | `src/js/contact.js` | お問い合わせフォーム（`?type=` の初期選択、種別ごとの項目、バリデーション、確認・完了の切替） |
 | `scripts/build-images.sh` | 写真の書き出し（Figmaの色調フィルタを焼き込み） |
 
@@ -120,6 +154,19 @@ TOP は `<!-- @news {"limit":3} -->`、一覧は `<!-- @news-list -->` / `<!-- @
    - 日時・会場などの事実は変えない。`title` と `date` もそのままにします（URL と並び順が変わらないように）
 4. あわせて `published: false` の記事（年末年始休業のお知らせ、`date` は 2026-12-01）を、公開時期に合わせて `true` にするか確認します
 5. `npm run build` し直し、TOP の最新3件・一覧・記事ページで表示を確認します
+
+### 公開前に掲載内容を確認する
+
+イベント日付とあわせて、次の掲載内容がそのときの実装と合っているかを確認します。
+
+- **架空のサイトであること**：フッターの「KINOKAは、架空の工務店を題材にしたWebサイト制作のポートフォリオ作品です。」が全ページに出ていること（`src/partials/footer.html`）。OGP画像（`public/ogp.jpg`）にも同じ趣旨の一文が入っています
+- **プライバシーポリシー**（`privacy/index.html`）
+  - 「生成AIの利用について」の記載（写真などのビジュアル素材・文章案・実装支援に生成AIを使っていること）が、実際の制作方法と合っていること。素材を差し替えたり、生成AIを使う範囲が変わったりしたら書き直します
+  - フォームは送信・保存しない、Cookie・アクセス解析は使わない、Google Fonts を使う、という説明が実装と合っていること。解析ツールの追加やフォームの送信先の接続をしたら、先にこのページを直します
+  - 公開サーバーのアクセス記録についての説明が、公開先のホストの仕様と合っていること（公開先が決まってから）
+- **お問い合わせフォーム**：送信しないデモのままで、画面上の「デモ」の表示が残っていること
+- **お知らせ**：`published: false` の記事（年末年始休業）を、公開時期に合わせて出すかどうか。日付が未来の記事を出していないか
+- **TOP の MV**：`src/data/works.json` の先頭4件（または `@works-hero` の `slugs`）が、見せたい事例になっていること
 
 ## ブレークポイント
 
@@ -202,6 +249,14 @@ SITE_URL=https://（公開先のURL） npm run build
 
 ### npm audit と開発用サーバー
 
+確認は次のコマンドで行います（`npm install` 済みのフォルダで実行）。
+
+```bash
+npm audit                 # 依存全体の既知の脆弱性
+npm audit --omit=dev      # 公開物に関係する依存（dependencies）だけ。このプロジェクトは devDependencies しかないので 0件
+npm ls vite esbuild       # 指摘のあるパッケージの実際のバージョンと経路
+```
+
 `npm audit` は 2026年10月15日時点で次の2件を報告します（high 1、moderate 1）。どちらも開発用の依存（`devDependencies`）です。
 
 | パッケージ | 経路 | 内容 | 影響する場面 |
@@ -215,6 +270,7 @@ SITE_URL=https://（公開先のURL） npm run build
   - 例外は iPhone での実機確認の `npm run preview:lan` だけです。自宅・職場など信頼できる Wi-Fi で、確認している間だけ動かします（`npm run dev` には `--host` を付けません。「iPhone で実機確認する（同じWi-Fi内）」を参照）
   - サーバーを動かしている間、同じPCのブラウザで不審なサイトを開かない
   - 使い終わったらサーバーを止める
+- 新しい指摘が出たら、上の表と同じ観点（`dist/` に含まれるか、dev／preview サーバーだけの問題か、どのOSが対象か）で判断し、この表を更新します
 - **`npm audit fix --force` は実行しないでください**。vite 8 へのメジャー更新になります
 - 解消する候補は vite 6.4.4 です（5→6 のメジャー更新）。QA では作業用コピーで audit 0件・出力 HTML がアセットのハッシュ以外同一・dev／preview の 404 と 301 も同じ、を確認済みですが、リポジトリには適用せず判断待ちにしています。適用するときは `npm install -D vite@^6.4.4` → `npm run build` と `dist/` の差分確認 → dev／preview で 404・301・include を確認、の順に進めます
 
@@ -383,7 +439,9 @@ iPhone の補完としては、Mac に Xcode を入れていれば、iOS シミ�
 ### TOP・MVスライダー
 
 - [ ] MV の高さが、アドレスバーの伸び縮みでがたつかない（`svh` で指定）。横向きでも写真が切れすぎない
-- [ ] 横スワイプでスライドが切り替わり、縦スクロールの邪魔をしない
+- [ ] 横スワイプでスライドが切り替わり、縦スクロールの邪魔をしない（MV の上で縦にスクロールしたときは、スライドが変わらずにページがスクロールする）
+- [ ] 1回のスワイプで1枚だけ進む・戻る。事例名の上でスワイプしても、そのリンクが開かない
+- [ ] MV の上でもピンチで拡大できる（2本指はスワイプとして扱わない）
 - [ ] 前後ボタン・ドットのタップ領域が十分で、番号が正しい
 - [ ] スライドの事例名をタップすると、その事例の詳細ページに移動する
 - [ ] 縦長写真（2・3枚目）の粗さが、実機で許容範囲か
