@@ -43,7 +43,7 @@ AGENTS.md の「デザイン方針」に加えて：
   | `fdade0e` | README 追記（dev server、dist 構成、公開前確認、npm audit、スワイプのチェック項目） |
   | `54d1d72` | TOP MV 2・3枚目（平屋・リノベ）を PC で横長写真に（`works.json` の `hero`） |
 
-  これらは全部 `claude/kinoka-readme-pclhi8`（先端 `add6f14`）に揃っています。差分は README・`package.json`・`src/data/works.json`・`src/js/main.js`・`_base.scss`・`_works-index.scss` の6ファイル。取り込み用の PR を別に出しています（下記 5-1）。
+  これらは全部 `claude/kinoka-readme-pclhi8`（先端 `add6f14`）に揃っています。差分は README・`package.json`・`src/data/works.json`・`src/js/main.js`・`_base.scss`・`_works-index.scss` の6ファイル。取り込み用の PR #7 を出しています（下記 5-1）。
 - `claude/` で始まるほかのブランチは、作業スレッドごとに作られた古いブランチで、すべて上記のどちらかに含まれます。消してもコミットは失われません（削除はオーナー判断）。
 - GitHub の既定ブランチが `main` ではなく `claude/kinoka-top-works-detail-yiz5iu` になっています（2026-11-06 に `git ls-remote --symref` で確認）。clone 直後はこの古いブランチ（PR #1 時点）が checkout されるので注意。リポジトリの Settings で `main` を既定にするのを推奨。
 - `add6f14` で `npm ci && npm run build` が警告なしで成功し、HTML 21件・全件 noindex を確認済み（2026-11-06、Node 22）。
@@ -52,7 +52,7 @@ AGENTS.md の「デザイン方針」に加えて：
 
 ### 5-1. 最初にやること
 
-1. **main に8コミットを取り込む**：`claude/kinoka-readme-pclhi8` → `main` の PR をオーナーがマージする（merge commit で）。マージ後 `git merge-base --is-ancestor 54d1d72 origin/main` が成功することを確認。
+1. **main に8コミットを取り込む**：PR #7（`claude/kinoka-readme-pclhi8` → `main`）をオーナーがマージする（merge commit で）。マージ後 `git merge-base --is-ancestor 54d1d72 origin/main` が成功することを確認。
 2. 取り込み後の main で `npm ci && npm run build` → `npm run preview` で TOP MV（PC 4枚・SP スワイプ）、Works 一覧の絞り込み、SP メニューを確認。
 
 ### 5-2. iPhone 実機確認（オーナーの手作業が必要）
