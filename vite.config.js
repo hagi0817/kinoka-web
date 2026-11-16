@@ -12,6 +12,42 @@ const dataDir = resolve(root, 'src/data');
 // need absolute URLs, so they are only output when it is set; nothing points at a made-up domain.
 const siteUrl = (process.env.SITE_URL ?? '').replace(/\/+$/, '');
 
+// Deploy base path. '/' normally; set BASE_PATH=/kinoka-web/ when the site is served from a subpath
+// (e.g. a GitHub Pages project site). The path is not written into the repository itself.
+const basePath = (() => {
+  const raw = (process.env.BASE_PATH ?? '/').trim();
+  const withLead = raw.startsWith('/') ? raw : `/${raw}`;
+  return withLead.endsWith('/') ? withLead : `${withLead}/`;
+})();
+
+// Prefix root-absolute URLs in the final HTML with the deploy base path. Vite already prefixes the
+// asset URLs it generates; this covers the URLs written in the HTML sources, partials, templates and
+// data files, which Vite does not rewrite. No-op when the base path is '/'.
+function basePathPrefix() {
+  if (basePath === '/') return { name: 'kinoka-base-path-prefix' };
+  const prefix = basePath.slice(0, -1); // '/kinoka-web'
+  const inner = basePath.slice(1).replace(/\//g, '\\/'); // 'kinoka-web\/'
+  const attrPattern = new RegExp(`((?:href|src|action|poster)="/)(?!/|${inner})`, 'g');
+  const srcsetPattern = /(srcset=")([^"]*)(")/g;
+  const prefixSrcset = (value) =>
+    value
+      .split(',')
+      .map((part) => {
+        const trimmed = part.trim();
+        if (!trimmed.startsWith('/') || trimmed.startsWith('//') || trimmed.startsWith(`${prefix}/`)) return part;
+        const [url, ...rest] = trimmed.split(/\s+/);
+        return `${prefix}${url}${rest.length ? ` ${rest.join(' ')}` : ''}`;
+      })
+      .join(',');
+  return {
+    name: 'kinoka-base-path-prefix',
+    transformIndexHtml: {
+      order: 'post',
+      handler: (html) => html.replace(attrPattern, `$1${prefix.slice(1)}/`).replace(srcsetPattern, (_m, open, value, close) => `${open}${prefixSrcset(value)}${close}`),
+    },
+  };
+}
+
 // <!-- @site-url-meta --> in head.html: absolute-URL meta for the page at `path` (the 404 page gets no og:url)
 function siteUrlMeta(path) {
   if (!siteUrl) return '';
@@ -226,7 +262,8 @@ const newsInputs = Object.fromEntries(
 
 export default defineConfig({
   appType: 'mpa',
-  plugins: [htmlInclude(), newsArticles(), notFoundPage()],
+  base: basePath,
+  plugins: [htmlInclude(), newsArticles(), notFoundPage(), basePathPrefix()],
   css: {
     preprocessorOptions: { scss: { api: 'modern-compiler' } },
   },
